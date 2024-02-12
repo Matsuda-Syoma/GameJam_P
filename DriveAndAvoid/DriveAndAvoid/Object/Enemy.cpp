@@ -1,9 +1,15 @@
 #include "Enemy.h"
 #include"DxLib.h"
 
-Enemy::Enemy(int type, int handle) :type(type), image(handle), speed(0.0f), location(0.0f), box_size(0.0f)
+Enemy::Enemy()
 {
+	radius = 20;
 
+	Xposition = 600;
+	Yposition = 50;
+	Xspeed = 10;
+	Yspeed  = 10;
+	time = 0;
 }
 
 Enemy::~Enemy()
@@ -14,45 +20,54 @@ Enemy::~Enemy()
 // 処理化処理
 void Enemy::Initialize()
 {
-	// 出題させるX座標パターン取得
-	float random_x = (float)(GetRand(4) * 105 + 40);
-	// 生成位置の設定
-	location = Vector2D(random_x, -50.0f);
-	// あたり判定の設定
-	box_size = Vector2D(31.0f, 60.0f);
-	// 速さの設定
-	speed = (float)(this->type * 2);
+	
 }
 
-void Enemy::Update(float speed)
+void Enemy::Update()
 {
-	// 位置情報に移動量を加算する
-	location += Vector2D(0.0f, this->speed + speed - 6);
+	time++;
+
+	if (time >= 1000) time = 0;
+
+	if (time < 500) {
+		//仮　縦に反射
+		Yposition += Yspeed;
+		if (Yposition < 20) {
+			Yspeed *= -1;
+		}
+		else if (Yposition > 500) {
+			Yspeed *= -1;
+		}
+	}
+	if (time >= 500) {
+		if (50 < Xposition) {
+			Xposition = Xposition - 5;
+		}
+		if (50 > Xposition) {
+			Xposition = Xposition + 5;
+		}
+		if (300 < Yposition) {
+			Yposition = Yposition - 5;
+
+		}
+		if (300 > Yposition) {
+			Yposition = Yposition + 5;
+
+		}
+	}
+
 }
 
 void Enemy::Draw()const
 {
-	// 敵画像描画
-	DrawBox(location.x, location.y, location.x + box_size.x, location.y + box_size.x, 0xff0000, true);
-	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, image, TRUE);
+	DrawCircle(Xposition, Yposition,radius, 0xff0000, 1);
 
+	//仮でプレイヤー
+	DrawCircle(50, 300, 10, 0xffffff, 1);
+	DrawFormatString(100, 100, 0xffffff, "%d", time);
 }
 
 void Enemy::Finalize()
 {
 }
 
-int Enemy::GetType() const
-{
-	return type;
-}
-
-Vector2D Enemy::GetLocation() const
-{
-	return location;
-}
-
-Vector2D Enemy::GetBoxSize() const
-{
-	return box_size;
-}

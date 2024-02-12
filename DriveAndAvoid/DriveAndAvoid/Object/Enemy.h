@@ -5,23 +5,23 @@
 class Enemy
 {
 private:
-	int type;				// タイプ
-	int image;				// 画像データ
-	Vector2D location;		// 位置座標
-	Vector2D box_size;		// 当たり判定の大きさ
-	float speed;			// 速さ
+	int Xposition; //X座標
+	int Yposition; //Y座標
+
+	int Xspeed; //X軸・移動速度
+	int Yspeed; //Y軸・移動族度
+	int hp = 10; //仮HP
+	int radius; // 半径i
+	int time = 0;
 
 public:
-	Enemy(int type, int handle);
+	Enemy();
 	~Enemy();
 
 	void Initialize();			// 初期化処理
-	void Update(float speed);	// 更新処理
+	void Update();	// 更新処理
 	void Draw() const;			// 描画処理
 	void Finalize();			// 終了時処理
 
-	int GetType() const;			// タイプ取得
-	Vector2D GetLocation() const;	// 位置情報取得
-	Vector2D GetBoxSize() const;	// 当たり判定のおおきさ取得
 
 };

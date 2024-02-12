@@ -12,7 +12,7 @@ private:
 	int enemy_count[3];		// ’Ê‚è‰ß‚¬‚½“GƒJƒEƒ“ƒg
 	int enemy_image[3];		// “G‰æ‘œ
 	Player* player;			// ƒvƒŒƒCƒ„[
-	Enemy** enemy;			// “G
+	Enemy* enemy;			// “G
 
 public:
 	GameMainScene();

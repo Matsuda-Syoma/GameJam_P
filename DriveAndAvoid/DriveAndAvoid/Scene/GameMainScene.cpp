@@ -1,14 +1,11 @@
 #include "GameMainScene.h"
 #include "DxLib.h"
 #include <math.h>
-
 GameMainScene::GameMainScene() :high_score(0), background_image(NULL), mileage(0), player(nullptr),
-enemy(nullptr) {
-	for (int i = 0; i < 3; i++)
-	{
-		enemy_image[i] = NULL;
-		enemy_count[i] = NULL;
-	}
+enemy() {
+
+
+
 }
 
 GameMainScene::~GameMainScene()
@@ -33,20 +30,21 @@ void GameMainScene::Initialize()
 
 	// オブジェクトの生成
 	player = new Player;
-	enemy = new Enemy * [10];
 
 	// オブジェクトの初期化
 	player->Initialize();
 
-	for (int i = 0; i < 10; i++) {
-		enemy[i] = nullptr;
-	}
+	enemy = new Enemy;
+
+	enemy->Initialize();
+
 }
 
 eSceneType GameMainScene::Update()
 {
 	//// プレイヤーの更新
 	//player->Update();
+	enemy->Update();
 
 	return GetNowScene();
 }
@@ -57,18 +55,12 @@ void GameMainScene::Draw() const
 	//DrawGraph(0, mileage % 480 - 480, background_image, TRUE);
 	//DrawGraph(0, mileage % 480, background_image, TRUE);
 
-	//// 敵の描画
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	if (enemy[i] != nullptr)
-	//	{
-	//		enemy[i]->Draw();
-	//	}
-	//}
+
 
 	//// プレイヤーの描画
 	//player->Draw();
 
+	enemy->Draw();
 }
 
 void GameMainScene::Finalize()
@@ -96,11 +88,5 @@ bool GameMainScene::IsHitCheck(Player* p, Enemy* e)
 		return false;
 	}
 
-	// 位置情報の差分取得
-	Vector2D diff_location = p->GetLocation() - e->GetLocation();
-
-	// 当たり判定サイズの大きさを取得
-	Vector2D box_ex = p->GetBoxSize() + e->GetBoxSize();
-	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
-	return ((fabs(diff_location.x) < box_ex.x) && (fabsf(diff_location.y) < box_ex.y));
+	
 }
