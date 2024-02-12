@@ -3,7 +3,7 @@
 #include <math.h>
 
 GameMainScene::GameMainScene() :high_score(0), background_image(NULL), mileage(0), player(nullptr),
-enemy(nullptr) {
+enemy(nullptr),block(nullptr) {
 	for (int i = 0; i < 3; i++)
 	{
 		enemy_image[i] = NULL;
@@ -34,6 +34,7 @@ void GameMainScene::Initialize()
 	// オブジェクトの生成
 	player = new Player;
 	enemy = new Enemy * [10];
+	block = new Block * [300];
 
 	// オブジェクトの初期化
 	player->Initialize();
@@ -41,12 +42,38 @@ void GameMainScene::Initialize()
 	for (int i = 0; i < 10; i++) {
 		enemy[i] = nullptr;
 	}
+	for (int i = 0; i < 300; i++) {
+		block[i] = nullptr;
+	}
+
+	block[0] = new Block(0);
+	block[0]->Initialize(10, 8);
+
+	//for (int i = 0; i < 20; i++) {
+	//	block[i] = new Block(0);
+	//	block[i]->Initialize(i, 14);
+	//}
 }
 
 eSceneType GameMainScene::Update()
 {
-	//// プレイヤーの更新
-	//player->Update();
+	player->SetGround(false);
+	// 敵の更新と当たり判定チェック
+	for (int i = 0; i < 30; i++)
+	{
+		// 値がnullでないなら
+		if (block[i] != nullptr)
+		{
+			// 当たり判定の確認
+			if (IsHitCheck(player, block[i]))
+			{
+				player->SetVelocity(0,0);
+				player->SetGround(true);
+			}
+		}
+	}
+	// プレイヤーの更新
+	player->Update();
 
 	return GetNowScene();
 }
@@ -66,8 +93,18 @@ void GameMainScene::Draw() const
 	//	}
 	//}
 
+	// ブロックの描画
+	for (int i = 0; i < 300; i++)
+	{
+		if (block[i] != nullptr)
+		{
+			block[i]->Draw();
+		}
+
+	}
+
 	//// プレイヤーの描画
-	//player->Draw();
+	player->Draw();
 
 }
 
@@ -103,4 +140,22 @@ bool GameMainScene::IsHitCheck(Player* p, Enemy* e)
 	Vector2D box_ex = p->GetBoxSize() + e->GetBoxSize();
 	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
 	return ((fabs(diff_location.x) < box_ex.x) && (fabsf(diff_location.y) < box_ex.y));
+}
+
+// あたり判定処理（プレイヤーとブロック）
+bool GameMainScene::IsHitCheck(Player* p, Block* b)
+{
+
+	// 敵情報がなければ、当たり判定を無視する
+	if (b == nullptr) {
+		return false;
+	}
+
+	// 位置情報の差分取得
+	Vector2D diff_location = p->GetLocation() - b->GetLocation();
+
+	// 当たり判定サイズの大きさを取得
+	Vector2D box_ex = p->GetBoxSize() + b->GetBoxSize();
+	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
+	return ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2));
 }

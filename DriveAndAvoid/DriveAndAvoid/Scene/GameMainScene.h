@@ -3,6 +3,7 @@
 #include "SceneBase.h"
 #include "../Object/Player.h"
 #include "../Object/Enemy.h"
+#include "../Object/Block.h"
 class GameMainScene : public SceneBase
 {
 private:
@@ -13,6 +14,7 @@ private:
 	int enemy_image[3];		// 敵画像
 	Player* player;			// プレイヤー
 	Enemy** enemy;			// 敵
+	Block** block;			// ブロック
 
 public:
 	GameMainScene();
@@ -29,5 +31,6 @@ private:
 	void ReadHighScore();
 	// 当たり判定
 	bool IsHitCheck(Player* p, Enemy* e);
+	bool IsHitCheck(Player* p, Block* b);
 };
 
