@@ -53,21 +53,21 @@ eSceneType GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-	//// ”wŒi‰æ‘œ‚Ì•`‰æ
-	//DrawGraph(0, mileage % 480 - 480, background_image, TRUE);
-	//DrawGraph(0, mileage % 480, background_image, TRUE);
+	// ”wŒi‰æ‘œ‚Ì•`‰æ
+	DrawGraph(0, mileage % 480 - 480, background_image, TRUE);
+	DrawGraph(0, mileage % 480, background_image, TRUE);
 
-	//// “G‚Ì•`‰æ
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	if (enemy[i] != nullptr)
-	//	{
-	//		enemy[i]->Draw();
-	//	}
-	//}
+	// “G‚Ì•`‰æ
+	for (int i = 0; i < 10; i++)
+	{
+		if (enemy[i] != nullptr)
+		{
+			enemy[i]->Draw();
+		}
+	}
 
-	//// ƒvƒŒƒCƒ„[‚Ì•`‰æ
-	//player->Draw();
+	// ƒvƒŒƒCƒ„[‚Ì•`‰æ
+	player->Draw();
 
 }
 
