@@ -32,6 +32,7 @@ private:
 	void ReadHighScore();
 	// “–‚½‚è”»’è
 	bool IsHitCheck(Player* p, Enemy* e);
-	bool IsHitCheck(Player* p, Block* b);
+	bool IsGroundCheck(Player* p, Block* b);
+	int IsHitCheck(Player* p, Block* b);
 };
 

@@ -42,6 +42,12 @@ void Player::Update()
 		AddVelocity();
 	}
 
+	// 落下速度の制限
+	if (velocity.y > 4)
+	{
+		velocity.y = 4;
+	}
+
 	//移動処理
 	Movement();
 
@@ -82,6 +88,11 @@ void Player::SetGround(bool flg)
 	this->is_ground = flg;
 }
 
+void Player::SetLocation(float x, float y)
+{
+	this->location = Vector2D(x, y);
+}
+
 // Velocityの設定
 void Player::SetVelocity(float x, float y)
 {
@@ -94,10 +105,20 @@ void Player::DecreaseHp(float value)
 	this->hp += value;
 }
 
+bool Player::GetGround() const
+{
+	return is_ground;
+}
+
 //位置情報取得処理
 Vector2D Player::GetLocation() const
 {
 	return this->location;
+}
+
+Vector2D Player::GetVelocity() const
+{
+	return this->velocity;
 }
 
 //当たり判定の大きさの取得処理
@@ -129,31 +150,24 @@ void Player::Movement()
 	Vector2D move = Vector2D(0.0f);
 
 	//十字移動処理
-	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_LEFT))
+	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_LEFT) || InputControl::GetLeftStick().x  < -0.8)
 	{
 		move += Vector2D(-1.0f * speed, 0.0f);
 	}
-	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_RIGHT))
+	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_RIGHT) || InputControl::GetLeftStick().x > 0.8)
 	{
 		move += Vector2D(1.0f * speed, 0.0f);
 	}
-	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_UP))
+	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
-		move += Vector2D(0.0f, -1.0f * speed);
-	}
-	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_DOWN))
-	{
-		move += Vector2D(0.0f, 1.0f * speed);
-	}
+		if (is_ground)
+		{
+			location += Vector2D(0.0f, -1.0f);
+			velocity += Vector2D(0.0f, -7.5f);
+		}
 
+	}
 	location += move;
-
-	//画面外に行かないように制限する
-	if ((location.x < 0) || (location.x >= 640.0f - box_size.x) ||
-		(location.y < box_size.y) || (location.y >= 480.0f - box_size.y))
-	{
-		location -= move;
-	}
 }
 
 //加減速処理

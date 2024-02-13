@@ -26,11 +26,14 @@ public:
 
 public:
 	void SetActive(bool flg);				// 有効フラグ設定
-	void SetGround(bool flg);				// 有効フラグ設定
+	void SetGround(bool flg);				// 地面にいるか設定
+	void SetLocation(float x, float y);		// Locationの指定
 	void SetVelocity(float x, float y);		// Velocityの指定
 
 	void DecreaseHp(float value);			// 体力減少処理
+	bool GetGround() const;				// 体力減少処理
 	Vector2D GetLocation() const;			// 位置情報取得
+	Vector2D GetVelocity() const;			// velocity情報取得
 	Vector2D GetBoxSize() const;			// 当たり判定のおおきさ取得
 	float GetSpeed() const;					// 速さ取得
 	float GetHp() const;					// 体力取得
