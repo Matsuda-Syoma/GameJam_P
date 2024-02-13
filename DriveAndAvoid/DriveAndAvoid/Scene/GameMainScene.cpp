@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include <math.h>
 
-GameMainScene::GameMainScene() :high_score(0), background_image(NULL), mileage(0), player(nullptr),
+GameMainScene::GameMainScene() :score(0), high_score(0), background_image(NULL), mileage(0), player(nullptr),
 enemy(nullptr),block(nullptr) {
 	for (int i = 0; i < 3; i++)
 	{
@@ -46,13 +46,19 @@ void GameMainScene::Initialize()
 		block[i] = nullptr;
 	}
 
-	block[0] = new Block(0);
-	block[0]->Initialize(10, 8);
-
-	//for (int i = 0; i < 20; i++) {
-	//	block[i] = new Block(0);
-	//	block[i]->Initialize(i, 14);
-	//}
+	for (int i = 0; i < 20; i++) {
+		block[i] = new Block(0);
+		block[i]->Initialize(i, 14);
+	}
+	for (int i = 0; i < 25; i++) {
+		if (block[i] == nullptr) {
+			block[i] = new Block(0);
+			block[i]->Initialize(8, 13);
+			//block[i + 1] = new Block(0);
+			//block[i + 1]->Initialize(8, 12);
+			break;
+		}
+	}
 }
 
 eSceneType GameMainScene::Update()
