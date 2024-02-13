@@ -158,12 +158,12 @@ void Player::Movement()
 	{
 		move += Vector2D(1.0f * speed, 0.0f);
 	}
-	if (InputControl::GetButton(XINPUT_BUTTON_B))
+	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
 		if (is_ground)
 		{
 			location += Vector2D(0.0f, -1.0f);
-			velocity += Vector2D(0.0f, -2.0f * speed);
+			velocity += Vector2D(0.0f, -7.5f);
 		}
 
 	}
