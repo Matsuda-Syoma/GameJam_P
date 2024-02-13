@@ -39,6 +39,9 @@ void GameMainScene::Initialize()
 	// オブジェクトの初期化
 	player->Initialize();
 
+
+	
+
 	for (int i = 0; i < 10; i++) {
 		enemy[i] = nullptr;
 	}
@@ -48,6 +51,11 @@ void GameMainScene::Initialize()
 
 	block[0] = new Block(0);
 	block[0]->Initialize(10, 8);
+
+	//エネミーのオブジェクトの初期化
+
+	enemy[0] = new Enemy();
+	enemy[0]->Initialize();
 
 	//for (int i = 0; i < 20; i++) {
 	//	block[i] = new Block(0);
@@ -79,8 +87,14 @@ eSceneType GameMainScene::Update()
 	// プレイヤーの更新
 	player->Update();
 
-	//エネミーの更新
-//	enemy[0]->Update();
+	if (enemy[0] != nullptr)
+	{
+		//エネミーの更新
+		enemy[0]->Update();
+	}
+
+	//syun Enemyにプレイヤーの座標持ってくため
+	enemy[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
 
 	return GetNowScene();
 }
@@ -113,9 +127,11 @@ void GameMainScene::Draw() const
 	//// プレイヤーの描画
 	player->Draw();
 
-	//エネミーの描画
-	enemy[0]->Draw();
-
+	if (enemy[0] != nullptr)
+	{
+		//エネミーの描画
+		enemy[0]->Draw();
+	}
 	//UIの描画
 	DrawBox(5,10,130,45, GetColor(0,0,153), TRUE);
 	SetFontSize(16);

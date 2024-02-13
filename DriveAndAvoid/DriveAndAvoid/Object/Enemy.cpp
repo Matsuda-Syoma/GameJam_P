@@ -1,18 +1,8 @@
 #include "Enemy.h"
 #include"DxLib.h"
 
-Enemy::Enemy()
+Enemy::Enemy():location(0.0f), box_size(0.0f)
 {
-
-	location = Vector2D(600.0f, 50.0f);
-
-	radius = 20;
-
-	//location.x = 600;
-	//location.y = 50;
-	Xspeed = 10;
-	Yspeed  = 10;
-	count = 0;
 
 
 }
@@ -25,7 +15,17 @@ Enemy::~Enemy()
 // 処理化処理
 void Enemy::Initialize()
 {
-	
+	location = Vector2D(320.0f, 80.0f);
+	box_size = Vector2D(32.0f, 32.0f);
+
+	radius = 20;//半径
+	hp = 20;//敵HP
+
+	Xspeed = 10;
+	Yspeed = 10;
+	count = 0;
+
+	enemy_img = LoadGraph("Resource/images/Enemy1.png");
 }
 
 void Enemy::Update()
@@ -34,38 +34,40 @@ void Enemy::Update()
 
 	if (count >= 1000) count = 0;
 
-	if (count < 500) {
-		//仮　縦に反射
-		location.y += Yspeed;
-		if (location.y < 20) {
-			Yspeed *= -1;
-		}
-		else if (location.y > 500) {
-			Yspeed *= -1;
+	if (backflg == 0) {//最初の位置へ戻るときはY軸の移動はしない
+
+		if (count < 500) {
+			//仮　縦に反射
+			location.y += Yspeed;
+			if (location.y < 20) {
+				Yspeed *= -1;
+			}
+			else if (location.y > 500) {
+				Yspeed *= -1;
+			}
 		}
 	}
+	//プレイヤーに向かってまっすぐ進む
 	if (count >= 500) {
-		if (50 < location.x) {
-			location.x = location.x - 5;
+		if (playerx + 15< location.x) {
+			location.x = location.x - 1;
 		}
-		if (50 > location.x) {
-			location.x = location.x + 5;
+		if (playerx +15 > location.x) {
+			location.x = location.x + 1;
 		}
 
-		if (backflg == 0) {//最初の位置へ戻るときはY軸の移動はしない
-			if (300 < location.y) {
-				location.y = location.y - 5;
-
-			}
-			if (300 > location.y) {
-				location.y = location.y + 5;
+			if (playery < location.y) {
+				location.y = location.y - 1;
 
 			}
-		}
+			if (playery > location.y) {
+				location.y = location.y + 1;
+
+			}
 	}
 
 	//敵を元の位置に戻す
-	if (count < 500 && location.x < 500) {
+	if (count < 500 && location.x < 600) {
 		backflg = 1;
 	}
 	else {
@@ -74,17 +76,17 @@ void Enemy::Update()
 	if (backflg == 1) {
 		location.x = location.x + 10;
 	}
+
 }
 
 void Enemy::Draw()const
 {
-	DrawCircle(location.x, location.y,radius, 0xff0000, 1);
+	//仮・敵
+//	DrawCircle(location.x, location.y,radius, 0xff0000, 1); 
+	DrawRotaGraph(location.x, location.y, 0.25,0,enemy_img,TRUE);
+	//敵のHPバー
+	DrawBox(location.x - hp, location.y - 30, location.x  + hp, location.y -25, 0xfff000, TRUE);
 
-	DrawFormatString(100, 150, 0xffffff, "%d", location.x);
-
-	//仮でプレイヤー
-	DrawCircle(50, 300, 10, 0xffffff, 1);
-	DrawFormatString(100, 100, 0xffffff, "%d", count);
 }
 
 void Enemy::Finalize()
@@ -99,7 +101,8 @@ Vector2D Enemy::GetBoxSize() const
 
 void Enemy::SetLocation(float x, float y)
 {
-	this->location = Vector2D(x, y);
+	playerx = x;
+	playery = y;
 }
 
 
