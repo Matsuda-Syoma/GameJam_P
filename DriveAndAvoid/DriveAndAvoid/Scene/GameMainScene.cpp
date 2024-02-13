@@ -1,14 +1,10 @@
 #include "GameMainScene.h"
 #include "Dxlib.h"
 #include <math.h>
-
 GameMainScene::GameMainScene() :high_score(0), background_image(NULL), mileage(0), player(nullptr),
 enemy(nullptr),block(nullptr) {
-	for (int i = 0; i < 3; i++)
-	{
-		enemy_image[i] = NULL;
-		enemy_count[i] = NULL;
-	}
+
+
 }
 
 GameMainScene::~GameMainScene()
@@ -35,7 +31,6 @@ void GameMainScene::Initialize()
 	player = new Player;
 	enemy = new Enemy * [10];
 	block = new Block * [300];
-
 	// オブジェクトの初期化
 	player->Initialize();
 
@@ -56,6 +51,7 @@ void GameMainScene::Initialize()
 
 	enemy[0] = new Enemy();
 	enemy[0]->Initialize();
+
 
 	//for (int i = 0; i < 20; i++) {
 	//	block[i] = new Block(0);
@@ -95,6 +91,17 @@ eSceneType GameMainScene::Update()
 
 	//syun Enemyにプレイヤーの座標持ってくため
 	enemy[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
+	
+	//弾
+
+	if (bullet[0] != nullptr)
+	{
+		//エネミーの更新
+		bullet[0]->Update();
+	}
+	//
+	//bullet[0]->SetLocation(enemy[0]->GetLocation().x, enemy[0]->GetLocation().y);
+		
 
 	return GetNowScene();
 }
@@ -132,6 +139,15 @@ void GameMainScene::Draw() const
 		//エネミーの描画
 		enemy[0]->Draw();
 	}
+
+	//弾の描画
+	/*for (int i = 0; i < 100; i++) {
+		if (bullet[i] != nullptr) {
+			bullet[i]->Draw();
+		}
+	}*/
+	bullet[0]->Draw();
+
 	//UIの描画
 	DrawBox(5,10,130,45, GetColor(0,0,153), TRUE);
 	SetFontSize(16);

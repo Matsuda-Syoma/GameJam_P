@@ -1,6 +1,5 @@
 #include "Enemy.h"
 #include"DxLib.h"
-
 Enemy::Enemy():location(0.0f), box_size(0.0f)
 {
 

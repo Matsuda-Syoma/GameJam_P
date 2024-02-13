@@ -4,6 +4,8 @@
 #include "../Object/Player.h"
 #include "../Object/Enemy.h"
 #include "../Object/Block.h"
+#include "../Object/Bullet.h"
+
 class GameMainScene : public SceneBase
 {
 private:
@@ -13,10 +15,12 @@ private:
 	int mileage;			// 走行距離
 	int enemy_count[3];		// 通り過ぎた敵カウント
 	int enemy_image[3];		// 敵画像
+	int bullet_num;			//弾・添字
 	Player* player;			// プレイヤー
 	Enemy** enemy;			// 敵
 	Block** block;			// ブロック
-
+	Bullet** bullet;			//弾
+	
 public:
 	GameMainScene();
 	virtual ~GameMainScene();
