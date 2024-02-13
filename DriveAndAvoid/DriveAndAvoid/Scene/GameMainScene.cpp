@@ -1,5 +1,5 @@
 #include "GameMainScene.h"
-#include "DxLib.h"
+#include "Dxlib.h"
 #include <math.h>
 
 GameMainScene::GameMainScene() :high_score(0), background_image(NULL), mileage(0), player(nullptr),
@@ -79,6 +79,9 @@ eSceneType GameMainScene::Update()
 	// プレイヤーの更新
 	player->Update();
 
+	//エネミーの更新
+//	enemy[0]->Update();
+
 	return GetNowScene();
 }
 
@@ -109,6 +112,9 @@ void GameMainScene::Draw() const
 
 	//// プレイヤーの描画
 	player->Draw();
+
+	//エネミーの描画
+	enemy[0]->Draw();
 
 	//UIの描画
 	DrawBox(5,10,130,45, GetColor(0,0,153), TRUE);

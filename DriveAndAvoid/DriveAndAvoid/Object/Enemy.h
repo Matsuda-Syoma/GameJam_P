@@ -5,6 +5,10 @@
 class Enemy
 {
 private:
+
+	Vector2D location;		// 位置座標
+	//Vector2D box_size;		// 当たり判定の大きさ
+
 	int Xposition; //X座標
 	int Yposition; //Y座標
 
@@ -17,6 +21,14 @@ private:
 public:
 	Enemy();
 	~Enemy();
+
+
+	void SetLocation(float x, float y);		// Locationの指定
+
+
+	Vector2D GetLocation() const;			// 位置情報取得
+	Vector2D GetBoxSize() const;			// 当たり判定のおおきさ取得
+
 
 	void Initialize();			// 初期化処理
 	void Update();	// 更新処理
