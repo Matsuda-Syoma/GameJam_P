@@ -59,7 +59,7 @@ eSceneType GameMainScene::Update()
 {
 	player->SetGround(false);
 	// 敵の更新と当たり判定チェック
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 300; i++)
 	{
 		// 値がnullでないなら
 		if (block[i] != nullptr)
@@ -68,10 +68,15 @@ eSceneType GameMainScene::Update()
 			if (IsHitCheck(player, block[i]))
 			{
 				player->SetVelocity(0,0);
+				player->SetLocation(player->GetLocation().x, block[i]->GetLocation().y - block[i]->GetBoxSize().y);
+			}
+			if (IsGroundCheck(player, block[i]))
+			{
 				player->SetGround(true);
 			}
 		}
 	}
+	printfDx("%d",player->GetGround());
 	// プレイヤーの更新
 	player->Update();
 
@@ -153,6 +158,27 @@ bool GameMainScene::IsHitCheck(Player* p, Block* b)
 
 	// 位置情報の差分取得
 	Vector2D diff_location = p->GetLocation() - b->GetLocation();
+
+	// 当たり判定サイズの大きさを取得
+	Vector2D box_ex = p->GetBoxSize() + b->GetBoxSize();
+	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
+	return ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2));
+}
+
+
+
+// 地面にいるか確認処理（プレイヤーとブロック）
+bool GameMainScene::IsGroundCheck(Player* p, Block* b)
+{
+
+	// 敵情報がなければ、当たり判定を無視する
+	if (b == nullptr) {
+		return false;
+	}
+
+	// 位置情報の差分取得
+	Vector2D diff_location = p->GetLocation() - b->GetLocation();
+	diff_location += Vector2D(0.0f, 0.1f);
 
 	// 当たり判定サイズの大きさを取得
 	Vector2D box_ex = p->GetBoxSize() + b->GetBoxSize();

@@ -1,7 +1,7 @@
 #include "Block.h"
 #include "DxLib.h"
 
-Block::Block(int handle) :type(type), image(handle), location(0.0f), box_size(0.0f)
+Block::Block(int handle) : image(handle), location(0.0f), box_size(0.0f)
 {
 }
 
@@ -23,11 +23,6 @@ void Block::Draw() const
 
 void Block::Finalize()
 {
-}
-
-int Block::GetType() const
-{
-	return type;
 }
 
 Vector2D Block::GetLocation() const
