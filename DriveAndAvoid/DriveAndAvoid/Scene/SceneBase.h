@@ -3,6 +3,7 @@
 // ƒV[ƒ“î•ñ
 enum eSceneType 
 {
+	E_STAGECLEAR,
 	E_TITLE,
 	E_MAIN,
 	E_HELP,
