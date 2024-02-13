@@ -12,8 +12,8 @@ private:
 	int Yspeed; //Y²EˆÚ“®‘°“x
 	int hp = 10; //‰¼HP
 	int radius; // ”¼Œai
-	int time = 0;
-
+	int count = 0;
+	int backflg = 0;
 public:
 	Enemy();
 	~Enemy();
