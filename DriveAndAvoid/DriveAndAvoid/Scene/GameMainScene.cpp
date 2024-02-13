@@ -17,7 +17,7 @@ void GameMainScene::Initialize()
 {
 	// 最高点を読み込む
 	ReadHighScore();
-
+	LoadStage::LoadStage();
 	// 画像の読み込み
 	background_image = LoadGraph("Resource/images/back.bmp");
 	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 63, 120, enemy_image);
@@ -45,25 +45,19 @@ void GameMainScene::Initialize()
 	for (int i = 0; i < 300; i++) {
 		block[i] = nullptr;
 	}
+	int num = 0;
 
 		enemy[0] = new Enemy();
 	enemy[0]->Initialize();
 
 	for (int i = 0; i < 20; i++) {
-		block[i] = new Block(0);
-		block[i]->Initialize(i, 14);
-	}
-	for (int i = 0; i < 25; i++) {
-		if (block[i] == nullptr) {
-			block[i] = new Block(0);
-			block[i]->Initialize(8, 13);
-			//block[i + 1] = new Block(0);
-			//block[i + 1]->Initialize(8, 12);
-			//block[i + 2] = new Block(0);
-			//block[i + 2]->Initialize(8, 11);
-			block[i + 3] = new Block(0);
-			block[i + 3]->Initialize(8, 10);
-			break;
+		for (int j = 0; j < 15; j++) {
+			if (LoadStage::LoadBlock(i, j) != 0)
+			{
+				block[num] = new Block(0);
+				block[num]->Initialize(i ,j);
+				num++;
+			}
 		}
 	}
 
@@ -89,7 +83,8 @@ eSceneType GameMainScene::Update()
 
 	// プレイヤーの更新
 	player->Update();
-
+	clsDx();
+	printfDx("%f",player->GetVelocity().y);
 	// ブロックの更新と当たり判定チェック
 	for (int i = 0; i < 300; i++)
 	{

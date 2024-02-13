@@ -6,6 +6,7 @@
 #include "../Object/Block.h"
 #include "../Object/Bullet.h"
 
+#include "../Utility/LoadStage.h"
 class GameMainScene : public SceneBase
 {
 private:

@@ -149,6 +149,7 @@
     <ClCompile Include="Scene\StageClearScene.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="Utility\InputControl.cpp" />
+    <ClCompile Include="Utility\LoadStage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object\Block.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Scene\StageClearScene.h" />
     <ClInclude Include="Scene\TitleScene.h" />
     <ClInclude Include="Utility\InputControl.h" />
+    <ClInclude Include="Utility\LoadStage.h" />
     <ClInclude Include="Utility\Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
