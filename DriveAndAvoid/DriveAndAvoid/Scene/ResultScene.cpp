@@ -56,6 +56,14 @@ void ResultScene::Draw() const
 	// スコア等表示領域
 	DrawBox(150, 150, 490, 330, GetColor(0, 153, 0), TRUE);
 	DrawBox(150, 150, 490, 330, GetColor(0, 0, 0), FALSE);
+
+	DrawBox(500, 0, 640, 480, GetColor(0, 153, 0), TRUE);
+
+	SetFontSize(20);
+	DrawString(220, 170, "ゲームオーバー", GetColor(204, 0, 0));
+	SetFontSize(16);
+	DrawString(180, 290, "スコア", GetColor(0, 0, 0));
+	DrawFormatString(180, 290, 0xFFFFFF, "      =%6d", score);
 }
 
 // 終了時処理
