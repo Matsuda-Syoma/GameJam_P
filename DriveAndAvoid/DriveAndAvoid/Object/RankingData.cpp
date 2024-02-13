@@ -1,6 +1,6 @@
 #include "RankingData.h"
-#include <stdio.h>
-#include <string.h>
+#include<stdio.h>
+#include<string.h>
 
 RankingData::RankingData()
 {
@@ -10,7 +10,7 @@ RankingData::RankingData()
 		rank[i] = NULL;
 		for (int j = 0; j < 15; j++)
 		{
-			name[i][j] = '\o';
+			name[i][j] = '\0';
 		}
 	}
 }
@@ -38,17 +38,16 @@ void RankingData::Initialize()
 	//対象ファイルから読み込む
 	for (int i = 0; i < 5; i++)
 	{
-		fscanf_s(fp, "%6d,%2d,%[^,]\n", &score[i], &rank[i], &name[i], 15);
+		fscanf_s(fp, "%6d,%2d,%[^,],\n", &score[i], &rank[i], name[i], 15);
 	}
 
 	//ファイルクローズ
 	fclose(fp);
 
-	//末尾データの設定
+	//末尾のデータステータスの設定
 	score[5] = 0;
 	rank[5] = 0;
-	name[5][0] = '\n';
-
+	name[5][0] = '\0';
 }
 
 //終了処理
@@ -66,7 +65,7 @@ void RankingData::SetRankingData(int score, const char* name)
 	SortData();
 }
 
-//スコア処理取得
+//スコア取得処理
 int RankingData::GetScore(int value) const
 {
 	return score[value];
@@ -87,7 +86,7 @@ const char* RankingData::GetName(int value) const
 //データ入れ替え処理
 void RankingData::SortData()
 {
-	//選択法ソートを使用し、降順で入れ替える
+	//選択ソートを使用し、降順で入れ替える
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = i + 1; j < 6; j++)
@@ -102,10 +101,10 @@ void RankingData::SortData()
 				strcpy_s(buf, name[i]);
 				strcpy_s(name[i], name[j]);
 				strcpy_s(name[j], buf);
-
 			}
 		}
 	}
+
 	//順位を整列させる
 	for (int i = 0; i < 5; i++)
 	{
@@ -121,7 +120,8 @@ void RankingData::SortData()
 			}
 		}
 	}
-	//ランキングデータの読み込み
+
+	//ランキングデータの書き込み
 	FILE* fp = nullptr;
 
 	//ファイルオープン
@@ -142,3 +142,6 @@ void RankingData::SortData()
 	//ファイルクローズ
 	fclose(fp);
 }
+
+
+

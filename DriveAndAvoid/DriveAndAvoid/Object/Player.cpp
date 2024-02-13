@@ -2,8 +2,8 @@
 #include "../Utility/InputControl.h"
 #include "DxLib.h"
 
-Player::Player() : is_active(false), image(NULL), location(0.0f), box_size(0.0f),
-angle(0.0f), speed(0.0f), hp(0.0f)
+Player::Player() : is_active(false), is_ground(false), image(NULL), location(0.0f), box_size(0.0f),
+velocity(0.0f), angle(0.0f), speed(0.0f), hp(0.0f)
 {
 
 }
@@ -16,11 +16,11 @@ Player::~Player()
 void Player::Initialize()
 {
 	is_active = true;
-	location = Vector2D(320.0f, 380.0f);
-	box_size = Vector2D(31.0f, 60.0f);
+	location = Vector2D(320.0f, 80.0f);
+	box_size = Vector2D(32.0f, 32.0f);
 	angle = 0.0f;
 	speed = 3.0f;
-	hp = 1000;
+	hp = 100;
 
 	//画像の読み込み
 	image = LoadGraph("Resource/images/car1pol.bmp");
@@ -35,16 +35,17 @@ void Player::Initialize()
 //更新処理
 void Player::Update()
 {
-	//操作不可状態であれば、自身を回転させる
-	if (!is_active)
+
+	// 重力処理
+	if (!is_ground)
 	{
-		angle += DX_PI_F / 24.0f;
-		speed = 1.0f;
-		if (angle >= DX_PI_F * 4.0f)
-		{
-			is_active = true;
-		}
-		return;
+		AddVelocity();
+	}
+
+	// 落下速度の制限
+	if (velocity.y > 4)
+	{
+		velocity.y = 4;
 	}
 
 	//移動処理
@@ -63,8 +64,8 @@ void Player::Update()
 void Player::Draw()
 {
 	//プレイヤー画像の描画
-	DrawBox(location.x, location.y, location.x + box_size.x, location.y + box_size.x, 0xffffff, true);
-	DrawRotaGraphF(location.x, location.y, 1.0f, angle, image, TRUE);
+	DrawBox(location.x, location.y, location.x + box_size.x, location.y + box_size.y, 0xffffff, true);
+	//DrawRotaGraphF(location.x, location.y, 1.0f, angle, image, TRUE);
 
 }
 
@@ -82,16 +83,42 @@ void Player::SetActive(bool flg)
 	this->is_active = flg;
 }
 
+void Player::SetGround(bool flg)
+{
+	this->is_ground = flg;
+}
+
+void Player::SetLocation(float x, float y)
+{
+	this->location = Vector2D(x, y);
+}
+
+// Velocityの設定
+void Player::SetVelocity(float x, float y)
+{
+	this->velocity = Vector2D(x,y);
+}
+
 //体力減少処理
 void Player::DecreaseHp(float value)
 {
 	this->hp += value;
 }
 
+bool Player::GetGround() const
+{
+	return is_ground;
+}
+
 //位置情報取得処理
 Vector2D Player::GetLocation() const
 {
 	return this->location;
+}
+
+Vector2D Player::GetVelocity() const
+{
+	return this->velocity;
 }
 
 //当たり判定の大きさの取得処理
@@ -110,40 +137,37 @@ float Player::GetHp() const
 	return this->hp;
 }
 
+void Player::AddVelocity()
+{
+	Vector2D g = Vector2D(0.0f, +0.28f);
+	velocity += g;
+	location += velocity;
+}
+
 //移動処理
 void Player::Movement()
 {
 	Vector2D move = Vector2D(0.0f);
-	angle = 0.0f;
 
 	//十字移動処理
-	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_LEFT))
+	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_LEFT) || InputControl::GetLeftStick().x  < -0.8)
 	{
-		move += Vector2D(-1.0f, 0.0f);
-		angle = -DX_PI_F / 18;
+		move += Vector2D(-1.0f * speed, 0.0f);
 	}
-	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_RIGHT))
+	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_RIGHT) || InputControl::GetLeftStick().x > 0.8)
 	{
-		move += Vector2D(1.0f, 0.0f);
-		angle = DX_PI_F / 18;
+		move += Vector2D(1.0f * speed, 0.0f);
 	}
-	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_UP))
+	if (InputControl::GetButton(XINPUT_BUTTON_B))
 	{
-		move += Vector2D(0.0f, -1.0f);
-	}
-	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_DOWN))
-	{
-		move += Vector2D(0.0f, 1.0f);
-	}
+		if (is_ground)
+		{
+			location += Vector2D(0.0f, -1.0f);
+			velocity += Vector2D(0.0f, -2.0f * speed);
+		}
 
+	}
 	location += move;
-
-	//画面外に行かないように制限する
-	if ((location.x < box_size.x) || (location.x >= 640.0f - 180.0f) ||
-		(location.y < box_size.y) || (location.y >= 480.0f - box_size.y))
-	{
-		location -= move;
-	}
 }
 
 //加減速処理
