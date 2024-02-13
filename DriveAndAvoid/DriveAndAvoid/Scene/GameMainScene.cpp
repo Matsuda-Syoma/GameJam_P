@@ -91,17 +91,6 @@ eSceneType GameMainScene::Update()
 
 	//syun Enemyにプレイヤーの座標持ってくため
 	enemy[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
-	
-	//弾
-
-	if (bullet[0] != nullptr)
-	{
-		//エネミーの更新
-		bullet[0]->Update();
-	}
-	//
-	//bullet[0]->SetLocation(enemy[0]->GetLocation().x, enemy[0]->GetLocation().y);
-		
 
 	return GetNowScene();
 }
@@ -139,14 +128,6 @@ void GameMainScene::Draw() const
 		//エネミーの描画
 		enemy[0]->Draw();
 	}
-
-	//弾の描画
-	/*for (int i = 0; i < 100; i++) {
-		if (bullet[i] != nullptr) {
-			bullet[i]->Draw();
-		}
-	}*/
-	bullet[0]->Draw();
 
 	//UIの描画
 	DrawBox(5,10,130,45, GetColor(0,0,153), TRUE);
