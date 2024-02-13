@@ -1,7 +1,9 @@
 #include "GameMainScene.h"
 #include "Dxlib.h"
 #include <math.h>
-GameMainScene::GameMainScene() :high_score(0), background_image(NULL), mileage(0), player(nullptr),
+
+#include "../Utility/InputControl.h"
+GameMainScene::GameMainScene() :score(0), high_score(0), background_image(NULL), mileage(0), player(nullptr),
 enemy(nullptr),block(nullptr) {
 
 
@@ -13,25 +15,25 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Initialize()
 {
-	// Å‚“_‚ğ“Ç‚İ‚Ş
+	// ï¿½Åï¿½ï¿½_ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
 	ReadHighScore();
 
-	// ‰æ‘œ‚Ì“Ç‚İ‚İ
+	// ï¿½æ‘œï¿½Ì“Ç‚İï¿½ï¿½ï¿½
 	background_image = LoadGraph("Resource/images/back.bmp");
 	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 63, 120, enemy_image);
-	// ƒGƒ‰[ƒ`ƒFƒbƒN
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½`ï¿½Fï¿½bï¿½N
 	if (background_image == -1) {
-		throw("‰æ‘œback.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("ï¿½æ‘œback.bmpï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½\n");
 	}
 	if (result == -1) {
-		throw("‰æ‘œcar.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("ï¿½æ‘œcar.bmpï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½\n");
 	}
 
-	// ƒIƒuƒWƒFƒNƒg‚Ì¶¬
+	// ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ìï¿½ï¿½ï¿½
 	player = new Player;
 	enemy = new Enemy * [10];
 	block = new Block * [300];
-	// ƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»
+	// ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	player->Initialize();
 
 
@@ -44,52 +46,95 @@ void GameMainScene::Initialize()
 		block[i] = nullptr;
 	}
 
-	block[0] = new Block(0);
-	block[0]->Initialize(10, 8);
-
-	//ƒGƒlƒ~[‚ÌƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»
-
-	enemy[0] = new Enemy();
+		enemy[0] = new Enemy();
 	enemy[0]->Initialize();
 
+	for (int i = 0; i < 20; i++) {
+		block[i] = new Block(0);
+		block[i]->Initialize(i, 14);
+	}
+	for (int i = 0; i < 25; i++) {
+		if (block[i] == nullptr) {
+			block[i] = new Block(0);
+			block[i]->Initialize(8, 13);
+			//block[i + 1] = new Block(0);
+			//block[i + 1]->Initialize(8, 12);
+			//block[i + 2] = new Block(0);
+			//block[i + 2]->Initialize(8, 11);
+			block[i + 3] = new Block(0);
+			block[i + 3]->Initialize(8, 10);
+			break;
+		}
+	}
 
-	//for (int i = 0; i < 20; i++) {
-	//	block[i] = new Block(0);
-	//	block[i]->Initialize(i, 14);
-	//}
+
 }
 
 eSceneType GameMainScene::Update()
 {
+	// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½nï¿½Ê‚É‚ï¿½ï¿½é‚©ï¿½`ï¿½Fï¿½bï¿½N
 	player->SetGround(false);
-	// “G‚ÌXV‚Æ“–‚½‚è”»’èƒ`ƒFƒbƒN
 	for (int i = 0; i < 300; i++)
 	{
-		// ’l‚ªnull‚Å‚È‚¢‚È‚ç
+		// ï¿½lï¿½ï¿½nullï¿½Å‚È‚ï¿½ï¿½È‚ï¿½
 		if (block[i] != nullptr)
 		{
-			// “–‚½‚è”»’è‚ÌŠm”F
-			if (IsHitCheck(player, block[i]))
-			{
-				player->SetVelocity(0,0);
-				player->SetLocation(player->GetLocation().x, block[i]->GetLocation().y - block[i]->GetBoxSize().y);
-			}
 			if (IsGroundCheck(player, block[i]))
 			{
+				player->SetVelocity(0, 0);
 				player->SetGround(true);
 			}
 		}
 	}
-	// ƒvƒŒƒCƒ„[‚ÌXV
+
+	// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌXï¿½V
 	player->Update();
+
+	// ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ÌXï¿½Vï¿½Æ“ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½`ï¿½Fï¿½bï¿½N
+	for (int i = 0; i < 300; i++)
+	{
+		// ï¿½lï¿½ï¿½nullï¿½Å‚È‚ï¿½ï¿½È‚ï¿½
+		if (block[i] != nullptr)
+		{
+			// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ÌŠmï¿½F
+			if (int value = IsHitCheck(player, block[i]))
+			{
+				switch (value)
+				{
+					// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ìï¿½ï¿½Ìƒuï¿½ï¿½ï¿½bï¿½Nï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
+				case 1:
+					player->SetLocation(block[i]->GetLocation().x + block[i]->GetBoxSize().x, player->GetLocation().y);
+					break;
+					// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ìï¿½Ìƒuï¿½ï¿½ï¿½bï¿½Nï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
+				case 2:
+					player->SetVelocity(player->GetVelocity().x, player->GetVelocity().y / 2);
+					player->SetLocation(player->GetLocation().x, block[i]->GetLocation().y + block[i]->GetBoxSize().y);
+					break;
+					// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ì‰Eï¿½Ìƒuï¿½ï¿½ï¿½bï¿½Nï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
+				case 3:
+					player->SetLocation(block[i]->GetLocation().x - block[i]->GetBoxSize().x, player->GetLocation().y);
+					break;
+					// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ì‰ï¿½ï¿½Ìƒuï¿½ï¿½ï¿½bï¿½Nï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
+				case 4:
+					player->SetLocation(player->GetLocation().x, block[i]->GetLocation().y - block[i]->GetBoxSize().y);
+					break;
+				}
+			}
+		}
+	}
+
+	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
+	{
+		return E_RESULT;
+	}
 
 	if (enemy[0] != nullptr)
 	{
-		//ƒGƒlƒ~[‚ÌXV
+		//ï¿½Gï¿½lï¿½~ï¿½[ï¿½ÌXï¿½V
 		enemy[0]->Update();
 	}
 
-	//syun Enemy‚ÉƒvƒŒƒCƒ„[‚ÌÀ•W‚Á‚Ä‚­‚½‚ß
+	//syun Enemyï¿½Éƒvï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ìï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½
 	enemy[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
 
 	return GetNowScene();
@@ -97,11 +142,11 @@ eSceneType GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-	//// ”wŒi‰æ‘œ‚Ì•`‰æ
+	//// ï¿½wï¿½iï¿½æ‘œï¿½Ì•`ï¿½ï¿½
 	//DrawGraph(0, mileage % 480 - 480, background_image, TRUE);
 	//DrawGraph(0, mileage % 480, background_image, TRUE);
 
-	//// “G‚Ì•`‰æ
+	//// ï¿½Gï¿½Ì•`ï¿½ï¿½
 	//for (int i = 0; i < 10; i++)
 	//{
 	//	if (enemy[i] != nullptr)
@@ -110,7 +155,7 @@ void GameMainScene::Draw() const
 	//	}
 	//}
 
-	// ƒuƒƒbƒN‚Ì•`‰æ
+	// ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½Ì•`ï¿½ï¿½
 	for (int i = 0; i < 300; i++)
 	{
 		if (block[i] != nullptr)
@@ -120,16 +165,16 @@ void GameMainScene::Draw() const
 
 	}
 
-	//// ƒvƒŒƒCƒ„[‚Ì•`‰æ
+	//// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ì•`ï¿½ï¿½
 	player->Draw();
 
 	if (enemy[0] != nullptr)
 	{
-		//ƒGƒlƒ~[‚Ì•`‰æ
+		//ï¿½Gï¿½lï¿½~ï¿½[ï¿½Ì•`ï¿½ï¿½
 		enemy[0]->Draw();
 	}
 
-	//UI‚Ì•`‰æ
+	//UIï¿½Ì•`ï¿½ï¿½
 	DrawBox(5,10,130,45, GetColor(0,0,153), TRUE);
 	SetFontSize(16);
 	DrawFormatString(285, 425, GetColor(255,255,255), "SCORE");
@@ -141,70 +186,128 @@ void GameMainScene::Finalize()
 
 }
 
-// Œ»İ‚ÌƒV[ƒ“î•ñæ“¾
+// ï¿½ï¿½ï¿½İ‚ÌƒVï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 eSceneType GameMainScene::GetNowScene() const
 {
 	return eSceneType::E_MAIN;
 }
 
-// ƒnƒCƒXƒRƒA“Ç
+// ï¿½nï¿½Cï¿½Xï¿½Rï¿½Aï¿½Çï¿½
 void GameMainScene::ReadHighScore()
 {
 }
 
-// ‚ ‚½‚è”»’èˆ—iƒvƒŒƒCƒ„[‚Æ“Gj
+// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½èˆï¿½ï¿½ï¿½iï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Æ“Gï¿½j
 bool GameMainScene::IsHitCheck(Player* p, Enemy* e)
 {
 
-	// “Gî•ñ‚ª‚È‚¯‚ê‚ÎA“–‚½‚è”»’è‚ğ–³‹‚·‚é
+	// ï¿½Gï¿½ï¿½ñ‚ª‚È‚ï¿½ï¿½ï¿½ÎAï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ğ–³ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (e == nullptr) {
 		return false;
 	}
 
-	// ˆÊ’uî•ñ‚Ì·•ªæ“¾
+	// ï¿½Ê’uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D diff_location = p->GetLocation() - e->GetLocation();
 
-	// “–‚½‚è”»’èƒTƒCƒY‚Ì‘å‚«‚³‚ğæ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½Tï¿½Cï¿½Yï¿½Ì‘å‚«ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D box_ex = p->GetBoxSize() + e->GetBoxSize();
-	// ƒRƒŠƒWƒ‡ƒ“ƒf[ƒ^‚æ‚èˆÊ’uî•ñ‚Ì·•ª‚ª¬‚³‚¢‚È‚çAƒqƒbƒg”»’è
+	// ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½Aï¿½qï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 	return ((fabs(diff_location.x) < box_ex.x) && (fabsf(diff_location.y) < box_ex.y));
 }
 
-// ‚ ‚½‚è”»’èˆ—iƒvƒŒƒCƒ„[‚ÆƒuƒƒbƒNj
-bool GameMainScene::IsHitCheck(Player* p, Block* b)
+// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½èˆï¿½ï¿½ï¿½iï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Æƒuï¿½ï¿½ï¿½bï¿½Nï¿½j
+int GameMainScene::IsHitCheck(Player* p, Block* b)
 {
 
-	// “Gî•ñ‚ª‚È‚¯‚ê‚ÎA“–‚½‚è”»’è‚ğ–³‹‚·‚é
+	// ï¿½Gï¿½ï¿½ñ‚ª‚È‚ï¿½ï¿½ï¿½ÎAï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ğ–³ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (b == nullptr) {
-		return false;
+		return 0;
 	}
 
-	// ˆÊ’uî•ñ‚Ì·•ªæ“¾
+	// ï¿½Ê’uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D diff_location = p->GetLocation() - b->GetLocation();
-
-	// “–‚½‚è”»’èƒTƒCƒY‚Ì‘å‚«‚³‚ğæ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½Tï¿½Cï¿½Yï¿½Ì‘å‚«ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D box_ex = p->GetBoxSize() + b->GetBoxSize();
-	// ƒRƒŠƒWƒ‡ƒ“ƒf[ƒ^‚æ‚èˆÊ’uî•ñ‚Ì·•ª‚ª¬‚³‚¢‚È‚çAƒqƒbƒg”»’è
-	return ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2));
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½
+	if ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2))
+	{
+		// ï¿½êï¿½Û‘ï¿½ï¿½pï¿½Ïï¿½ï¿½Ìì¬
+		Vector2D work_vector = 0.0f;
+		Vector2D work_vector2 = 0.0f;
+		Vector2D min_vector = 0.0f;
+		int select[2] = { 0 };
+		int finret = 0;
+
+		// ï¿½ÎÛ‚Ìï¿½ï¿½Wï¿½Æ“ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ğ‘«‚ï¿½ï¿½ï¿½ï¿½Ïï¿½ï¿½Ìì¬
+		// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[
+		Vector2D p_location = p->GetLocation();
+		Vector2D p_location2 = p->GetLocation() + p->GetBoxSize();
+
+		// ï¿½uï¿½ï¿½ï¿½bï¿½N
+		Vector2D b_location = b->GetLocation();
+		Vector2D b_location2 = b->GetLocation() + b->GetBoxSize();
+
+		// ï¿½ã‰ºï¿½ï¿½ï¿½Eï¿½Ì‹ï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½
+		work_vector.x = fabsf(p_location.x - b_location2.x);
+		work_vector2.x = fabsf(p_location2.x - b_location.x);
+		work_vector.y = fabsf(p_location.y - b_location2.y);
+		work_vector2.y = fabsf(p_location2.y - b_location.y);
+
+		// ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅŠmï¿½Fï¿½Aï¿½Û‘ï¿½
+		if (work_vector.x < work_vector2.x)
+		{
+			min_vector.x = work_vector.x;
+			select[0] = 1;
+		}
+		else
+		{
+			min_vector.x = work_vector2.x;
+			select[0] = 3;
+		}
+
+		// ï¿½cï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅŠmï¿½Fï¿½Aï¿½Û‘ï¿½
+		if (work_vector.y < work_vector2.y)
+		{
+			min_vector.y = work_vector.y;
+			select[1] = 2;
+		}
+		else
+		{
+			min_vector.y = work_vector2.y;
+			select[1] = 4;
+		}
+
+		// ï¿½cï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅŠmï¿½Fï¿½AReturnï¿½Å•Ô‚ï¿½
+		if (min_vector.x < min_vector.y)
+		{
+			finret = select[0];
+		}
+		else
+		{
+			finret = select[1];
+		}
+		return finret;
+	}
+	return 0;
 }
 
 
 
-// ’n–Ê‚É‚¢‚é‚©Šm”Fˆ—iƒvƒŒƒCƒ„[‚ÆƒuƒƒbƒNj
+// ï¿½nï¿½Ê‚É‚ï¿½ï¿½é‚©ï¿½mï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½iï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Æƒuï¿½ï¿½ï¿½bï¿½Nï¿½j
 bool GameMainScene::IsGroundCheck(Player* p, Block* b)
 {
 
-	// “Gî•ñ‚ª‚È‚¯‚ê‚ÎA“–‚½‚è”»’è‚ğ–³‹‚·‚é
+	// ï¿½Gï¿½ï¿½ñ‚ª‚È‚ï¿½ï¿½ï¿½ÎAï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ğ–³ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (b == nullptr) {
 		return false;
 	}
 
-	// ˆÊ’uî•ñ‚Ì·•ªæ“¾
+	// ï¿½Ê’uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D diff_location = p->GetLocation() - b->GetLocation();
 	diff_location += Vector2D(0.0f, 0.1f);
 
-	// “–‚½‚è”»’èƒTƒCƒY‚Ì‘å‚«‚³‚ğæ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½Tï¿½Cï¿½Yï¿½Ì‘å‚«ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D box_ex = p->GetBoxSize() + b->GetBoxSize();
-	// ƒRƒŠƒWƒ‡ƒ“ƒf[ƒ^‚æ‚èˆÊ’uî•ñ‚Ì·•ª‚ª¬‚³‚¢‚È‚çAƒqƒbƒg”»’è
+	// ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½Aï¿½qï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 	return ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2));
 }

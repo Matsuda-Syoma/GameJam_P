@@ -7,6 +7,7 @@
 #include "HelpScene.h"
 #include "RankingDispScene.h"
 #include "RankingInputScene.h"
+#include "StageClearScene.h"
 
 SceneManager::SceneManager() : current_scene(nullptr)
 {
@@ -42,7 +43,7 @@ void SceneManager::Initialize()
 	}
 
 	//タイトルシーンから始める
-	ChangeScene(eSceneType::E_MAIN);
+	ChangeScene(eSceneType::E_STAGECLEAR);
 }
 
 //シーンマネージャー機能：更新処理
@@ -166,6 +167,8 @@ SceneBase* SceneManager::CreateScene(eSceneType scene_type)
 		return new RankingDispScene;
 	case eSceneType::E_RANKING_INPUT:
 		return new RankingInputScene;
+	case eSceneType::E_STAGECLEAR:
+		return new StageClearScene;
 	default:
 		return nullptr;
 	}

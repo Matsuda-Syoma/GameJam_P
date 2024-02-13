@@ -15,9 +15,6 @@ RankingDispScene::~RankingDispScene()
 //初期化処理
 void RankingDispScene::Initialize()
 {
-	//画像読み込み
-	/*background_image = LoadGraph("Resource/images/Ranking.bmp");*/
-
 	//エラーチェック
 	if (background_image == -1)
 	{
@@ -57,8 +54,7 @@ void RankingDispScene::Draw() const
 //終了時処理
 void RankingDispScene::Finalize()
 {
-	//読み込んだ画像の削除
-	/*DeleteGraph(background_image);*/
+
 
 	//動的メモリの解放
 	ranking->Finalize();
