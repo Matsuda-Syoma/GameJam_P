@@ -163,7 +163,7 @@ void Player::Movement()
 		if (is_ground)
 		{
 			location += Vector2D(0.0f, -1.0f);
-			velocity += Vector2D(0.0f, -2.0f * speed);
+			velocity += Vector2D(0.0f, -7.5f);
 		}
 
 	}
