@@ -4,6 +4,7 @@
 #include "../Object/Player.h"
 #include "../Object/Enemy.h"
 #include "../Object/Block.h"
+#include "../Utility/LoadStage.h"
 class GameMainScene : public SceneBase
 {
 private:

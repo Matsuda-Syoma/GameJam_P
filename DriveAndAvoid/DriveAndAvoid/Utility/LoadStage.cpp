@@ -19,8 +19,8 @@ LoadStage::LoadStage()
 	// ファイルのロード
 	fp = FileRead_open("Resource/Stagedata.csv");
 
-	// 1行目を無視する
-	while (FileRead_getc(fp) != '\n');
+	//// 1行目を無視する
+	//while (FileRead_getc(fp) != '\n');
 
 	// データの読み込み
 	while (1) {
@@ -37,8 +37,7 @@ LoadStage::LoadStage()
 			}
 			count++;
 		}
-
-		data[col][row] = atoi(buf);
+		data[col - 1][row] = atoi(buf);
 
 		memset(buf, 0, sizeof(buf));
 
@@ -65,4 +64,9 @@ out:
 LoadStage::~LoadStage()
 {
 
+}
+
+int LoadStage::LoadBlock(int x, int y)
+{
+	return data[x][y];
 }

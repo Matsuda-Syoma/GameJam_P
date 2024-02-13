@@ -9,5 +9,5 @@ private:
 public:
 	LoadStage();						// コンストラクタ
 	~LoadStage();						// デストラクタ
-	//static ENEMYDATA LoadEnemy(int i);	// 敵情報の読み込み
+	static int LoadBlock(int x, int y);
 };
