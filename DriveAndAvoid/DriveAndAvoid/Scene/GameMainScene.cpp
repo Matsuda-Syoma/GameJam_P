@@ -76,7 +76,6 @@ eSceneType GameMainScene::Update()
 			}
 		}
 	}
-	printfDx("%d",player->GetGround());
 	// プレイヤーの更新
 	player->Update();
 
