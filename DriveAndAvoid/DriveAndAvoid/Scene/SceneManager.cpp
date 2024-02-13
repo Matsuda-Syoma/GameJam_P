@@ -43,7 +43,7 @@ void SceneManager::Initialize()
 	}
 
 	//タイトルシーンから始める
-	ChangeScene(eSceneType::E_STAGECLEAR);
+	ChangeScene(eSceneType::E_TITLE);
 }
 
 //シーンマネージャー機能：更新処理
