@@ -15,25 +15,25 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Initialize()
 {
-	// �ō��_��ǂݍ���
+	// 最高点を読み込む
 	ReadHighScore();
 
-	// �摜�̓ǂݍ���
+	// 画像の読み込み
 	background_image = LoadGraph("Resource/images/back.bmp");
 	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 63, 120, enemy_image);
-	// �G���[�`�F�b�N
+	// エラーチェック
 	if (background_image == -1) {
-		throw("�摜back.bmp������܂���\n");
+		throw("画像back.bmpがありません\n");
 	}
 	if (result == -1) {
-		throw("�摜car.bmp������܂���\n");
+		throw("画像car.bmpがありません\n");
 	}
 
-	// �I�u�W�F�N�g�̐���
+	// オブジェクトの生成
 	player = new Player;
 	enemy = new Enemy * [10];
 	block = new Block * [300];
-	// �I�u�W�F�N�g�̏�����
+	// オブジェクトの初期化
 	player->Initialize();
 
 
@@ -72,11 +72,11 @@ void GameMainScene::Initialize()
 
 eSceneType GameMainScene::Update()
 {
-	// �v���C���[���n�ʂɂ��邩�`�F�b�N
+	// プレイヤーが地面にいるかチェック
 	player->SetGround(false);
 	for (int i = 0; i < 300; i++)
 	{
-		// �l��null�łȂ��Ȃ�
+		// 値がnullでないなら
 		if (block[i] != nullptr)
 		{
 			if (IsGroundCheck(player, block[i]))
@@ -87,34 +87,34 @@ eSceneType GameMainScene::Update()
 		}
 	}
 
-	// �v���C���[�̍X�V
+	// プレイヤーの更新
 	player->Update();
 
-	// �u���b�N�̍X�V�Ɠ����蔻��`�F�b�N
+	// ブロックの更新と当たり判定チェック
 	for (int i = 0; i < 300; i++)
 	{
-		// �l��null�łȂ��Ȃ�
+		// 値がnullでないなら
 		if (block[i] != nullptr)
 		{
-			// �����蔻��̊m�F
+			// 当たり判定の確認
 			if (int value = IsHitCheck(player, block[i]))
 			{
 				switch (value)
 				{
-					// �v���C���[�̍��̃u���b�N�ɓ��������Ƃ�
+					// プレイヤーの左のブロックに当たったとき
 				case 1:
 					player->SetLocation(block[i]->GetLocation().x + block[i]->GetBoxSize().x, player->GetLocation().y);
 					break;
-					// �v���C���[�̏�̃u���b�N�ɓ��������Ƃ�
+					// プレイヤーの上のブロックに当たったとき
 				case 2:
 					player->SetVelocity(player->GetVelocity().x, player->GetVelocity().y / 2);
 					player->SetLocation(player->GetLocation().x, block[i]->GetLocation().y + block[i]->GetBoxSize().y);
 					break;
-					// �v���C���[�̉E�̃u���b�N�ɓ��������Ƃ�
+					// プレイヤーの右のブロックに当たったとき
 				case 3:
 					player->SetLocation(block[i]->GetLocation().x - block[i]->GetBoxSize().x, player->GetLocation().y);
 					break;
-					// �v���C���[�̉��̃u���b�N�ɓ��������Ƃ�
+					// プレイヤーの下のブロックに当たったとき
 				case 4:
 					player->SetLocation(player->GetLocation().x, block[i]->GetLocation().y - block[i]->GetBoxSize().y);
 					break;
@@ -130,11 +130,10 @@ eSceneType GameMainScene::Update()
 
 	if (enemy[0] != nullptr)
 	{
-		//�G�l�~�[�̍X�V
+		// 敵の更新
 		enemy[0]->Update();
 	}
 
-	//syun Enemy�Ƀv���C���[�̍��W�����Ă�����
 	enemy[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
 
 	return GetNowScene();
@@ -142,11 +141,9 @@ eSceneType GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-	//// �w�i�摜�̕`��
 	//DrawGraph(0, mileage % 480 - 480, background_image, TRUE);
 	//DrawGraph(0, mileage % 480, background_image, TRUE);
 
-	//// �G�̕`��
 	//for (int i = 0; i < 10; i++)
 	//{
 	//	if (enemy[i] != nullptr)
@@ -155,7 +152,7 @@ void GameMainScene::Draw() const
 	//	}
 	//}
 
-	// �u���b�N�̕`��
+	// ブロックの描画
 	for (int i = 0; i < 300; i++)
 	{
 		if (block[i] != nullptr)
@@ -165,16 +162,16 @@ void GameMainScene::Draw() const
 
 	}
 
-	//// �v���C���[�̕`��
+	// プレイヤーの描画
 	player->Draw();
 
 	if (enemy[0] != nullptr)
 	{
-		//�G�l�~�[�̕`��
+		// 敵の描画
 		enemy[0]->Draw();
 	}
 
-	//UI�̕`��
+	//UIの描画
 	DrawBox(5,10,130,45, GetColor(0,0,153), TRUE);
 	SetFontSize(16);
 	DrawFormatString(285, 425, GetColor(255,255,255), "SCORE");
@@ -186,74 +183,74 @@ void GameMainScene::Finalize()
 
 }
 
-// ���݂̃V�[�����擾
+// 現在のシーン情報取得
 eSceneType GameMainScene::GetNowScene() const
 {
 	return eSceneType::E_MAIN;
 }
 
-// �n�C�X�R�A�Ǎ�
+// ハイスコア読込
 void GameMainScene::ReadHighScore()
 {
 }
 
-// �����蔻�菈���i�v���C���[�ƓG�j
+// あたり判定処理（プレイヤーと敵）
 bool GameMainScene::IsHitCheck(Player* p, Enemy* e)
 {
 
-	// �G��񂪂Ȃ���΁A�����蔻��𖳎�����
+	// 敵情報がなければ、当たり判定を無視する
 	if (e == nullptr) {
 		return false;
 	}
 
-	// �ʒu���̍����擾
+	// 位置情報の差分取得
 	Vector2D diff_location = p->GetLocation() - e->GetLocation();
 
-	// �����蔻��T�C�Y�̑傫�����擾
+	// 当たり判定サイズの大きさを取得
 	Vector2D box_ex = p->GetBoxSize() + e->GetBoxSize();
-	// �R���W�����f�[�^���ʒu���̍������������Ȃ�A�q�b�g����
+	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
 	return ((fabs(diff_location.x) < box_ex.x) && (fabsf(diff_location.y) < box_ex.y));
 }
 
-// �����蔻�菈���i�v���C���[�ƃu���b�N�j
+// あたり判定処理（プレイヤーとブロック）
 int GameMainScene::IsHitCheck(Player* p, Block* b)
 {
 
-	// �G��񂪂Ȃ���΁A�����蔻��𖳎�����
+	// 敵情報がなければ、当たり判定を無視する
 	if (b == nullptr) {
 		return 0;
 	}
 
-	// �ʒu���̍����擾
+	// 位置情報の差分取得
 	Vector2D diff_location = p->GetLocation() - b->GetLocation();
-	// �����蔻��T�C�Y�̑傫�����擾
+	// 当たり判定サイズの大きさを取得
 	Vector2D box_ex = p->GetBoxSize() + b->GetBoxSize();
-	// �������Ă���Ȃ����
+	// 当たっているなら入る
 	if ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2))
 	{
-		// �ꎞ�ۑ��p�ϐ��̍쐬
+		// 一時保存用変数の作成
 		Vector2D work_vector = 0.0f;
 		Vector2D work_vector2 = 0.0f;
 		Vector2D min_vector = 0.0f;
 		int select[2] = { 0 };
 		int finret = 0;
 
-		// �Ώۂ̍��W�Ɠ����蔻��𑫂����ϐ��̍쐬
-		// �v���C���[
+		// 対象の座標と当たり判定を足した変数の作成
+		// プレイヤー
 		Vector2D p_location = p->GetLocation();
 		Vector2D p_location2 = p->GetLocation() + p->GetBoxSize();
 
-		// �u���b�N
+		// ブロック
 		Vector2D b_location = b->GetLocation();
 		Vector2D b_location2 = b->GetLocation() + b->GetBoxSize();
 
-		// �㉺���E�̋�����ۑ�
+		// 上下左右の距離を保存
 		work_vector.x = fabsf(p_location.x - b_location2.x);
 		work_vector2.x = fabsf(p_location2.x - b_location.x);
 		work_vector.y = fabsf(p_location.y - b_location2.y);
 		work_vector2.y = fabsf(p_location2.y - b_location.y);
 
-		// ���̏����������������Ŋm�F�A�ۑ�
+		// 横の小さい距離を条件で確認、保存
 		if (work_vector.x < work_vector2.x)
 		{
 			min_vector.x = work_vector.x;
@@ -265,7 +262,7 @@ int GameMainScene::IsHitCheck(Player* p, Block* b)
 			select[0] = 3;
 		}
 
-		// �c�̏����������������Ŋm�F�A�ۑ�
+		// 縦の小さい距離を条件で確認、保存
 		if (work_vector.y < work_vector2.y)
 		{
 			min_vector.y = work_vector.y;
@@ -277,7 +274,7 @@ int GameMainScene::IsHitCheck(Player* p, Block* b)
 			select[1] = 4;
 		}
 
-		// �c���̏����������������Ŋm�F�AReturn�ŕԂ�
+		// 縦横の小さい距離を条件で確認、Returnで返す
 		if (min_vector.x < min_vector.y)
 		{
 			finret = select[0];
@@ -293,21 +290,21 @@ int GameMainScene::IsHitCheck(Player* p, Block* b)
 
 
 
-// �n�ʂɂ��邩�m�F�����i�v���C���[�ƃu���b�N�j
+// 地面にいるか確認処理（プレイヤーとブロック）
 bool GameMainScene::IsGroundCheck(Player* p, Block* b)
 {
 
-	// �G��񂪂Ȃ���΁A�����蔻��𖳎�����
+	// 敵情報がなければ、当たり判定を無視する
 	if (b == nullptr) {
 		return false;
 	}
 
-	// �ʒu���̍����擾
+	// 位置情報の差分取得
 	Vector2D diff_location = p->GetLocation() - b->GetLocation();
 	diff_location += Vector2D(0.0f, 0.1f);
 
-	// �����蔻��T�C�Y�̑傫�����擾
+	// 当たり判定サイズの大きさを取得
 	Vector2D box_ex = p->GetBoxSize() + b->GetBoxSize();
-	// �R���W�����f�[�^���ʒu���̍������������Ȃ�A�q�b�g����
+	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
 	return ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2));
 }
