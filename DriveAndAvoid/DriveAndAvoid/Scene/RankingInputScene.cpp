@@ -15,9 +15,6 @@ RankingInputScene::~RankingInputScene()
 //初期化処理
 void RankingInputScene::Initialize()
 {
-	//画像の読み込み
-	/*background_image = LoadGraph("Resource/images/Ranking.bmp");*/
-
 	//エラーチェック
 	if (background_image == -1)
 	{
@@ -73,7 +70,7 @@ void RankingInputScene::Draw() const
 	DrawGraph(0, 0, background_image, TRUE);
 
 	//名前入力指示文字列の描画
-	/*DrawString(150, 100, "ランキングに登録します", 0xFFFFFF);*/
+
 	DrawFormatString(180, 140, GetColor(255, 255, 255), ">%s", name);
 
 
@@ -88,7 +85,7 @@ void RankingInputScene::Draw() const
 		DrawFormatString(x, y, GetColor(255, 255, 255), "%-3c", 'A' + i);
 	}
 	DrawString(220, 405, "決定", GetColor(255, 255, 255));
-	DrawString(270 + font_size * 2, 405, "消す", GetColor(255, 255, 255));
+	DrawString(220 + font_size * 2, 405, "消す", GetColor(255, 255, 255));
 
 	//選択文字をフォーカスする
 	if (cursor_y < 4)
@@ -101,11 +98,11 @@ void RankingInputScene::Draw() const
 	{
 		if (cursor_x == 0)
 		{
-			DrawBox(200, 400, 35 + font_size * 2, 400 + font_size, GetColor(255, 255, 255), FALSE);
+			DrawBox(35 + 160, 395, 35 + font_size * 2 + 160, 395 + font_size, GetColor(255, 255, 255), FALSE);
 		}
 		else
 		{
-			DrawBox(270, 400, 35 + font_size * 2, 400 + font_size, GetColor(255, 255, 255), FALSE);
+			DrawBox(130 + 225, 395, 35 + font_size * 2 + 160, 395 + font_size, GetColor(255, 255, 255), FALSE);
 		}
 	}
 }
@@ -114,11 +111,7 @@ void RankingInputScene::Draw() const
 void RankingInputScene::Finalize()
 {
 	//ランキングにデータを格納
-	//ranking->SetRankingData(score, name);
 	ranking->SetRankingData(100, name);
-
-	//読み込んだ画像を削除
-	/*DeleteGraph(background_image);*/
 
 	//動的メモリの解放
 	delete ranking;
@@ -178,7 +171,7 @@ bool RankingInputScene::InputName()
 	//カーソル位置の文字を決定する
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
-		if (cursor_y < 4)
+		if (cursor_y < 2)
 		{
 			name[name_num++] = 'a' + cursor_x + (cursor_y * 13);
 			if (name_num == 14)
@@ -210,4 +203,6 @@ bool RankingInputScene::InputName()
 		}
 	}
 	return false;
+
+
 }
