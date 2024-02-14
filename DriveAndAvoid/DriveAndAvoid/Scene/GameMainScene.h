@@ -5,6 +5,7 @@
 #include "../Object/Enemy.h"
 #include "../Object/Block.h"
 #include "../Object/Bullet.h"
+#include "../Object/HitEffect.h"
 
 #include "../Utility/LoadStage.h"
 class GameMainScene : public SceneBase
@@ -21,6 +22,7 @@ private:
 	Enemy** enemy;			// ìG
 	Block** block;			// ÉuÉçÉbÉN
 	Bullet** bullet;		//íe
+	HitEffect** hiteffect;		//íe
 	
 public:
 	GameMainScene();

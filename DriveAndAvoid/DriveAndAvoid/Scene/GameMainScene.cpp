@@ -34,6 +34,7 @@ void GameMainScene::Initialize()
 	enemy = new Enemy * [10];
 	block = new Block * [300];
 	bullet = new Bullet * [30];
+	hiteffect = new HitEffect * [30];
 	// オブジェクトの初期化
 	player->Initialize();
 
@@ -49,9 +50,15 @@ void GameMainScene::Initialize()
 	for (int i = 0; i < 30; i++) {
 		bullet[i] = nullptr;
 	}
-
+	for (int i = 0; i < 30; i++) {
+		hiteffect[i] = nullptr;
+	}
 	enemy[0] = new Enemy();
 	enemy[0]->Initialize();
+
+	hiteffect[0] = new HitEffect();
+	hiteffect[0]->Initialize(320,240);
+
 
 	int num = 0;
 	for (int i = 0; i < 20; i++) {
@@ -203,6 +210,15 @@ void GameMainScene::Draw() const
 		if (bullet[i] != nullptr)
 		{
 			bullet[i]->Draw();
+		}
+	}
+
+	for (int i = 0; i < 30; i++)
+	{
+		// 値がnullでないなら
+		if (hiteffect[i] != nullptr)
+		{
+			hiteffect[i]->Draw();
 		}
 	}
 
