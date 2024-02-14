@@ -50,8 +50,8 @@ void GameMainScene::Initialize()
 		bullet[i] = nullptr;
 	}
 
-	//enemy[0] = new Enemy();
-	//enemy[0]->Initialize();
+	enemy[0] = new Enemy();
+	enemy[0]->Initialize();
 
 	int num = 0;
 	for (int i = 0; i < 20; i++) {
@@ -157,13 +157,13 @@ void GameMainScene::Draw() const
 	//DrawGraph(0, mileage % 480 - 480, background_image, TRUE);
 	//DrawGraph(0, mileage % 480, background_image, TRUE);
 
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	if (enemy[i] != nullptr)
-	//	{
-	//		enemy[i]->Draw();
-	//	}
-	//}
+	for (int i = 0; i < 10; i++)
+	{
+		if (enemy[i] != nullptr)
+		{
+			enemy[i]->Draw();
+		}
+	}
 
 	// ƒuƒƒbƒN‚Ì•`‰æ
 	for (int i = 0; i < 300; i++)

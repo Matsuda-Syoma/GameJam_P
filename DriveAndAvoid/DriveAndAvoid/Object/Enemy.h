@@ -21,6 +21,9 @@ private:
 
 	float playerx;
 	float playery;
+	float PX;
+	float PY;
+	int attackflg = 0;
 
 	Player* player;
 public:

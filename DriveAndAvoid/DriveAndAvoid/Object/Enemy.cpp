@@ -48,18 +48,19 @@ void Enemy::Update()
 	}
 	//プレイヤーに向かってまっすぐ進む
 	if (count >= 500) {
-		if (playerx + 15< location.x) {
+		attackflg = 1;
+		if (PX + 15< location.x) {
 			location.x = location.x - 1;
 		}
-		if (playerx +15 > location.x) {
+		if (PX +15 > location.x) {
 			location.x = location.x + 1;
 		}
 
-			if (playery < location.y) {
+			if (PY < location.y) {
 				location.y = location.y - 1;
 
 			}
-			if (playery > location.y) {
+			if (PY > location.y) {
 				location.y = location.y + 1;
 
 			}
@@ -74,7 +75,14 @@ void Enemy::Update()
 	}
 	if (backflg == 1) {
 		location.x = location.x + 10;
+		attackflg = 0;
 	}
+
+	if (attackflg == 0) {
+		PX = playerx;
+		PY = playery;
+	}
+
 
 }
 
