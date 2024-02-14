@@ -58,7 +58,7 @@ void Player::Update(GameMainScene* gamemain)
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_A))
 	{
-		BulletShoot(gamemain,(is_reverse - 1) * 180, tag);
+		BulletShoot(gamemain,is_reverse * 180, tag);
 	}
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
@@ -159,12 +159,12 @@ void Player::Movement()
 	//è\éöà⁄ìÆèàóù
 	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_LEFT) || InputControl::GetLeftStick().x  < -0.8)
 	{
-		is_reverse = false;
+		is_reverse = true;
 		move += Vector2D(-1.0f * speed, 0.0f);
 	}
 	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_RIGHT) || InputControl::GetLeftStick().x > 0.8)
 	{
-		is_reverse = true;
+		is_reverse = false;
 		move += Vector2D(1.0f * speed, 0.0f);
 	}
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
