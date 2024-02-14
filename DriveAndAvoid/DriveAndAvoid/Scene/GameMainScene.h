@@ -20,7 +20,7 @@ private:
 	Player* player;			// プレイヤー
 	Enemy** enemy;			// 敵
 	Block** block;			// ブロック
-	Bullet** bullet;			//弾
+	Bullet** bullet;		//弾
 	
 public:
 	GameMainScene();

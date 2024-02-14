@@ -4,7 +4,7 @@
 
 #include "../Utility/InputControl.h"
 GameMainScene::GameMainScene() :score(0), high_score(0), background_image(NULL), mileage(0), player(nullptr),
-enemy(nullptr),block(nullptr) {
+enemy(nullptr),block(nullptr),bullet(nullptr) {
 
 
 }
@@ -33,6 +33,7 @@ void GameMainScene::Initialize()
 	player = new Player;
 	enemy = new Enemy * [10];
 	block = new Block * [300];
+	bullet = new Bullet * [30];
 	// オブジェクトの初期化
 	player->Initialize();
 
@@ -45,11 +46,17 @@ void GameMainScene::Initialize()
 	for (int i = 0; i < 300; i++) {
 		block[i] = nullptr;
 	}
+	for (int i = 0; i < 30; i++) {
+		bullet[i] = nullptr;
+	}
+
+	bullet[0] = new Bullet();
+	bullet[0]->Initialize(Vector2D(320.0,240.0), 0, 'p');
+
+	//enemy[0] = new Enemy();
+	//enemy[0]->Initialize();
+
 	int num = 0;
-
-		enemy[0] = new Enemy();
-	enemy[0]->Initialize();
-
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 15; j++) {
 			if (LoadStage::LoadBlock(i, j) != 0)
@@ -127,9 +134,18 @@ eSceneType GameMainScene::Update()
 	{
 		// 敵の更新
 		enemy[0]->Update();
+		enemy[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
 	}
 
-	enemy[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
+	for (int i = 0; i < 30; i++)
+	{
+		// 値がnullでないなら
+		if (bullet[i] != nullptr)
+		{
+			bullet[i]->Update();
+		}
+	}
+
 
 	return GetNowScene();
 }
@@ -164,6 +180,15 @@ void GameMainScene::Draw() const
 	{
 		// 敵の描画
 		enemy[0]->Draw();
+	}
+
+	for (int i = 0; i < 30; i++)
+	{
+		// 値がnullでないなら
+		if (bullet[i] != nullptr)
+		{
+			bullet[i]->Draw();
+		}
 	}
 
 	//UIの描画
