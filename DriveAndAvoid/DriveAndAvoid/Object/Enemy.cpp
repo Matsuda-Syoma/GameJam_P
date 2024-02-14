@@ -23,6 +23,8 @@ void Enemy::Initialize()
 	Xspeed = 10;
 	Yspeed = 10;
 	count = 0;
+	tag = 'e';
+
 
 	enemy_img = LoadGraph("Resource/images/Enemy1.png");
 }

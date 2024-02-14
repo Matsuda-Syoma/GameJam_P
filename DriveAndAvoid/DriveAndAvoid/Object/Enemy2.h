@@ -17,7 +17,6 @@ private:
 	int Yspeed; //Y軸・移動族度
 	int hp; //仮HP
 	int radius; // 半径
-	int backflg = 0;
 	int enemy_img;
 
 	float playerx;
@@ -40,7 +39,7 @@ public:
 	Vector2D GetBoxSize() const;			// 当たり判定のおおきさ取得
 
 	void Initialize();			// 初期化処理
-	void Update();	// 更新処理
+	void Update(GameMainScene* gamemain);		// 更新処理
 	void Draw() const;			// 描画処理
 	void Finalize();			// 終了時処理
 
