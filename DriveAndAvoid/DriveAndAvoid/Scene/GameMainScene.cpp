@@ -130,8 +130,8 @@ eSceneType GameMainScene::Update()
 	if (enemy[0] != nullptr)
 	{
 		// “G‚ÌXV
-		enemy[0]->Update();
 		enemy[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
+		enemy[0]->Update(this);
 	}
 
 	for (int i = 0; i < 30; i++)

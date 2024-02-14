@@ -1,6 +1,9 @@
 #include "Enemy.h"
 #include"DxLib.h"
-Enemy::Enemy():location(0.0f), box_size(0.0f)
+#include "../Scene/GameMainScene.h"
+#include <math.h>
+
+Enemy::Enemy():location(0.0f), box_size(0.0f),tag('\0')
 {
 
 
@@ -20,6 +23,8 @@ void Enemy::Initialize()
 	radius = 20;//”¼Œa
 	hp = 20;//“GHP
 
+	tag = 'e';
+
 	Xspeed = 10;
 	Yspeed = 10;
 	count = 0;
@@ -29,12 +34,18 @@ void Enemy::Initialize()
 	enemy_img = LoadGraph("Resource/images/Enemy1.png");
 }
 
-void Enemy::Update()
+void Enemy::Update(GameMainScene* gamemainscene)
 {
 	count++;
 
 	if (count >= 1000) count = 0;
-
+	if (count % 100 == 0 && count < 500)
+	{
+		float ShootAngleX = playerx - location.x;
+		float ShootAngleY = playery - location.y;
+		Normalize = atan2(ShootAngleX, ShootAngleY) * 180.0f / DX_PI;
+		BulletShoot(gamemainscene,90 - Normalize,tag);
+	}
 	if (backflg == 0) {//Å‰‚ÌˆÊ’u‚Ö–ß‚é‚Æ‚«‚ÍYŽ²‚ÌˆÚ“®‚Í‚µ‚È‚¢
 
 		if (count < 500) {
@@ -43,7 +54,7 @@ void Enemy::Update()
 			if (location.y < 20) {
 				Yspeed *= -1;
 			}
-			else if (location.y > 500) {
+			else if (location.y > 480-box_size.y) {
 				Yspeed *= -1;
 			}
 		}
@@ -120,4 +131,9 @@ void Enemy::SetLocation(float x, float y)
 Vector2D Enemy::GetLocation() const
 {
 	return this->location;
+}
+
+void Enemy::BulletShoot(GameMainScene* gamemainscene, float _angle, char _tag)
+{
+	gamemainscene->SpawnBullet(location + (box_size / 2), _angle, _tag);
 }

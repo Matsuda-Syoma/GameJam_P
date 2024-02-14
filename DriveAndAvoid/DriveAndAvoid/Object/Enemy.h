@@ -2,6 +2,7 @@
 
 #include "../Utility/Vector2D.h"
 #include "Player.h"
+class GameMainScene;
 class Enemy
 {
 private:
@@ -25,8 +26,14 @@ private:
 	float PX;
 	float PY;
 	int attackflg = 0;
+	float Normalize = 0;
+
+	char tag;
 
 	Player* player;
+
+
+	void BulletShoot(GameMainScene* gamemainscene, float _angle, char _tag);
 public:
 	Enemy();
 	~Enemy();
@@ -40,7 +47,7 @@ public:
 	Vector2D GetBoxSize() const;			// 当たり判定のおおきさ取得
 
 	void Initialize();			// 初期化処理
-	void Update();	// 更新処理
+	void Update(GameMainScene* gamemainscene);	// 更新処理
 	void Draw() const;			// 描画処理
 	void Finalize();			// 終了時処理
 
