@@ -3,7 +3,7 @@
 #include "../Utility/InputControl.h"
 #include "DxLib.h"
 
-Player::Player() : is_active(false), is_reverse(false), is_ground(false), image(NULL), location(0.0f), box_size(0.0f),
+Player::Player() : is_active(false), is_reverse(false), is_ground(false), image(NULL),
 velocity(0.0f), angle(0.0f), speed(0.0f), hp(0.0f),tag('\0')
 {
 

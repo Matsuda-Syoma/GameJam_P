@@ -3,7 +3,7 @@
 #include "../Scene/GameMainScene.h"
 #include <math.h>
 
-Enemy::Enemy():location(0.0f), box_size(0.0f),tag('\0')
+Enemy::Enemy():tag('\0')
 {
 
 
@@ -18,7 +18,7 @@ Enemy::~Enemy()
 void Enemy::Initialize()
 {
 	location = Vector2D(320.0f, 80.0f);
-	box_size = Vector2D(32.0f, 32.0f);
+	box_size = Vector2D(64.0f, 32.0f);
 
 	radius = 20;//îºåa
 	hp = 20;//ìGHP
@@ -101,7 +101,8 @@ void Enemy::Draw()const
 {
 	//âºÅEìG
 //	DrawCircle(location.x, location.y,radius, 0xff0000, 1); 
-	DrawRotaGraph(location.x, location.y, 0.25,0,enemy_img,TRUE);
+	DrawRotaGraph(location.x + box_size.x / 2, location.y + box_size.y / 2, 0.25,0,enemy_img,TRUE);
+	DrawBox(location.x, location.y, location.x + box_size.x, location.y + box_size.y, 0xffffff, false);
 	//ìGÇÃHPÉoÅ[
 	DrawBox(location.x - hp, location.y - 30, location.x  + hp, location.y -25, 0xfff000, TRUE);
 

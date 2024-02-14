@@ -139,6 +139,20 @@ eSceneType GameMainScene::Update()
 		if (bullet[i] != nullptr)
 		{
 			bullet[i]->Update();
+			if (IsHitCheck(player,bullet[i]) && player->GetTag() != bullet[i]->GetTag())
+			{
+				bullet[i]->SetActive(false);
+			}
+			for (int j = 0; j < 10; j++)
+			{
+				if (enemy[j] != nullptr)
+				{
+					if (IsHitCheck(enemy[j], bullet[i]) && enemy[j]->GetTag() != bullet[i]->GetTag())
+					{
+						bullet[i]->SetActive(false);
+					}
+				}
+			}
 			if (!bullet[i]->GetActive())
 			{
 				bullet[i] = nullptr;
@@ -216,7 +230,7 @@ void GameMainScene::ReadHighScore()
 }
 
 // あたり判定処理（プレイヤーと敵）
-bool GameMainScene::IsHitCheck(Player* p, Enemy* e)
+bool GameMainScene::IsHitCheck(BoxCollider* p, BoxCollider* e)
 {
 
 	// 敵情報がなければ、当たり判定を無視する
@@ -229,6 +243,9 @@ bool GameMainScene::IsHitCheck(Player* p, Enemy* e)
 
 	// 当たり判定サイズの大きさを取得
 	Vector2D box_ex = p->GetBoxSize() + e->GetBoxSize();
+	clsDx();
+	printfDx("%f %f", diff_location.x, box_ex.x);
+	DrawBox(diff_location.x, diff_location.y, box_ex.x, box_ex.y,0xff00ff,true);
 	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
 	return ((fabs(diff_location.x) < box_ex.x) && (fabsf(diff_location.y) < box_ex.y));
 }

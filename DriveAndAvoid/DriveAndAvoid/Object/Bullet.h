@@ -1,13 +1,12 @@
 #pragma once
 
 #include "../Utility/Vector2D.h"
+#include "BoxCollider.h"
 #include "Enemy.h"
-class Bullet
+class Bullet : public BoxCollider
 {
 private:
 	bool is_active;			// 有効かどうか
-	Vector2D location;		// 位置座標
-	Vector2D box_size;		// 当たり判定の大きさ
 	Vector2D velocity;		// 速度
 	float angle;			// 弾の角度
 	char tag;				// 親の名前
@@ -24,5 +23,7 @@ public:
 	void Update();													// 更新処理
 	void Draw() const;												// 描画処理
 	bool GetActive() const;
+	void SetActive(bool value);
+	char GetTag() const;
 
 };

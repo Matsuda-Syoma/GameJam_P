@@ -1,7 +1,7 @@
 #include "Bullet.h"
 #include "DxLib.h"
 #include <math.h>
-Bullet::Bullet() : is_active(false), location(0, 0), box_size(0, 0), velocity(0, 0), angle(0), tag('\0')
+Bullet::Bullet() : is_active(false), velocity(0, 0), angle(0), tag('\0')
 {
 }
 
@@ -14,7 +14,7 @@ void Bullet::Initialize(Vector2D loc, float _angle, char _tag)
 {
 	is_active = true;
 	location = loc;
-	box_size = Vector2D(8.0f, 8.0f);
+	box_size = Vector2D(12.0f, 12.0f);
 	angle = (_angle * (float)DX_PI * 2) / 360;
 	tag = _tag;
 }
@@ -50,6 +50,16 @@ void Bullet::Draw() const
 bool Bullet::GetActive() const
 {
 	return this->is_active;
+}
+
+void Bullet::SetActive(bool value)
+{
+	is_active = value;
+}
+
+char Bullet::GetTag() const
+{
+	return this->tag;
 }
 
 Vector2D Bullet::GetLocation() const
