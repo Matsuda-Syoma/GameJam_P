@@ -21,8 +21,8 @@ void Enemy::Initialize()
 	location = Vector2D(600.0f, 80.0f);
 	box_size = Vector2D(32.0f, 32.0f);
 
-	radius = 20;//���a
-	hp = 20;//�GHP
+	radius = 20;
+	hp = 20;/
 
 
 	Xspeed = 10;
@@ -46,10 +46,10 @@ void Enemy::Update(GameMainScene* gamemainscene)
 		Normalize = atan2(ShootAngleX, ShootAngleY) * 180.0f / DX_PI;
 		BulletShoot(gamemainscene,90 - Normalize,tag);
 	}
-	if (backflg == 0) {//�ŏ��̈ʒu�֖߂�Ƃ���Y���̈ړ��͂��Ȃ�
+	if (backflg == 0) {
 
 		if (count < 500) {
-			//���@�c�ɔ���
+			
 			location.y += Yspeed;
 			if (location.y < 20) {
 				Yspeed *= -1;
@@ -59,7 +59,7 @@ void Enemy::Update(GameMainScene* gamemainscene)
 			}
 		}
 	}
-	//�v���C���[�Ɍ������Ă܂������i��
+	
 		if (count >= 500) {
 			attackflg = 1;
 			if (PX + 15 < location.x && backflg == 0) {
@@ -79,11 +79,11 @@ void Enemy::Update(GameMainScene* gamemainscene)
 			}
 		}
 
-	//�v���C���[�̌������ꏊ�܂ŗ�����߂�
+
 	
 	
 
-	//�G�����̈ʒu�ɖ߂�
+
 	if (PX  + 15 == location.x ) {
 		backflg = 1;
 	}
@@ -104,18 +104,18 @@ void Enemy::Update(GameMainScene* gamemainscene)
 	}
 
 
-	//HP��0�ɂȂ�����̏�����
+	
 
 }
 
 void Enemy::Draw()const
 {
 
-	//���E�G �U�����󂯂���@���ʂ̊�->�΂��Ă��Ƃ��ɕς�����
+	
 	DrawRotaGraph(location.x, location.y, 0.1,0,enemy_img,TRUE);
 
 
-	//�G��HP�o�[
+	
 	DrawBox(location.x - hp, location.y - 70, location.x  + hp, location.y -65, 0xfff000, TRUE);
 
 	DrawFormatString(100, 100, 0xffffff, "%d", backflg);
@@ -144,7 +144,7 @@ void Enemy::SetLocation(float x, float y)
 
 
 
-//�ʒu���擾����
+
 Vector2D Enemy::GetLocation() const
 {
 	return this->location;
