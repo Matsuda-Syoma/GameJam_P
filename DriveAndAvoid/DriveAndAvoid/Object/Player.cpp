@@ -1,9 +1,10 @@
 #include "Player.h"
+#include "../Scene/GameMainScene.h"
 #include "../Utility/InputControl.h"
 #include "DxLib.h"
 
-Player::Player() : is_active(false), is_ground(false), image(NULL), location(0.0f), box_size(0.0f),
-velocity(0.0f), angle(0.0f), speed(0.0f), hp(0.0f)
+Player::Player() : is_active(false), is_reverse(false), is_ground(false), image(NULL),
+velocity(0.0f), angle(0.0f), speed(0.0f), hp(0.0f),tag('\0')
 {
 
 }
@@ -21,6 +22,7 @@ void Player::Initialize()
 	angle = 0.0f;
 	speed = 3.0f;
 	hp = 100;
+	tag = 'p';
 
 	//画像の読み込み
 	image = LoadGraph("Resource/images/car1pol.bmp");
@@ -33,7 +35,7 @@ void Player::Initialize()
 }
 
 //更新処理
-void Player::Update()
+void Player::Update(GameMainScene* gamemain)
 {
 
 	// 重力処理
@@ -53,6 +55,11 @@ void Player::Update()
 
 	//加速処理
 	Acceleration();
+
+	if (InputControl::GetButtonDown(XINPUT_BUTTON_A))
+	{
+		BulletShoot(gamemain,is_reverse * 180, tag);
+	}
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
 	{
@@ -137,6 +144,11 @@ float Player::GetHp() const
 	return this->hp;
 }
 
+char Player::GetTag() const
+{
+	return this->tag;
+}
+
 void Player::AddVelocity()
 {
 	Vector2D g = Vector2D(0.0f, +0.28f);
@@ -152,17 +164,19 @@ void Player::Movement()
 	//十字移動処理
 	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_LEFT) || InputControl::GetLeftStick().x  < -0.8)
 	{
+		is_reverse = true;
 		move += Vector2D(-1.0f * speed, 0.0f);
 	}
 	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_RIGHT) || InputControl::GetLeftStick().x > 0.8)
 	{
+		is_reverse = false;
 		move += Vector2D(1.0f * speed, 0.0f);
 	}
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
 		if (is_ground)
 		{
-			location += Vector2D(0.0f, -1.0f);
+			location += Vector2D(0.0f, -4.0f);
 			velocity += Vector2D(0.0f, -7.5f);
 		}
 
@@ -183,4 +197,9 @@ void Player::Acceleration()
 	{
 		speed += 1.0f;
 	}
+}
+
+void Player::BulletShoot(GameMainScene* gamemainscene, float _angle, char _tag)
+{
+	gamemainscene->SpawnBullet(location + (box_size / 2), _angle, _tag);
 }

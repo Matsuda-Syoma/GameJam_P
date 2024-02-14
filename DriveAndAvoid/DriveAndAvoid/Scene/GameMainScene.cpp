@@ -1,15 +1,12 @@
 #include "GameMainScene.h"
-#include "DxLib.h"
+#include "Dxlib.h"
 #include <math.h>
 
 #include "../Utility/InputControl.h"
 GameMainScene::GameMainScene() :score(0), high_score(0), background_image(NULL), mileage(0), player(nullptr),
-enemy(nullptr),block(nullptr) {
-	for (int i = 0; i < 3; i++)
-	{
-		enemy_image[i] = NULL;
-		enemy_count[i] = NULL;
-	}
+enemy(nullptr),block(nullptr),bullet(nullptr) {
+
+
 }
 
 GameMainScene::~GameMainScene()
@@ -20,7 +17,7 @@ void GameMainScene::Initialize()
 {
 	// 最高点を読み込む
 	ReadHighScore();
-
+	LoadStage::LoadStage();
 	// 画像の読み込み
 	background_image = LoadGraph("Resource/images/back.bmp");
 	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 63, 120, enemy_image);
@@ -36,9 +33,12 @@ void GameMainScene::Initialize()
 	player = new Player;
 	enemy = new Enemy * [10];
 	block = new Block * [300];
-
+	bullet = new Bullet * [30];
 	// オブジェクトの初期化
 	player->Initialize();
+
+
+	
 
 	for (int i = 0; i < 10; i++) {
 		enemy[i] = nullptr;
@@ -46,28 +46,37 @@ void GameMainScene::Initialize()
 	for (int i = 0; i < 300; i++) {
 		block[i] = nullptr;
 	}
-
-	for (int i = 0; i < 20; i++) {
-		block[i] = new Block(0);
-		block[i]->Initialize(i, 14);
+	for (int i = 0; i < 30; i++) {
+		bullet[i] = nullptr;
 	}
-	for (int i = 0; i < 25; i++) {
-		if (block[i] == nullptr) {
-			block[i] = new Block(0);
-			block[i]->Initialize(8, 13);
-			//block[i + 1] = new Block(0);
-			//block[i + 1]->Initialize(8, 12);
-			//block[i + 2] = new Block(0);
-			//block[i + 2]->Initialize(8, 11);
-			block[i + 3] = new Block(0);
-			block[i + 3]->Initialize(8, 10);
-			break;
+
+	enemy[0] = new Enemy();
+	enemy[0]->Initialize();
+
+	int num = 0;
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 15; j++) {
+			if (LoadStage::LoadBlock(i, j) != 0)
+			{
+				block[num] = new Block(0);
+				block[num]->Initialize(i ,j);
+				num++;
+			}
 		}
 	}
+
+
 }
 
 eSceneType GameMainScene::Update()
 {
+
+	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
+	{
+		return E_RESULT;
+	}
+
+	// プレイヤー
 	// プレイヤーが地面にいるかチェック
 	player->SetGround(false);
 	for (int i = 0; i < 300; i++)
@@ -82,11 +91,9 @@ eSceneType GameMainScene::Update()
 			}
 		}
 	}
-
 	// プレイヤーの更新
-	player->Update();
-
-	// ブロックの更新と当たり判定チェック
+	player->Update(this);
+	// ブロックとプレイヤーの当たり判定チェック
 	for (int i = 0; i < 300; i++)
 	{
 		// 値がnullでないなら
@@ -119,28 +126,57 @@ eSceneType GameMainScene::Update()
 		}
 	}
 
-	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
+	if (enemy[0] != nullptr)
 	{
-		return E_RESULT;
+		// 敵の更新
+		enemy[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
+		enemy[0]->Update(this);
 	}
+
+	for (int i = 0; i < 30; i++)
+	{
+		// 値がnullでないなら
+		if (bullet[i] != nullptr)
+		{
+			bullet[i]->Update();
+			if (IsHitCheck(player,bullet[i]) && player->GetTag() != bullet[i]->GetTag())
+			{
+				bullet[i]->SetActive(false);
+			}
+			for (int j = 0; j < 10; j++)
+			{
+				if (enemy[j] != nullptr)
+				{
+					if (IsHitCheck(enemy[j], bullet[i]) && enemy[j]->GetTag() != bullet[i]->GetTag())
+					{
+						bullet[i]->SetActive(false);
+					}
+				}
+			}
+			if (!bullet[i]->GetActive())
+			{
+				bullet[i] = nullptr;
+				delete bullet[i];
+			}
+		}
+	}
+
 
 	return GetNowScene();
 }
 
 void GameMainScene::Draw() const
 {
-	//// 背景画像の描画
 	//DrawGraph(0, mileage % 480 - 480, background_image, TRUE);
 	//DrawGraph(0, mileage % 480, background_image, TRUE);
 
-	//// 敵の描画
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	if (enemy[i] != nullptr)
-	//	{
-	//		enemy[i]->Draw();
-	//	}
-	//}
+	for (int i = 0; i < 10; i++)
+	{
+		if (enemy[i] != nullptr)
+		{
+			enemy[i]->Draw();
+		}
+	}
 
 	// ブロックの描画
 	for (int i = 0; i < 300; i++)
@@ -152,8 +188,23 @@ void GameMainScene::Draw() const
 
 	}
 
-	//// プレイヤーの描画
+	// プレイヤーの描画
 	player->Draw();
+
+	if (enemy[0] != nullptr)
+	{
+		// 敵の描画
+		enemy[0]->Draw();
+	}
+
+	for (int i = 0; i < 30; i++)
+	{
+		// 値がnullでないなら
+		if (bullet[i] != nullptr)
+		{
+			bullet[i]->Draw();
+		}
+	}
 
 	//UIの描画
 	DrawBox(5,10,130,45, GetColor(0,0,153), TRUE);
@@ -179,7 +230,7 @@ void GameMainScene::ReadHighScore()
 }
 
 // あたり判定処理（プレイヤーと敵）
-bool GameMainScene::IsHitCheck(Player* p, Enemy* e)
+bool GameMainScene::IsHitCheck(BoxCollider* p, BoxCollider* e)
 {
 
 	// 敵情報がなければ、当たり判定を無視する
@@ -192,6 +243,9 @@ bool GameMainScene::IsHitCheck(Player* p, Enemy* e)
 
 	// 当たり判定サイズの大きさを取得
 	Vector2D box_ex = p->GetBoxSize() + e->GetBoxSize();
+	clsDx();
+	printfDx("%f %f", diff_location.x, box_ex.x);
+	DrawBox(diff_location.x, diff_location.y, box_ex.x, box_ex.y,0xff00ff,true);
 	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
 	return ((fabs(diff_location.x) < box_ex.x) && (fabsf(diff_location.y) < box_ex.y));
 }
@@ -291,4 +345,21 @@ bool GameMainScene::IsGroundCheck(Player* p, Block* b)
 	Vector2D box_ex = p->GetBoxSize() + b->GetBoxSize();
 	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
 	return ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2));
+}
+
+Player* GameMainScene::GetPlayer()
+{
+	return this->player;
+}
+
+void GameMainScene::SpawnBullet(Vector2D loc, float _angle, char _tag)
+{
+	for (int i = 0; i < 30; i++) {
+		if (bullet[i] == nullptr) {
+			bullet[i] = new Bullet();
+			bullet[i]->Initialize(loc, _angle, _tag);
+			break;
+		}
+	}
+
 }

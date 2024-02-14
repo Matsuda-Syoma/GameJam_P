@@ -60,6 +60,8 @@ eSceneType TitleScene::Update()
 		}
 	}
 
+
+
 	// ƒJ[ƒ\ƒ‹Œˆ’è
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{

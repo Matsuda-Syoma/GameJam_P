@@ -1,8 +1,11 @@
 #include "Enemy.h"
 #include"DxLib.h"
+#include "../Scene/GameMainScene.h"
+#include <math.h>
 
-Enemy::Enemy(int type, int handle) : type(type), image(handle), speed(0.0f), location(0.0f), box_size(0.0f)
+Enemy::Enemy():tag('\0')
 {
+
 
 }
 
@@ -11,51 +14,130 @@ Enemy::~Enemy()
 
 }
 
-//初期化処理
+// 処理化処理
 void Enemy::Initialize()
 {
-	//出現させるx座標パターンを取得
-	float random_x = (float)(GetRand(4) * 105 + 40);
-	//生成位置の設定
-	location = Vector2D(random_x, -50.0f);
-	//当たり判定の設定
-	box_size = Vector2D(32.0f, 60.0f);
-	//速さの設定
-	speed = (float)(this->type * 2);
+	location = Vector2D(320.0f, 80.0f);
+	box_size = Vector2D(64.0f, 32.0f);
+
+	radius = 20;//半径
+	hp = 20;//敵HP
+
+	tag = 'e';
+
+	Xspeed = 10;
+	Yspeed = 10;
+	count = 0;
+
+	enemy_img = LoadGraph("Resource/images/Enemy1.png");
 }
 
-void Enemy::Update(float speed)
+void Enemy::Update(GameMainScene* gamemainscene)
 {
-	//位置情報に移動量を加算する
-	location += Vector2D(0.0f, this->speed + speed - 6);
+	count++;
+
+	if (count >= 1000) count = 0;
+	if (count % 100 == 0 && count < 500)
+	{
+		float ShootAngleX = playerx - location.x;
+		float ShootAngleY = playery - location.y;
+		Normalize = atan2(ShootAngleX, ShootAngleY) * 180.0f / DX_PI;
+		BulletShoot(gamemainscene,90 - Normalize,tag);
+	}
+	if (backflg == 0) {//最初の位置へ戻るときはY軸の移動はしない
+
+		if (count < 500) {
+			//仮　縦に反射
+			location.y += Yspeed;
+			if (location.y < 20) {
+				Yspeed *= -1;
+			}
+			else if (location.y > 480-box_size.y) {
+				Yspeed *= -1;
+			}
+		}
+	}
+	//プレイヤーに向かってまっすぐ進む
+	if (count >= 500) {
+		attackflg = 1;
+		if (PX + 15< location.x) {
+			location.x = location.x - 1;
+		}
+		if (PX +15 > location.x) {
+			location.x = location.x + 1;
+		}
+
+			if (PY < location.y) {
+				location.y = location.y - 1;
+
+			}
+			if (PY > location.y) {
+				location.y = location.y + 1;
+
+			}
+	}
+
+	//敵を元の位置に戻す
+	if (count < 500 && location.x < 600) {
+		backflg = 1;
+	}
+	else {
+		backflg = 0;
+	}
+	if (backflg == 1) {
+		location.x = location.x + 10;
+		attackflg = 0;
+	}
+
+	if (attackflg == 0) {
+		PX = playerx;
+		PY = playery;
+	}
+
+
 }
 
-void Enemy::Draw() const
+void Enemy::Draw()const
 {
-	//敵画像の描画
-	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, image, TRUE);
+	//仮・敵
+//	DrawCircle(location.x, location.y,radius, 0xff0000, 1); 
+	DrawRotaGraph(location.x + box_size.x / 2, location.y + box_size.y / 2, 0.25,0,enemy_img,TRUE);
+	DrawBox(location.x, location.y, location.x + box_size.x, location.y + box_size.y, 0xffffff, false);
+	//敵のHPバー
+	DrawBox(location.x - hp, location.y - 30, location.x  + hp, location.y -25, 0xfff000, TRUE);
+
 }
 
 void Enemy::Finalize()
 {
-
 }
 
-//敵のタイプを取得
-int Enemy::GetType() const
-{
-	return type;
-}
-
-//位置情報を取得
-Vector2D Enemy::GetLocation() const
-{
-	return location;
-}
-
-//当たり判定の大きさを取得
 Vector2D Enemy::GetBoxSize() const
 {
-	return box_size;
+	return Vector2D();
 }
 
+char Enemy::GetTag() const
+{
+	return this->tag;
+}
+
+
+void Enemy::SetLocation(float x, float y)
+{
+	playerx = x;
+	playery = y;
+}
+
+
+
+//位置情報取得処理
+Vector2D Enemy::GetLocation() const
+{
+	return this->location;
+}
+
+void Enemy::BulletShoot(GameMainScene* gamemainscene, float _angle, char _tag)
+{
+	gamemainscene->SpawnBullet(location + (box_size / 2), _angle, _tag);
+}
