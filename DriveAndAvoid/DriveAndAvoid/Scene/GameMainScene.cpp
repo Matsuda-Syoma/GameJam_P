@@ -331,6 +331,11 @@ bool GameMainScene::IsGroundCheck(Player* p, Block* b)
 	return ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2));
 }
 
+Player* GameMainScene::GetPlayer()
+{
+	return this->player;
+}
+
 void GameMainScene::SpawnBullet(Vector2D loc, float _angle, char _tag)
 {
 	for (int i = 0; i < 30; i++) {
