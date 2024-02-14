@@ -1,7 +1,7 @@
 #include "Bullet.h"
 #include "DxLib.h"
 #include <math.h>
-Bullet::Bullet() : is_active(false), location(0, 0), box_size(0, 0), velocity(0, 0), angle(0), name('\0')
+Bullet::Bullet() : is_active(false), location(0, 0), box_size(0, 0), velocity(0, 0), angle(0), tag('\0')
 {
 }
 
@@ -16,7 +16,7 @@ void Bullet::Initialize(Vector2D loc, float _angle, char _tag)
 	location = loc;
 	box_size = Vector2D(8.0f, 8.0f);
 	angle = (_angle * (float)DX_PI * 2) / 360;
-	name = _tag;
+	tag = _tag;
 }
 
 void Bullet::Update()

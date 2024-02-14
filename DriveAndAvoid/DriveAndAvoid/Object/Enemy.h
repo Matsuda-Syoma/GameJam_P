@@ -44,6 +44,7 @@ public:
 
 	Vector2D GetLocation() const;			// ˆÊ’uî•ñæ“¾
 	Vector2D GetBoxSize() const;			// “–‚½‚è”»’è‚Ì‚¨‚¨‚«‚³æ“¾
+	char GetTag() const;					// Tagæ“¾
 
 	void Initialize();			// ‰Šú‰»ˆ—
 	void Update(GameMainScene* gamemainscene);	// XVˆ—

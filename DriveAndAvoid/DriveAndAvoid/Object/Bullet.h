@@ -10,7 +10,7 @@ private:
 	Vector2D box_size;		// 当たり判定の大きさ
 	Vector2D velocity;		// 速度
 	float angle;			// 弾の角度
-	char name;				// 親の名前
+	char tag;				// 親の名前
 public:
 	Bullet();
 	~Bullet();

@@ -116,6 +116,11 @@ Vector2D Enemy::GetBoxSize() const
 	return Vector2D();
 }
 
+char Enemy::GetTag() const
+{
+	return this->tag;
+}
+
 
 void Enemy::SetLocation(float x, float y)
 {

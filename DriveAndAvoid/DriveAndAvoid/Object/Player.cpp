@@ -144,6 +144,11 @@ float Player::GetHp() const
 	return this->hp;
 }
 
+char Player::GetTag() const
+{
+	return this->tag;
+}
+
 void Player::AddVelocity()
 {
 	Vector2D g = Vector2D(0.0f, +0.28f);

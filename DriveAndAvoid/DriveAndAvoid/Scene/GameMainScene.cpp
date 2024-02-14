@@ -70,6 +70,13 @@ void GameMainScene::Initialize()
 
 eSceneType GameMainScene::Update()
 {
+
+	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
+	{
+		return E_RESULT;
+	}
+
+	// プレイヤー
 	// プレイヤーが地面にいるかチェック
 	player->SetGround(false);
 	for (int i = 0; i < 300; i++)
@@ -84,12 +91,9 @@ eSceneType GameMainScene::Update()
 			}
 		}
 	}
-
 	// プレイヤーの更新
 	player->Update(this);
-	clsDx();
-	printfDx("%f",player->GetVelocity().y);
-	// ブロックの更新と当たり判定チェック
+	// ブロックとプレイヤーの当たり判定チェック
 	for (int i = 0; i < 300; i++)
 	{
 		// 値がnullでないなら
@@ -120,11 +124,6 @@ eSceneType GameMainScene::Update()
 				}
 			}
 		}
-	}
-
-	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
-	{
-		return E_RESULT;
 	}
 
 	if (enemy[0] != nullptr)

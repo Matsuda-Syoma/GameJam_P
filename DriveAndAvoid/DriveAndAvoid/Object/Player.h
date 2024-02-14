@@ -42,6 +42,7 @@ public:
 	Vector2D GetBoxSize() const;			// “–‚½‚è”»’è‚Ì‚¨‚¨‚«‚³Žæ“¾
 	float GetSpeed() const;					// ‘¬‚³Žæ“¾
 	float GetHp() const;					// ‘Ì—ÍŽæ“¾
+	char GetTag() const;					// TagŽæ“¾
 
 
 
