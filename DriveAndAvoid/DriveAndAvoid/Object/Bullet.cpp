@@ -10,26 +10,46 @@ Bullet::~Bullet()
 
 }
 
-void Bullet::Initialize(Vector2D loc, float _angle, char _name)
+void Bullet::Initialize(Vector2D loc, float _angle, char _tag)
 {
+	is_active = true;
 	location = loc;
 	box_size = Vector2D(8.0f, 8.0f);
 	angle = (_angle * (float)DX_PI * 2) / 360;
-	name = _name;
+	name = _tag;
 }
 
 void Bullet::Update()
 {
-	velocity.x = (1 * cosf(angle));
-	velocity.y = (1 * sinf(angle));
+	velocity.x = (5 * cosf(angle));
+	velocity.y = (5 * sinf(angle));
 
 	// à⁄ìÆó ï™ç¿ïWÇìÆÇ©Ç∑
 	location += velocity;
+
+	if (location.x < 0) {
+		is_active = false;
+	}
+	if (location.x > 640) {
+		is_active = false;
+	}
+	if (location.y < 0) {
+		is_active = false;
+	}
+	if (location.y > 480) {
+		is_active = false;
+	}
+
 }
 
 void Bullet::Draw() const
 {
 	DrawBox(location.x, location.y, location.x + box_size.x, location.y + box_size.y, 0xff00ff, true);
+}
+
+bool Bullet::GetActive() const
+{
+	return this->is_active;
 }
 
 Vector2D Bullet::GetLocation() const

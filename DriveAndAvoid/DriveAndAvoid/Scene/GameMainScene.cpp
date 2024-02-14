@@ -50,9 +50,6 @@ void GameMainScene::Initialize()
 		bullet[i] = nullptr;
 	}
 
-	bullet[0] = new Bullet();
-	bullet[0]->Initialize(Vector2D(320.0,240.0), 0, 'p');
-
 	//enemy[0] = new Enemy();
 	//enemy[0]->Initialize();
 
@@ -89,7 +86,7 @@ eSceneType GameMainScene::Update()
 	}
 
 	// プレイヤーの更新
-	player->Update();
+	player->Update(this);
 	clsDx();
 	printfDx("%f",player->GetVelocity().y);
 	// ブロックの更新と当たり判定チェック
@@ -143,6 +140,11 @@ eSceneType GameMainScene::Update()
 		if (bullet[i] != nullptr)
 		{
 			bullet[i]->Update();
+			if (!bullet[i]->GetActive())
+			{
+				bullet[i] = nullptr;
+				delete bullet[i];
+			}
 		}
 	}
 
@@ -327,4 +329,16 @@ bool GameMainScene::IsGroundCheck(Player* p, Block* b)
 	Vector2D box_ex = p->GetBoxSize() + b->GetBoxSize();
 	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
 	return ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2));
+}
+
+void GameMainScene::SpawnBullet(Vector2D loc, float _angle, char _tag)
+{
+	for (int i = 0; i < 30; i++) {
+		if (bullet[i] == nullptr) {
+			bullet[i] = new Bullet();
+			bullet[i]->Initialize(loc, _angle, _tag);
+			break;
+		}
+	}
+
 }

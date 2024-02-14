@@ -2,6 +2,8 @@
 
 #include "../Utility/Vector2D.h"
 
+class GameMainScene;
+
 class Player
 {
 private:
@@ -14,13 +16,15 @@ private:
 	float angle;			// 角度
 	float speed;			// 速さ
 	float hp;				// 体力
+	char tag;				// タグ
+
 
 public:
 	Player();
 	~Player();
 
 	void Initialize();	// 初期化処理
-	void Update();		// 更新処理
+	void Update(GameMainScene* gamemain);		// 更新処理
 	void Draw();		// 描画処理
 	void Finalize();	// 終了時処理
 
@@ -44,4 +48,5 @@ private:
 	void AddVelocity();					// 重力処理
 	void Movement();				// 移動処理
 	void Acceleration();			// 加速処理
+	void BulletShoot(GameMainScene* gamemainscene, float _angle, char _tag);
 };

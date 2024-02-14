@@ -1,9 +1,10 @@
 #include "Player.h"
+#include "../Scene/GameMainScene.h"
 #include "../Utility/InputControl.h"
 #include "DxLib.h"
 
 Player::Player() : is_active(false), is_ground(false), image(NULL), location(0.0f), box_size(0.0f),
-velocity(0.0f), angle(0.0f), speed(0.0f), hp(0.0f)
+velocity(0.0f), angle(0.0f), speed(0.0f), hp(0.0f),tag('\0')
 {
 
 }
@@ -21,6 +22,7 @@ void Player::Initialize()
 	angle = 0.0f;
 	speed = 3.0f;
 	hp = 100;
+	tag = 'p';
 
 	//‰æ‘œ‚Ì“Ç‚Ýž‚Ý
 	image = LoadGraph("Resource/images/car1pol.bmp");
@@ -33,7 +35,7 @@ void Player::Initialize()
 }
 
 //XVˆ—
-void Player::Update()
+void Player::Update(GameMainScene* gamemain)
 {
 
 	// d—Íˆ—
@@ -53,6 +55,11 @@ void Player::Update()
 
 	//‰Á‘¬ˆ—
 	Acceleration();
+
+	if (InputControl::GetButtonDown(XINPUT_BUTTON_A))
+	{
+		BulletShoot(gamemain,0,tag);
+	}
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
 	{
@@ -183,4 +190,9 @@ void Player::Acceleration()
 	{
 		speed += 1.0f;
 	}
+}
+
+void Player::BulletShoot(GameMainScene* gamemainscene, float _angle, char _tag)
+{
+	gamemainscene->SpawnBullet(location + (box_size / 2), _angle, _tag);
 }

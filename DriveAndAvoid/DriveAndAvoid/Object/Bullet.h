@@ -20,8 +20,9 @@ public:
 	Vector2D GetVelocity() const;									// velocityî•ñæ“¾
 	Vector2D GetBoxSize() const;									// “–‚½‚è”»’è‚Ì‚¨‚¨‚«‚³æ“¾
 	float GetSpeed() const;											// ‘¬‚³æ“¾
-	void Initialize(Vector2D loc, float _angle, char _name);		// ‰Šú‰»ˆ—
+	void Initialize(Vector2D loc, float _angle, char _tag);		// ‰Šú‰»ˆ—
 	void Update();													// XVˆ—
 	void Draw() const;												// •`‰æˆ—
+	bool GetActive() const;
 
 };

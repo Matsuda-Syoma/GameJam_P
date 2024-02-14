@@ -32,6 +32,8 @@ public:
 	virtual void Finalize() override;
 	virtual eSceneType GetNowScene() const override;
 
+	void SpawnBullet(Vector2D loc, float _angle, char _name);
+
 private:
 	// ハイスコア読み込み処理
 	void ReadHighScore();
