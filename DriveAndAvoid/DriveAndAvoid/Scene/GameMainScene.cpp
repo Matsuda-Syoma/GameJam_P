@@ -15,36 +15,36 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Initialize()
 {
-	// Å‚“_‚ð“Ç‚Ýž‚Þ
+	// ï¿½Åï¿½ï¿½_ï¿½ï¿½Ç‚Ýï¿½ï¿½ï¿½
 	ReadHighScore();
 	LoadStage::LoadStage();
-	// ‰æ‘œ‚Ì“Ç‚Ýž‚Ý
+	// ï¿½æ‘œï¿½Ì“Ç‚Ýï¿½ï¿½ï¿½
 	background_image = LoadGraph("Resource/images/back.bmp");
 	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 63, 120, enemy_image);
-	// ƒGƒ‰[ƒ`ƒFƒbƒN
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½`ï¿½Fï¿½bï¿½N
 	if (background_image == -1) {
-		throw("‰æ‘œback.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("ï¿½æ‘œback.bmpï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½\n");
 	}
 	if (result == -1) {
-		throw("‰æ‘œcar.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("ï¿½æ‘œcar.bmpï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½\n");
 	}
 
-	// ƒIƒuƒWƒFƒNƒg‚Ì¶¬
+	// ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ìï¿½ï¿½ï¿½
 	player = new Player;
 	enemy = new Enemy * [10];
 	enemy2 = new Enemy2 * [10];
 	block = new Block * [300];
 	bullet = new Bullet * [30];
-	// ƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»
+	// ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	player->Initialize();
 
 
 	
-	//“G1
+	//ï¿½G1
 	for (int i = 0; i < 10; i++) {
 		enemy[i] = nullptr;
 	}
-	//“G2
+	//ï¿½G2
 	for (int i = 0; i < 10; i++) {
 		enemy2[i] = nullptr;
 	}
@@ -55,10 +55,10 @@ void GameMainScene::Initialize()
 		bullet[i] = nullptr;
 	}
 
-	//“G1
+	//ï¿½G1
 	enemy[0] = new Enemy();
 	enemy[0]->Initialize();
-	//“G2
+	//ï¿½G2
 	enemy2[0] = new Enemy2();
 	enemy2[0]->Initialize();
 
@@ -79,11 +79,18 @@ void GameMainScene::Initialize()
 
 eSceneType GameMainScene::Update()
 {
-	// ƒvƒŒƒCƒ„[‚ª’n–Ê‚É‚¢‚é‚©ƒ`ƒFƒbƒN
+
+	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
+	{
+		return E_RESULT;
+	}
+
+	// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[
+	// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½nï¿½Ê‚É‚ï¿½ï¿½é‚©ï¿½`ï¿½Fï¿½bï¿½N
 	player->SetGround(false);
 	for (int i = 0; i < 300; i++)
 	{
-		// ’l‚ªnull‚Å‚È‚¢‚È‚ç
+		// ï¿½lï¿½ï¿½nullï¿½Å‚È‚ï¿½ï¿½È‚ï¿½
 		if (block[i] != nullptr)
 		{
 			if (IsGroundCheck(player, block[i]))
@@ -94,11 +101,12 @@ eSceneType GameMainScene::Update()
 		}
 	}
 
-	// “G2‚ª’n–Ê‚É‚¢‚é‚©ƒ`ƒFƒbƒN
+
+	// ï¿½G2ï¿½ï¿½ï¿½nï¿½Ê‚É‚ï¿½ï¿½é‚©ï¿½`ï¿½Fï¿½bï¿½N
 	enemy2[0]->SetGround(false);
 	for (int i = 0; i < 300; i++)
 	{
-		// ’l‚ªnull‚Å‚È‚¢‚È‚ç
+		// ï¿½lï¿½ï¿½nullï¿½Å‚È‚ï¿½ï¿½È‚ï¿½
 		if (block[i] != nullptr)
 		{
 			if (IsGroundCheck(enemy2[0], block[i]))
@@ -109,35 +117,33 @@ eSceneType GameMainScene::Update()
 		}
 	}
 
-	// ƒvƒŒƒCƒ„[‚ÌXV
+	// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌXï¿½V
 	player->Update(this);
-	clsDx();
-	printfDx("%f",player->GetVelocity().y);
-	// ƒuƒƒbƒN‚ÌXV‚Æ“–‚½‚è”»’èƒ`ƒFƒbƒN
+	// ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½Æƒvï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ì“ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½`ï¿½Fï¿½bï¿½N
 	for (int i = 0; i < 300; i++)
 	{
-		// ’l‚ªnull‚Å‚È‚¢‚È‚ç
+		// ï¿½lï¿½ï¿½nullï¿½Å‚È‚ï¿½ï¿½È‚ï¿½
 		if (block[i] != nullptr)
 		{
-			// “–‚½‚è”»’è‚ÌŠm”F
+			// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ÌŠmï¿½F
 			if (int value = IsHitCheck(player, block[i]))
 			{
 				switch (value)
 				{
-					// ƒvƒŒƒCƒ„[‚Ì¶‚ÌƒuƒƒbƒN‚É“–‚½‚Á‚½‚Æ‚«
+					// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ìï¿½ï¿½Ìƒuï¿½ï¿½ï¿½bï¿½Nï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 				case 1:
 					player->SetLocation(block[i]->GetLocation().x + block[i]->GetBoxSize().x, player->GetLocation().y);
 					break;
-					// ƒvƒŒƒCƒ„[‚Ìã‚ÌƒuƒƒbƒN‚É“–‚½‚Á‚½‚Æ‚«
+					// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ìï¿½Ìƒuï¿½ï¿½ï¿½bï¿½Nï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 				case 2:
 					player->SetVelocity(player->GetVelocity().x, player->GetVelocity().y / 2);
 					player->SetLocation(player->GetLocation().x, block[i]->GetLocation().y + block[i]->GetBoxSize().y);
 					break;
-					// ƒvƒŒƒCƒ„[‚Ì‰E‚ÌƒuƒƒbƒN‚É“–‚½‚Á‚½‚Æ‚«
+					// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ì‰Eï¿½Ìƒuï¿½ï¿½ï¿½bï¿½Nï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 				case 3:
 					player->SetLocation(block[i]->GetLocation().x - block[i]->GetBoxSize().x, player->GetLocation().y);
 					break;
-					// ƒvƒŒƒCƒ„[‚Ì‰º‚ÌƒuƒƒbƒN‚É“–‚½‚Á‚½‚Æ‚«
+					// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ì‰ï¿½ï¿½Ìƒuï¿½ï¿½ï¿½bï¿½Nï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 				case 4:
 					player->SetLocation(player->GetLocation().x, block[i]->GetLocation().y - block[i]->GetBoxSize().y);
 					break;
@@ -146,33 +152,49 @@ eSceneType GameMainScene::Update()
 		}
 	}
 
+
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
 	{
 		return E_RESULT;
 	}
 
-	//“G1
+	//ï¿½G1
+
 	if (enemy[0] != nullptr)
 	{
-		// “G‚ÌXV
+		// ï¿½Gï¿½ÌXï¿½V
 		enemy[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
 		enemy[0]->Update(this);
 	}
 
-	//“G2
+	//ï¿½G2
 	if (enemy2[0] != nullptr)
 	{
-		// “G‚ÌXV
+		// ï¿½Gï¿½ÌXï¿½V
 		enemy2[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
 		enemy2[0]->Update(this);
 	}
 
 	for (int i = 0; i < 30; i++)
 	{
-		// ’l‚ªnull‚Å‚È‚¢‚È‚ç
+		// ï¿½lï¿½ï¿½nullï¿½Å‚È‚ï¿½ï¿½È‚ï¿½
 		if (bullet[i] != nullptr)
 		{
 			bullet[i]->Update();
+			if (IsHitCheck(player,bullet[i]) && player->GetTag() != bullet[i]->GetTag())
+			{
+				bullet[i]->SetActive(false);
+			}
+			for (int j = 0; j < 10; j++)
+			{
+				if (enemy[j] != nullptr)
+				{
+					if (IsHitCheck(enemy[j], bullet[i]) && enemy[j]->GetTag() != bullet[i]->GetTag())
+					{
+						bullet[i]->SetActive(false);
+					}
+				}
+			}
 			if (!bullet[i]->GetActive())
 			{
 				bullet[i] = nullptr;
@@ -191,7 +213,7 @@ void GameMainScene::Draw() const
 	//DrawGraph(0, mileage % 480, background_image, TRUE);
 
 
-	// ƒuƒƒbƒN‚Ì•`‰æ
+	// ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½Ì•`ï¿½ï¿½
 	for (int i = 0; i < 300; i++)
 	{
 		if (block[i] != nullptr)
@@ -201,33 +223,33 @@ void GameMainScene::Draw() const
 
 	}
 
-	// ƒvƒŒƒCƒ„[‚Ì•`‰æ
+	// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ì•`ï¿½ï¿½
 	player->Draw();
 
-	//“G1
+	//ï¿½G1
 	if (enemy[0] != nullptr)
 	{
-		// “G‚Ì•`‰æ
+		// ï¿½Gï¿½Ì•`ï¿½ï¿½
 		enemy[0]->Draw();
 	}
 
-	//“G2
+	//ï¿½G2
 	if (enemy2[0] != nullptr)
 	{
-		// “G‚Ì•`‰æ
+		// ï¿½Gï¿½Ì•`ï¿½ï¿½
 		enemy2[0]->Draw();
 	}
 
 	for (int i = 0; i < 30; i++)
 	{
-		// ’l‚ªnull‚Å‚È‚¢‚È‚ç
+		// ï¿½lï¿½ï¿½nullï¿½Å‚È‚ï¿½ï¿½È‚ï¿½
 		if (bullet[i] != nullptr)
 		{
 			bullet[i]->Draw();
 		}
 	}
 
-	//UI‚Ì•`‰æ
+	//UIï¿½Ì•`ï¿½ï¿½
 	DrawBox(5,10,130,45, GetColor(0,0,153), TRUE);
 	SetFontSize(16);
 	DrawFormatString(285, 425, GetColor(255,255,255), "SCORE");
@@ -239,74 +261,77 @@ void GameMainScene::Finalize()
 
 }
 
-// Œ»Ý‚ÌƒV[ƒ“î•ñŽæ“¾
+// ï¿½ï¿½ï¿½Ý‚ÌƒVï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 eSceneType GameMainScene::GetNowScene() const
 {
 	return eSceneType::E_MAIN;
 }
 
-// ƒnƒCƒXƒRƒA“Çž
+// ï¿½nï¿½Cï¿½Xï¿½Rï¿½Aï¿½Çï¿½
 void GameMainScene::ReadHighScore()
 {
 }
 
-// ‚ ‚½‚è”»’èˆ—iƒvƒŒƒCƒ„[‚Æ“Gj
-bool GameMainScene::IsHitCheck(Player* p, Enemy* e)
+// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½èˆï¿½ï¿½ï¿½iï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Æ“Gï¿½j
+bool GameMainScene::IsHitCheck(BoxCollider* p, BoxCollider* e)
 {
 
-	// “Gî•ñ‚ª‚È‚¯‚ê‚ÎA“–‚½‚è”»’è‚ð–³Ž‹‚·‚é
+	// ï¿½Gï¿½ï¿½ñ‚ª‚È‚ï¿½ï¿½ï¿½ÎAï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ð–³Žï¿½ï¿½ï¿½ï¿½ï¿½
 	if (e == nullptr) {
 		return false;
 	}
 
-	// ˆÊ’uî•ñ‚Ì·•ªŽæ“¾
+	// ï¿½Ê’uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D diff_location = p->GetLocation() - e->GetLocation();
 
-	// “–‚½‚è”»’èƒTƒCƒY‚Ì‘å‚«‚³‚ðŽæ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½Tï¿½Cï¿½Yï¿½Ì‘å‚«ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D box_ex = p->GetBoxSize() + e->GetBoxSize();
-	// ƒRƒŠƒWƒ‡ƒ“ƒf[ƒ^‚æ‚èˆÊ’uî•ñ‚Ì·•ª‚ª¬‚³‚¢‚È‚çAƒqƒbƒg”»’è
+	clsDx();
+	printfDx("%f %f", diff_location.x, box_ex.x);
+	DrawBox(diff_location.x, diff_location.y, box_ex.x, box_ex.y,0xff00ff,true);
+	// ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½Aï¿½qï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 	return ((fabs(diff_location.x) < box_ex.x) && (fabsf(diff_location.y) < box_ex.y));
 }
 
-// ‚ ‚½‚è”»’èˆ—iƒvƒŒƒCƒ„[‚ÆƒuƒƒbƒNj
+// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½èˆï¿½ï¿½ï¿½iï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Æƒuï¿½ï¿½ï¿½bï¿½Nï¿½j
 int GameMainScene::IsHitCheck(Player* p, Block* b)
 {
 
-	// “Gî•ñ‚ª‚È‚¯‚ê‚ÎA“–‚½‚è”»’è‚ð–³Ž‹‚·‚é
+	// ï¿½Gï¿½ï¿½ñ‚ª‚È‚ï¿½ï¿½ï¿½ÎAï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ð–³Žï¿½ï¿½ï¿½ï¿½ï¿½
 	if (b == nullptr) {
 		return 0;
 	}
 
-	// ˆÊ’uî•ñ‚Ì·•ªŽæ“¾
+	// ï¿½Ê’uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D diff_location = p->GetLocation() - b->GetLocation();
-	// “–‚½‚è”»’èƒTƒCƒY‚Ì‘å‚«‚³‚ðŽæ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½Tï¿½Cï¿½Yï¿½Ì‘å‚«ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D box_ex = p->GetBoxSize() + b->GetBoxSize();
-	// “–‚½‚Á‚Ä‚¢‚é‚È‚ç“ü‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½
 	if ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2))
 	{
-		// ˆêŽž•Û‘¶—p•Ï”‚Ìì¬
+		// ï¿½êŽžï¿½Û‘ï¿½ï¿½pï¿½Ïï¿½ï¿½Ìì¬
 		Vector2D work_vector = 0.0f;
 		Vector2D work_vector2 = 0.0f;
 		Vector2D min_vector = 0.0f;
 		int select[2] = { 0 };
 		int finret = 0;
 
-		// ‘ÎÛ‚ÌÀ•W‚Æ“–‚½‚è”»’è‚ð‘«‚µ‚½•Ï”‚Ìì¬
-		// ƒvƒŒƒCƒ„[
+		// ï¿½ÎÛ‚Ìï¿½ï¿½Wï¿½Æ“ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ð‘«‚ï¿½ï¿½ï¿½ï¿½Ïï¿½ï¿½Ìì¬
+		// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[
 		Vector2D p_location = p->GetLocation();
 		Vector2D p_location2 = p->GetLocation() + p->GetBoxSize();
 
-		// ƒuƒƒbƒN
+		// ï¿½uï¿½ï¿½ï¿½bï¿½N
 		Vector2D b_location = b->GetLocation();
 		Vector2D b_location2 = b->GetLocation() + b->GetBoxSize();
 
-		// ã‰º¶‰E‚Ì‹——£‚ð•Û‘¶
+		// ï¿½ã‰ºï¿½ï¿½ï¿½Eï¿½Ì‹ï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½
 		work_vector.x = fabsf(p_location.x - b_location2.x);
 		work_vector2.x = fabsf(p_location2.x - b_location.x);
 		work_vector.y = fabsf(p_location.y - b_location2.y);
 		work_vector2.y = fabsf(p_location2.y - b_location.y);
 
-		// ‰¡‚Ì¬‚³‚¢‹——£‚ððŒ‚ÅŠm”FA•Û‘¶
+		// ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅŠmï¿½Fï¿½Aï¿½Û‘ï¿½
 		if (work_vector.x < work_vector2.x)
 		{
 			min_vector.x = work_vector.x;
@@ -318,7 +343,7 @@ int GameMainScene::IsHitCheck(Player* p, Block* b)
 			select[0] = 3;
 		}
 
-		// c‚Ì¬‚³‚¢‹——£‚ððŒ‚ÅŠm”FA•Û‘¶
+		// ï¿½cï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅŠmï¿½Fï¿½Aï¿½Û‘ï¿½
 		if (work_vector.y < work_vector2.y)
 		{
 			min_vector.y = work_vector.y;
@@ -330,7 +355,7 @@ int GameMainScene::IsHitCheck(Player* p, Block* b)
 			select[1] = 4;
 		}
 
-		// c‰¡‚Ì¬‚³‚¢‹——£‚ððŒ‚ÅŠm”FAReturn‚Å•Ô‚·
+		// ï¿½cï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅŠmï¿½Fï¿½AReturnï¿½Å•Ô‚ï¿½
 		if (min_vector.x < min_vector.y)
 		{
 			finret = select[0];
@@ -346,41 +371,41 @@ int GameMainScene::IsHitCheck(Player* p, Block* b)
 
 
 
-// ’n–Ê‚É‚¢‚é‚©Šm”Fˆ—iƒvƒŒƒCƒ„[‚ÆƒuƒƒbƒNj
+// ï¿½nï¿½Ê‚É‚ï¿½ï¿½é‚©ï¿½mï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½iï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Æƒuï¿½ï¿½ï¿½bï¿½Nï¿½j
 bool GameMainScene::IsGroundCheck(Player* p, Block* b)
 {
 
-	// “Gî•ñ‚ª‚È‚¯‚ê‚ÎA“–‚½‚è”»’è‚ð–³Ž‹‚·‚é
+	// ï¿½Gï¿½ï¿½ñ‚ª‚È‚ï¿½ï¿½ï¿½ÎAï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ð–³Žï¿½ï¿½ï¿½ï¿½ï¿½
 	if (b == nullptr) {
 		return false;
 	}
 
-	// ˆÊ’uî•ñ‚Ì·•ªŽæ“¾
+	// ï¿½Ê’uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D diff_location = p->GetLocation() - b->GetLocation();
 	diff_location += Vector2D(0.0f, 0.1f);
 
-	// “–‚½‚è”»’èƒTƒCƒY‚Ì‘å‚«‚³‚ðŽæ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½Tï¿½Cï¿½Yï¿½Ì‘å‚«ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D box_ex = p->GetBoxSize() + b->GetBoxSize();
-	// ƒRƒŠƒWƒ‡ƒ“ƒf[ƒ^‚æ‚èˆÊ’uî•ñ‚Ì·•ª‚ª¬‚³‚¢‚È‚çAƒqƒbƒg”»’è
+	// ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½Aï¿½qï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 	return ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2));
 }
 
-// ’n–Ê‚É‚¢‚é‚©Šm”Fˆ—iƒGƒlƒ~[‚ÆƒuƒƒbƒNj
+// ï¿½nï¿½Ê‚É‚ï¿½ï¿½é‚©ï¿½mï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Gï¿½lï¿½~ï¿½[ï¿½Æƒuï¿½ï¿½ï¿½bï¿½Nï¿½j
 bool GameMainScene::IsGroundCheck(Enemy2* e, Block* b)
 {
 
-	// “Gî•ñ‚ª‚È‚¯‚ê‚ÎA“–‚½‚è”»’è‚ð–³Ž‹‚·‚é
+	// ï¿½Gï¿½ï¿½ñ‚ª‚È‚ï¿½ï¿½ï¿½ÎAï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ð–³Žï¿½ï¿½ï¿½ï¿½ï¿½
 	if (b == nullptr) {
 		return false;
 	}
 
-	// ˆÊ’uî•ñ‚Ì·•ªŽæ“¾
+	// ï¿½Ê’uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D diff_location = e->GetLocation() - b->GetLocation();
 	diff_location += Vector2D(0.0f, 0.1f);
 
-	// “–‚½‚è”»’èƒTƒCƒY‚Ì‘å‚«‚³‚ðŽæ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½Tï¿½Cï¿½Yï¿½Ì‘å‚«ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	Vector2D box_ex = e->GetBoxSize() + b->GetBoxSize();
-	// ƒRƒŠƒWƒ‡ƒ“ƒf[ƒ^‚æ‚èˆÊ’uî•ñ‚Ì·•ª‚ª¬‚³‚¢‚È‚çAƒqƒbƒg”»’è
+	// ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½Aï¿½qï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 	return ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2));
 }
 

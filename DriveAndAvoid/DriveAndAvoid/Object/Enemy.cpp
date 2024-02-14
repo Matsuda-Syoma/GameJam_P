@@ -3,7 +3,7 @@
 #include "../Scene/GameMainScene.h"
 #include <math.h>
 
-Enemy::Enemy():location(0.0f), box_size(0.0f),tag('\0')
+Enemy::Enemy():tag('\0')
 {
 
 
@@ -14,14 +14,15 @@ Enemy::~Enemy()
 
 }
 
-// ˆ—‰»ˆ—
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void Enemy::Initialize()
 {
+
 	location = Vector2D(600.0f, 80.0f);
 	box_size = Vector2D(32.0f, 32.0f);
 
-	radius = 20;//”¼Œa
-	hp = 20;//“GHP
+	radius = 20;//ï¿½ï¿½ï¿½a
+	hp = 20;//ï¿½GHP
 
 
 	Xspeed = 10;
@@ -45,10 +46,10 @@ void Enemy::Update(GameMainScene* gamemainscene)
 		Normalize = atan2(ShootAngleX, ShootAngleY) * 180.0f / DX_PI;
 		BulletShoot(gamemainscene,90 - Normalize,tag);
 	}
-	if (backflg == 0) {//Å‰‚ÌˆÊ’u‚Ö–ß‚é‚Æ‚«‚ÍY²‚ÌˆÚ“®‚Í‚µ‚È‚¢
+	if (backflg == 0) {//ï¿½Åï¿½ï¿½ÌˆÊ’uï¿½Ö–ß‚ï¿½Æ‚ï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½ÌˆÚ“ï¿½ï¿½Í‚ï¿½ï¿½È‚ï¿½
 
 		if (count < 500) {
-			//‰¼@c‚É”½Ë
+			//ï¿½ï¿½ï¿½@ï¿½cï¿½É”ï¿½ï¿½ï¿½
 			location.y += Yspeed;
 			if (location.y < 20) {
 				Yspeed *= -1;
@@ -58,7 +59,7 @@ void Enemy::Update(GameMainScene* gamemainscene)
 			}
 		}
 	}
-	//ƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä‚Ü‚Á‚·‚®i‚Ş
+	//ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÉŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½
 		if (count >= 500) {
 			attackflg = 1;
 			if (PX + 15 < location.x && backflg == 0) {
@@ -78,11 +79,11 @@ void Enemy::Update(GameMainScene* gamemainscene)
 			}
 		}
 
-	//ƒvƒŒƒCƒ„[‚ÌŒ³‚¢‚½êŠ‚Ü‚Å—ˆ‚½‚ç–ß‚é
+	//ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½êŠï¿½Ü‚Å—ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 	
 	
 
-	//“G‚ğŒ³‚ÌˆÊ’u‚É–ß‚·
+	//ï¿½Gï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÊ’uï¿½É–ß‚ï¿½
 	if (PX  + 15 == location.x ) {
 		backflg = 1;
 	}
@@ -103,15 +104,18 @@ void Enemy::Update(GameMainScene* gamemainscene)
 	}
 
 
-	//HP‚ª0‚É‚È‚Á‚½‚ç‚Ìˆ—«
+	//HPï¿½ï¿½0ï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 
 }
 
 void Enemy::Draw()const
 {
-	//‰¼E“G UŒ‚‚ğó‚¯‚½‚ç@•’Ê‚ÌŠç->Î‚Á‚Ä‚éŠç‚Æ‚©‚É•Ï‚¦‚½‚¢
+
+	//ï¿½ï¿½ï¿½Eï¿½G ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½ó‚¯‚ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½Ê‚ÌŠï¿½->ï¿½Î‚ï¿½ï¿½Ä‚ï¿½ï¿½Æ‚ï¿½ï¿½É•Ï‚ï¿½ï¿½ï¿½ï¿½ï¿½
 	DrawRotaGraph(location.x, location.y, 0.1,0,enemy_img,TRUE);
-	//“G‚ÌHPƒo[
+
+
+	//ï¿½Gï¿½ï¿½HPï¿½oï¿½[
 	DrawBox(location.x - hp, location.y - 70, location.x  + hp, location.y -65, 0xfff000, TRUE);
 
 	DrawFormatString(100, 100, 0xffffff, "%d", backflg);
@@ -126,6 +130,11 @@ Vector2D Enemy::GetBoxSize() const
 	return Vector2D();
 }
 
+char Enemy::GetTag() const
+{
+	return this->tag;
+}
+
 
 void Enemy::SetLocation(float x, float y)
 {
@@ -135,7 +144,7 @@ void Enemy::SetLocation(float x, float y)
 
 
 
-//ˆÊ’uî•ñæ“¾ˆ—
+//ï¿½Ê’uï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 Vector2D Enemy::GetLocation() const
 {
 	return this->location;
