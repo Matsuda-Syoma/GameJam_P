@@ -8,6 +8,7 @@ class Player
 {
 private:
 	bool is_active;			// 有効状態？
+	bool is_reverse;		// 反転してるか
 	bool is_ground;			// 地面にいるか
 	int image;				// 画像データ
 	Vector2D location;		// 位置座標

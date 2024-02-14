@@ -3,7 +3,7 @@
 #include "../Utility/InputControl.h"
 #include "DxLib.h"
 
-Player::Player() : is_active(false), is_ground(false), image(NULL), location(0.0f), box_size(0.0f),
+Player::Player() : is_active(false), is_reverse(false), is_ground(false), image(NULL), location(0.0f), box_size(0.0f),
 velocity(0.0f), angle(0.0f), speed(0.0f), hp(0.0f),tag('\0')
 {
 
@@ -58,7 +58,7 @@ void Player::Update(GameMainScene* gamemain)
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_A))
 	{
-		BulletShoot(gamemain,0,tag);
+		BulletShoot(gamemain,(is_reverse - 1) * 180, tag);
 	}
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
@@ -159,10 +159,12 @@ void Player::Movement()
 	//è\éöà⁄ìÆèàóù
 	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_LEFT) || InputControl::GetLeftStick().x  < -0.8)
 	{
+		is_reverse = false;
 		move += Vector2D(-1.0f * speed, 0.0f);
 	}
 	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_RIGHT) || InputControl::GetLeftStick().x > 0.8)
 	{
+		is_reverse = true;
 		move += Vector2D(1.0f * speed, 0.0f);
 	}
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
