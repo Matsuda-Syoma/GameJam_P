@@ -3,6 +3,7 @@
 #include "SceneBase.h"
 #include "../Object/Player.h"
 #include "../Object/Enemy.h"
+#include "../Object/Enemy2.h"
 #include "../Object/Block.h"
 #include "../Object/Bullet.h"
 
@@ -19,6 +20,7 @@ private:
 	int bullet_num;			//’eE“Yš
 	Player* player;			// ƒvƒŒƒCƒ„[
 	Enemy** enemy;			// “G
+	Enemy2** enemy2;			//“G2
 	Block** block;			// ƒuƒƒbƒN
 	Bullet** bullet;		//’e
 	
@@ -41,6 +43,10 @@ private:
 	// “–‚½‚è”»’è
 	bool IsHitCheck(Player* p, Enemy* e);
 	bool IsGroundCheck(Player* p, Block* b);
+	bool IsGroundCheck(Enemy2* p, Block* b);
+
 	int IsHitCheck(Player* p, Block* b);
+	int IsHitCheck(Enemy* e, Block* b);
+
 };
 

@@ -4,7 +4,7 @@
 
 #include "../Utility/InputControl.h"
 GameMainScene::GameMainScene() :score(0), high_score(0), background_image(NULL), mileage(0), player(nullptr),
-enemy(nullptr),block(nullptr),bullet(nullptr) {
+enemy(nullptr),block(nullptr),bullet(nullptr),enemy2(nullptr) {
 
 
 }
@@ -32,6 +32,7 @@ void GameMainScene::Initialize()
 	// オブジェクトの生成
 	player = new Player;
 	enemy = new Enemy * [10];
+	enemy2 = new Enemy2 * [10];
 	block = new Block * [300];
 	bullet = new Bullet * [30];
 	// オブジェクトの初期化
@@ -39,9 +40,13 @@ void GameMainScene::Initialize()
 
 
 	
-
+	//敵1
 	for (int i = 0; i < 10; i++) {
 		enemy[i] = nullptr;
+	}
+	//敵2
+	for (int i = 0; i < 10; i++) {
+		enemy2[i] = nullptr;
 	}
 	for (int i = 0; i < 300; i++) {
 		block[i] = nullptr;
@@ -50,8 +55,12 @@ void GameMainScene::Initialize()
 		bullet[i] = nullptr;
 	}
 
+	//敵1
 	enemy[0] = new Enemy();
 	enemy[0]->Initialize();
+	//敵2
+	enemy2[0] = new Enemy2();
+	enemy2[0]->Initialize();
 
 	int num = 0;
 	for (int i = 0; i < 20; i++) {
@@ -81,6 +90,21 @@ eSceneType GameMainScene::Update()
 			{
 				player->SetVelocity(0, 0);
 				player->SetGround(true);
+			}
+		}
+	}
+
+	// 敵2が地面にいるかチェック
+	enemy2[0]->SetGround(false);
+	for (int i = 0; i < 300; i++)
+	{
+		// 値がnullでないなら
+		if (block[i] != nullptr)
+		{
+			if (IsGroundCheck(enemy2[0], block[i]))
+			{
+				enemy2[0]->SetVelocity(0, 0);
+				enemy2[0]->SetGround(true);
 			}
 		}
 	}
@@ -127,11 +151,20 @@ eSceneType GameMainScene::Update()
 		return E_RESULT;
 	}
 
+	//敵1
 	if (enemy[0] != nullptr)
 	{
 		// 敵の更新
 		enemy[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
 		enemy[0]->Update(this);
+	}
+
+	//敵2
+	if (enemy2[0] != nullptr)
+	{
+		// 敵の更新
+		enemy2[0]->SetLocation(player->GetLocation().x, player->GetLocation().y);
+		enemy2[0]->Update(this);
 	}
 
 	for (int i = 0; i < 30; i++)
@@ -157,13 +190,6 @@ void GameMainScene::Draw() const
 	//DrawGraph(0, mileage % 480 - 480, background_image, TRUE);
 	//DrawGraph(0, mileage % 480, background_image, TRUE);
 
-	for (int i = 0; i < 10; i++)
-	{
-		if (enemy[i] != nullptr)
-		{
-			enemy[i]->Draw();
-		}
-	}
 
 	// ブロックの描画
 	for (int i = 0; i < 300; i++)
@@ -178,10 +204,18 @@ void GameMainScene::Draw() const
 	// プレイヤーの描画
 	player->Draw();
 
+	//敵1
 	if (enemy[0] != nullptr)
 	{
 		// 敵の描画
 		enemy[0]->Draw();
+	}
+
+	//敵2
+	if (enemy2[0] != nullptr)
+	{
+		// 敵の描画
+		enemy2[0]->Draw();
 	}
 
 	for (int i = 0; i < 30; i++)
@@ -327,6 +361,25 @@ bool GameMainScene::IsGroundCheck(Player* p, Block* b)
 
 	// 当たり判定サイズの大きさを取得
 	Vector2D box_ex = p->GetBoxSize() + b->GetBoxSize();
+	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
+	return ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2));
+}
+
+// 地面にいるか確認処理（エネミーとブロック）
+bool GameMainScene::IsGroundCheck(Enemy2* e, Block* b)
+{
+
+	// 敵情報がなければ、当たり判定を無視する
+	if (b == nullptr) {
+		return false;
+	}
+
+	// 位置情報の差分取得
+	Vector2D diff_location = e->GetLocation() - b->GetLocation();
+	diff_location += Vector2D(0.0f, 0.1f);
+
+	// 当たり判定サイズの大きさを取得
+	Vector2D box_ex = e->GetBoxSize() + b->GetBoxSize();
 	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
 	return ((fabs(diff_location.x) < box_ex.x / 2) && (fabsf(diff_location.y) < box_ex.y / 2));
 }

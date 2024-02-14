@@ -17,13 +17,12 @@ Enemy::~Enemy()
 // 処理化処理
 void Enemy::Initialize()
 {
-	location = Vector2D(320.0f, 80.0f);
+	location = Vector2D(600.0f, 80.0f);
 	box_size = Vector2D(32.0f, 32.0f);
 
 	radius = 20;//半径
 	hp = 20;//敵HP
 
-	tag = 'e';
 
 	Xspeed = 10;
 	Yspeed = 10;
@@ -60,35 +59,42 @@ void Enemy::Update(GameMainScene* gamemainscene)
 		}
 	}
 	//プレイヤーに向かってまっすぐ進む
-	if (count >= 500) {
-		attackflg = 1;
-		if (PX + 15< location.x) {
-			location.x = location.x - 1;
-		}
-		if (PX +15 > location.x) {
-			location.x = location.x + 1;
-		}
+		if (count >= 500) {
+			attackflg = 1;
+			if (PX + 15 < location.x && backflg == 0) {
+				location.x = location.x - 1;
+			}
+			if (PX + 15 > location.x && backflg == 0) {
+				location.x = location.x + 1;
+			}
 
-			if (PY < location.y) {
+			if (PY < location.y && backflg == 0) {
 				location.y = location.y - 1;
 
 			}
-			if (PY > location.y) {
+			if (PY > location.y && backflg == 0) {
 				location.y = location.y + 1;
 
 			}
-	}
+		}
+
+	//プレイヤーの元いた場所まで来たら戻る
+	
+	
 
 	//敵を元の位置に戻す
-	if (count < 500 && location.x < 600) {
+	if (PX  + 15 == location.x ) {
 		backflg = 1;
 	}
-	else {
-		backflg = 0;
-	}
-	if (backflg == 1) {
+	
+	if (backflg == 1 && location.x < 600) {
 		location.x = location.x + 10;
 		attackflg = 0;
+	}
+	
+	if (backflg == 1 && location.x >= 600) {
+		backflg = 0;
+		count = 0;
 	}
 
 	if (attackflg == 0) {
@@ -96,6 +102,8 @@ void Enemy::Update(GameMainScene* gamemainscene)
 		PY = playery;
 	}
 
+
+	//HPが0になったらの処理↓
 
 }
 
@@ -107,6 +115,7 @@ void Enemy::Draw()const
 	//敵のHPバー
 	DrawBox(location.x - hp, location.y - 30, location.x  + hp, location.y -25, 0xfff000, TRUE);
 
+	DrawFormatString(100, 100, 0xffffff, "%d", backflg);
 }
 
 void Enemy::Finalize()

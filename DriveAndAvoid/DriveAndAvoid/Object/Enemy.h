@@ -28,8 +28,6 @@ private:
 	int attackflg = 0;
 	float Normalize = 0;
 
-	char tag;
-
 	Player* player;
 
 

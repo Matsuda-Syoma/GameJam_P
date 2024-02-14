@@ -2,13 +2,16 @@
 
 #include "../Utility/Vector2D.h"
 #include "Player.h"
-class Enemy
+class Enemy2
 {
 private:
-
+	Vector2D velocity;		// 重力
 	Vector2D location;		// 位置座標
 	Vector2D box_size;		// 当たり判定の大きさ
 	char tag;				// タグ
+
+	bool is_ground;			// 地面にいるか
+
 
 	int Xposition; //X座標
 	int Yposition; //Y座標
@@ -27,21 +30,26 @@ private:
 
 	Player* player;
 public:
-	Enemy();
-	~Enemy();
+	Enemy2();
+	~Enemy2();
 
 	int count = 0;
 
 
 	void SetLocation(float x, float y);		// Locationの指定
-
+	
 	Vector2D GetLocation() const;			// 位置情報取得
 	Vector2D GetBoxSize() const;			// 当たり判定のおおきさ取得
 
 	void Initialize();			// 初期化処理
 	void Update(GameMainScene* gamemain);		// 更新処理
 	void Draw() const;			// 描画処理
-	void Finalize();			// 終了時処理
+
+	void AddVelocity();					// 重力処理
+	void SetGround(bool flg);				// 地面にいるか設定
+	bool GetGround() const;				// 体力減少処理
+	Vector2D GetVelocity() const;			// velocity情報取得
+	void SetVelocity(float x, float y);		// Velocityの指定
 
 
 };
