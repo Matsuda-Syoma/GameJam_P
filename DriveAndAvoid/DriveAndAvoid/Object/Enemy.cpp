@@ -25,12 +25,12 @@ void Enemy::Initialize()
 
 
 	Xspeed = 10;
-	Yspeed = 10;
+	Yspeed = 5;
 	count = 0;
 	tag = 'e';
 
 
-	enemy_img = LoadGraph("Resource/images/Enemy1.png");
+	enemy_img = LoadGraph("Resource/images/Enemy3.png");
 }
 
 void Enemy::Update(GameMainScene* gamemainscene)
@@ -109,11 +109,10 @@ void Enemy::Update(GameMainScene* gamemainscene)
 
 void Enemy::Draw()const
 {
-	//仮・敵
-//	DrawCircle(location.x, location.y,radius, 0xff0000, 1); 
-	DrawRotaGraph(location.x, location.y, 0.25,0,enemy_img,TRUE);
+	//仮・敵 攻撃を受けたら　普通の顔->笑ってる顔とかに変えたい
+	DrawRotaGraph(location.x, location.y, 0.1,0,enemy_img,TRUE);
 	//敵のHPバー
-	DrawBox(location.x - hp, location.y - 30, location.x  + hp, location.y -25, 0xfff000, TRUE);
+	DrawBox(location.x - hp, location.y - 70, location.x  + hp, location.y -65, 0xfff000, TRUE);
 
 	DrawFormatString(100, 100, 0xffffff, "%d", backflg);
 }
