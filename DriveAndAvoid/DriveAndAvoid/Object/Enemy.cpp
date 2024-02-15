@@ -3,7 +3,7 @@
 #include "../Scene/GameMainScene.h"
 #include <math.h>
 
-Enemy::Enemy():location(0.0f), box_size(0.0f),tag('\0')
+Enemy::Enemy():tag('\0')
 {
 
 
@@ -17,8 +17,10 @@ Enemy::~Enemy()
 // ˆ—‰»ˆ—
 void Enemy::Initialize()
 {
+
 	location = Vector2D(600.0f, 80.0f);
 	box_size = Vector2D(32.0f, 32.0f);
+
 
 	radius = 20;//”¼Œa
 	hp = 20;//“GHP
@@ -109,8 +111,15 @@ void Enemy::Update(GameMainScene* gamemainscene)
 
 void Enemy::Draw()const
 {
+
 	//‰¼E“G UŒ‚‚ðŽó‚¯‚½‚ç@•’Ê‚ÌŠç->Î‚Á‚Ä‚éŠç‚Æ‚©‚É•Ï‚¦‚½‚¢
 	DrawRotaGraph(location.x, location.y, 0.1,0,enemy_img,TRUE);
+
+	//‰¼E“G
+//	DrawCircle(location.x, location.y,radius, 0xff0000, 1); 
+	DrawRotaGraph(location.x + box_size.x / 2, location.y + box_size.y / 2, 0.25,0,enemy_img,TRUE);
+	DrawBox(location.x, location.y, location.x + box_size.x, location.y + box_size.y, 0xffffff, false);
+
 	//“G‚ÌHPƒo[
 	DrawBox(location.x - hp, location.y - 70, location.x  + hp, location.y -65, 0xfff000, TRUE);
 
@@ -123,6 +132,11 @@ void Enemy::Finalize()
 Vector2D Enemy::GetBoxSize() const
 {
 	return Vector2D();
+}
+
+char Enemy::GetTag() const
+{
+	return this->tag;
 }
 
 
