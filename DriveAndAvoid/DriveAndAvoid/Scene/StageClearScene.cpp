@@ -18,7 +18,6 @@ void StageClearScene::Initialize()
 	// 画像の読み込み
 	background_image = LoadGraph("Resource/images/StageClearScene.png");
 	text_image = LoadGraph("Resource/images/StageClear.png");
-	mob_image = LoadGraph("Resource/images/mob.bmp");
 
 	// エラーチェック
 	if (background_image == -1)
@@ -28,10 +27,6 @@ void StageClearScene::Initialize()
 	if (text_image == -1)
 	{
 		throw("Resource/images/StageClear.pngがありません\n");
-	}
-	if (mob_image == -1)
-	{
-		throw("Resource/images/mob.bmpがありません\n");
 	}
 }
 
@@ -54,8 +49,6 @@ void StageClearScene::Draw() const
 	DrawGraph(0, 0, background_image, FALSE);
 	//ステージクリアテキスト画像の描画
 	DrawGraph(5, 45, text_image, FALSE);
-	//ステージクリア画面時のキャラクター描画
-	DrawGraph(290, 250, mob_image, FALSE);
 
 	//次のシーンへ切り替え文字
 	DrawString(200, 430, "次のステージ    Aボタン", 0xffffff);

@@ -16,6 +16,7 @@ void HelpScene::Initialize()
     // 画像の読み込み
     background_image = LoadGraph("Resource/images/Title.jpg");
     text_image = LoadGraph("Resource/images/Help.png");
+    setumei_image = LoadGraph("Resource/images/setumei.png");
 
     // エラーチェック
     if (background_image == -1)
@@ -26,7 +27,10 @@ void HelpScene::Initialize()
     {
         throw("Resource/images/Help.pngがありません\n");
     }
-
+    if (setumei_image == -1)
+    {
+        throw("Resource/images/setumei.pngがありません\n");
+    }
 }
 
 // 初期化
@@ -46,6 +50,7 @@ void HelpScene::Draw() const
     // 背景の描画
     DrawGraph(0, 0, background_image, FALSE);
     DrawGraph(0, 0, text_image, FALSE);
+    DrawGraph(130, 110, setumei_image, FALSE);
 
     //タイトルへ戻る文字
     DrawString(200, 450, "タイトルへ戻る    Aボタン", GetColor(0,0,0));
@@ -57,6 +62,7 @@ void HelpScene::Finalize()
     // 読み込んだ画像を削除
     DeleteGraph(background_image);
     DeleteGraph(text_image);
+    DeleteGraph(setumei_image);
 }
 
 // 現在のシーン

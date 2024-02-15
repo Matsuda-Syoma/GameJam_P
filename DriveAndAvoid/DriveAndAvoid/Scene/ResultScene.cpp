@@ -19,15 +19,12 @@ ResultScene::~ResultScene()
 void ResultScene::Initialize()
 {
 	// 画像の読み込み
-	background_image = LoadGraph("Resource/images/back.bmp");
-	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 63, 120, enemy_image);
+	background_image = LoadGraph("Resource/images/title.jpg");
 
 	// エラーチェック
-	if (background_image == -1) {
-		throw("Resource/images/back.bmpがありません\n");
-	}
-	if (result == -1) {
-		throw("Resource/images/car.bmpがありません\n");
+	if (background_image == -1)
+	{
+		throw("Resource/images/title.jpgがありません\n");
 	}
 
 	// ゲーム結果の読み込み

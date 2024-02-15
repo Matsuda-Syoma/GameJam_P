@@ -49,6 +49,11 @@ void RankingDispScene::Draw() const
 	{
 		DrawFormatString(50, 170 + i * 25, 0xffffff, "%2d %-15s %6d", ranking->GetRank(i), ranking->GetName(i), ranking->GetScore(i));
 	}
+
+		//タイトルへ戻る文字
+	{
+		DrawString(200, 450, "タイトルへ戻る    Aボタン", 0xffffff);
+	}
 }
 
 //終了時処理
