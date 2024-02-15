@@ -8,6 +8,8 @@
 #include "../Object/Bullet.h"
 #include "../Object/HitEffect.h"
 
+#include "ResultScene.h"
+
 #include "../Utility/LoadStage.h"
 class GameMainScene : public SceneBase
 {
@@ -25,12 +27,13 @@ private:
 	Block** block;			// ブロック
 	Bullet** bullet;		//弾
 	HitEffect** hiteffect;		//弾
-	
+
 	int hit = 0;				//hitカウント
 	int hit2 = 0;			//hit2カウント
 	int enemyflg = 0;
 
 	int Ehp;				//敵1のHP
+	int Escore = 0;
 public:
 	GameMainScene();
 	virtual ~GameMainScene();
@@ -46,6 +49,8 @@ public:
 
 	void SpawnHitEffect(Vector2D loc);
 
+
+	int  EnemyScore();
 private:
 	// ハイスコア読み込み処理
 	void ReadHighScore();

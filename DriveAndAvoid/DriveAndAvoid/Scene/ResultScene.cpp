@@ -19,7 +19,7 @@ ResultScene::~ResultScene()
 void ResultScene::Initialize()
 {
 	// 画像の読み込み
-	background_image = LoadGraph("Resource/images/back.bmp");
+	background_image = LoadGraph("Resource/images/Result.jpg");
 	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 63, 120, enemy_image);
 
 	// エラーチェック
@@ -56,6 +56,8 @@ void ResultScene::Draw() const
 	// スコア等表示領域
 	DrawBox(150, 150, 490, 330, GetColor(0, 153, 0), TRUE);
 	DrawBox(150, 150, 490, 330, GetColor(0, 0, 0), FALSE);
+
+	DrawFormatString(200, 200, 0xffffff, "%d",Score);
 }
 
 // 終了時処理
@@ -69,6 +71,12 @@ eSceneType ResultScene::GetNowScene() const
 {
 	return eSceneType::E_RESULT;
 }
+
+void ResultScene::SetScore()
+{
+	Score = gamemain->EnemyScore();
+}
+
 
 void ResultScene::ReadResultData()
 {

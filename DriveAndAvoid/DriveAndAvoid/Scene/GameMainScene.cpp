@@ -285,6 +285,7 @@ eSceneType GameMainScene::Update()
 			{
 				enemy[i] = nullptr;
 				delete enemy[i];
+				Escore += 1;
 			}
 		}
 
@@ -294,14 +295,20 @@ eSceneType GameMainScene::Update()
 			{
 				enemy2[i] = nullptr;
 				delete enemy2[i];
+				Escore += 1;
+
 			}
 		}
 	}
+
+
 	return GetNowScene();
 }
 
 void GameMainScene::Draw() const
 {
+	DrawFormatString(200, 200, 0xffffff, "%d", Escore);
+
 	//DrawGraph(0, mileage % 480 - 480, background_image, TRUE);
 	//DrawGraph(0, mileage % 480, background_image, TRUE);
 
@@ -540,4 +547,9 @@ void GameMainScene::SpawnHitEffect(Vector2D loc)
 		}
 	}
 
+}
+
+int GameMainScene::EnemyScore()
+{
+	return Escore;
 }

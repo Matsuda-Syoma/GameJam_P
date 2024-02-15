@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SceneBase.h"
-
+#include "GameMainScene.h"
 class ResultScene : public SceneBase
 {
 private:
@@ -9,7 +9,7 @@ private:
 	int score;				// スコア
 	int enemy_count[3];		// 敵のカウント
 	int enemy_image[3];		// 敵画像
-
+	int Score;
 public:
 	ResultScene();
 	virtual ~ResultScene();
@@ -20,7 +20,9 @@ public:
 	virtual void Finalize() override;
 	virtual eSceneType GetNowScene() const override;
 
+	void SetScore();
 private:
 	void ReadResultData();
+	GameMainScene* gamemain;
 };
 
