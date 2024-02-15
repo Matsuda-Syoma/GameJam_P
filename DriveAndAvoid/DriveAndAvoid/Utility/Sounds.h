@@ -2,7 +2,8 @@
 
 class Sounds
 {
-
+private:
+	static bool isload;
 
 public:
 	static int BGM_Game;
