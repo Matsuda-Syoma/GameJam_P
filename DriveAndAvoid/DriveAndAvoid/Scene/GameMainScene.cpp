@@ -107,23 +107,32 @@ eSceneType GameMainScene::Update()
 
 
 	// 敵2が地面にいるかチェック
-	enemy2[0]->SetGround(false);
-	for (int i = 0; i < 300; i++)
+	if (enemy2[0] != nullptr)
 	{
-		// 値がnullでないなら
-		if (block[i] != nullptr)
+
+		enemy2[0]->SetGround(false);
+		for (int i = 0; i < 300; i++)
 		{
-			if (IsGroundCheck(enemy2[0], block[i]))
+			// 値がnullでないなら
+			if (block[i] != nullptr)
 			{
-				enemy2[0]->SetVelocity(0, 0);
-				enemy2[0]->SetGround(true);
+				if (IsGroundCheck(enemy2[0], block[i]))
+				{
+					enemy2[0]->SetVelocity(0, 0);
+					enemy2[0]->SetGround(true);
+				}
 			}
 		}
 	}
 
 
+
 	// プレイヤーの更新
 	player->Update(this);
+	if (player->GetHp() <= 0)
+	{
+		return E_RESULT;
+	}
 	// ブロックとプレイヤーの当たり判定チェック
 	for (int i = 0; i < 300; i++)
 	{
@@ -190,6 +199,7 @@ eSceneType GameMainScene::Update()
 			if (IsHitCheck(player,bullet[i]) && player->GetTag() != bullet[i]->GetTag())
 			{
 				SpawnHitEffect(player->GetLocation());
+				player->DecreaseHp(-10.0);
 				bullet[i]->SetActive(false);
 			}
 			for (int j = 0; j < 10; j++)
@@ -321,10 +331,11 @@ void GameMainScene::Draw() const
 	}
 
 	//UIの描画
-	DrawBox(5,10,130,45, GetColor(0,0,153), TRUE);
+	DrawBox(5,10,220,45, GetColor(255,153,233), TRUE);
+	DrawBox(10, 15, 10 + (player->GetHp() / 100) * 205, 40, GetColor(125, 127, 153), TRUE);
 	SetFontSize(16);
-	DrawFormatString(285, 425, GetColor(255,255,255), "SCORE");
-	DrawFormatString(272, 442, GetColor(255, 255, 255), "%08d", score);
+	DrawFormatString(285, 25, GetColor(255,255,255), "SCORE");
+	DrawFormatString(272, 42, GetColor(255, 255, 255), "%08d", score);
 }
 
 void GameMainScene::Finalize()
