@@ -16,7 +16,7 @@ void HitEffect::Initialize(Vector2D loc)
 	is_active = true;
 
 	velocity = Vector2D((float)GetRand(5) - 2, (float)GetRand(4) - 4);
-	random = GetRand(4);
+	random = GetRand(3);
 	//‰æ‘œ‚Ì“Ç‚İ‚İ
 	int result = LoadDivGraph("Resource/images/hiteffect.bmp", 4, 4, 1, 64, 32, image);
 
