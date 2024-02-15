@@ -126,7 +126,7 @@ void Enemy::Finalize()
 
 Vector2D Enemy::GetBoxSize() const
 {
-	return Vector2D();
+	return this->box_size;
 }
 
 char Enemy::GetTag() const

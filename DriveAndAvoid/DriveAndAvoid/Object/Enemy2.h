@@ -1,13 +1,12 @@
 #pragma once
 
 #include "../Utility/Vector2D.h"
+#include "BoxCollider.h"
 #include "Player.h"
-class Enemy2
+class Enemy2 : public  BoxCollider
 {
 private:
 	Vector2D velocity;		// 重力
-	Vector2D location;		// 位置座標
-	Vector2D box_size;		// 当たり判定の大きさ
 	char tag;				// タグ
 
 	bool is_ground;			// 地面にいるか

@@ -2,7 +2,7 @@
 #include"DxLib.h"
 #include "../Utility/InputControl.h"
 
-Enemy2::Enemy2():location(0.0f), box_size(0.0f)
+Enemy2::Enemy2()
 {
 
 }

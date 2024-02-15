@@ -10,7 +10,7 @@ HitEffect::~HitEffect()
 
 void HitEffect::Initialize(Vector2D loc)
 {
-	location.x = loc.x + (32 / 2);
+	location.x = loc.x;
 	location.y = loc.y;
 
 	is_active = true;
