@@ -114,7 +114,6 @@ void Enemy::Draw()const
 	//ìGÇÃHPÉoÅ[
 	DrawBox(location.x - hp, location.y - 70, location.x  + hp, location.y -65, 0xfff000, TRUE);
 
-	DrawFormatString(100, 100, 0xffffff, "%d", backflg);
 }
 
 void Enemy::Finalize()
