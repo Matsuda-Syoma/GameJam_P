@@ -6,6 +6,7 @@ class HelpScene : public SceneBase
 {
 private:
 	int background_image;	// 背景画像
+	int text_image; //テキスト画像
 
 public:
 	HelpScene();

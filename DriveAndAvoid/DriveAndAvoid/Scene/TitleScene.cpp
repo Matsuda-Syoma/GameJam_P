@@ -90,7 +90,7 @@ void TitleScene::Draw() const
 	DrawGraph(215, 320, menu_image, FALSE);
 
 	// ƒJ[ƒ\ƒ‹‰æ‘œ‚Ì•`‰æ
-	DrawRotaGraph(185, 340 + menu_cursor * 32, 1.3, DX_PI / 4.0, cursor_image, TRUE);
+	DrawRotaGraph(185, 340 + menu_cursor * 32, 1.6, DX_PI / 200.0, cursor_image, TRUE);
 
 }
 

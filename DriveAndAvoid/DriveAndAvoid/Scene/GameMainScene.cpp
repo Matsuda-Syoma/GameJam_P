@@ -522,6 +522,7 @@ void GameMainScene::SpawnBullet(Vector2D loc, float _angle, char _tag)
 		if (bullet[i] == nullptr) {
 			bullet[i] = new Bullet();
 			bullet[i]->Initialize(loc, _angle, _tag);
+			PlaySoundMem(Sounds::SE_Shoot, DX_PLAYTYPE_BACK, true);
 			break;
 		}
 	}
@@ -534,6 +535,7 @@ void GameMainScene::SpawnHitEffect(Vector2D loc)
 		if (hiteffect[i] == nullptr) {
 			hiteffect[i] = new HitEffect();
 			hiteffect[i]->Initialize(loc);
+			PlaySoundMem(Sounds::SE_Hit[GetRand(2)], DX_PLAYTYPE_BACK, true);
 			break;
 		}
 	}
