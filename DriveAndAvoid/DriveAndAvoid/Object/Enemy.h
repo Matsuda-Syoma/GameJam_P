@@ -4,7 +4,7 @@
 #include "BoxCollider.h"
 #include "Player.h"
 class GameMainScene;
-class Enemy : public BoxCollider
+class Enemy : public  BoxCollider
 {
 private:
 

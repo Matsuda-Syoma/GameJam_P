@@ -115,11 +115,6 @@ void Enemy::Draw()const
 	//仮・敵 攻撃を受けたら　普通の顔->笑ってる顔とかに変えたい
 	DrawRotaGraph(location.x, location.y, 0.1,0,enemy_img,TRUE);
 
-	//仮・敵
-//	DrawCircle(location.x, location.y,radius, 0xff0000, 1); 
-	DrawRotaGraph(location.x + box_size.x / 2, location.y + box_size.y / 2, 0.25,0,enemy_img,TRUE);
-	DrawBox(location.x, location.y, location.x + box_size.x, location.y + box_size.y, 0xffffff, false);
-
 	//敵のHPバー
 	DrawBox(location.x - hp, location.y - 70, location.x  + hp, location.y -65, 0xfff000, TRUE);
 
