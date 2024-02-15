@@ -54,7 +54,7 @@ private:
 	bool IsGroundCheck(Player* p, Block* b);
 	bool IsGroundCheck(Enemy2* p, Block* b);
 
-	int IsHitCheck(Player* p, Block* b);
+	int IsHitCheck(BoxCollider* p, Block* b);
 	int IsHitCheck(Enemy* e, Block* b);
 
 };

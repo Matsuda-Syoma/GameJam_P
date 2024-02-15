@@ -17,6 +17,8 @@ private:
 	float speed;			// ‘¬‚³
 	float hp;				// ‘Ì—Í
 	char tag;				// ƒ^ƒO
+	const int rate = 6;
+	int ratecnt = 0;
 
 
 public:

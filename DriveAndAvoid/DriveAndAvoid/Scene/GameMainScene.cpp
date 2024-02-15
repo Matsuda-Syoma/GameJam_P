@@ -99,7 +99,7 @@ eSceneType GameMainScene::Update()
 		{
 			if (IsGroundCheck(player, block[i]))
 			{
-				player->SetVelocity(0, 0);
+				player->SetVelocity(player->GetVelocity().x, 0);
 				player->SetGround(true);
 			}
 		}
@@ -118,7 +118,7 @@ eSceneType GameMainScene::Update()
 			{
 				if (IsGroundCheck(enemy2[0], block[i]))
 				{
-					enemy2[0]->SetVelocity(0, 0);
+					enemy2[0]->SetVelocity(enemy2[0]->GetVelocity().x, 0);
 					enemy2[0]->SetGround(true);
 				}
 			}
@@ -146,6 +146,7 @@ eSceneType GameMainScene::Update()
 				{
 					// プレイヤーの左のブロックに当たったとき
 				case 1:
+					player->SetVelocity(0.0f, player->GetVelocity().y);
 					player->SetLocation(block[i]->GetLocation().x + block[i]->GetBoxSize().x, player->GetLocation().y);
 					break;
 					// プレイヤーの上のブロックに当たったとき
@@ -155,6 +156,7 @@ eSceneType GameMainScene::Update()
 					break;
 					// プレイヤーの右のブロックに当たったとき
 				case 3:
+					player->SetVelocity(0.0f, player->GetVelocity().y);
 					player->SetLocation(block[i]->GetLocation().x - block[i]->GetBoxSize().x, player->GetLocation().y);
 					break;
 					// プレイヤーの下のブロックに当たったとき
@@ -164,12 +166,6 @@ eSceneType GameMainScene::Update()
 				}
 			}
 		}
-	}
-
-
-	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
-	{
-		return E_RESULT;
 	}
 
 	//敵1
@@ -396,7 +392,7 @@ bool GameMainScene::IsHitCheck(BoxCollider* p, BoxCollider* e)
 }
 
 // あたり判定処理（プレイヤーとブロック）
-int GameMainScene::IsHitCheck(Player* p, Block* b)
+int GameMainScene::IsHitCheck(BoxCollider* p, Block* b)
 {
 
 	// 敵情報がなければ、当たり判定を無視する

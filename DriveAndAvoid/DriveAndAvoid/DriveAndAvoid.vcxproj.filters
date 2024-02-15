@@ -18,17 +18,17 @@
     <Filter Include="ソース ファイル\Utility">
       <UniqueIdentifier>{5c834ac9-87e3-4937-9f20-6b89fd42214e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Scene\ヘッダー ファイル">
+    <Filter Include="ソース ファイル\ヘッダー ファイル">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\Scene\ヘッダー ファイル\Scene">
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Scene">
       <UniqueIdentifier>{161fd4ed-aa69-4f12-929e-a0dc8f428711}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Scene\ヘッダー ファイル\Object">
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Object">
       <UniqueIdentifier>{6a1a108f-41e9-4101-bcfb-8cd4841c7c72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Scene\ヘッダー ファイル\Utility">
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Utility">
       <UniqueIdentifier>{acf408bf-0814-4856-b356-3e376d3bd301}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -96,67 +96,67 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\SceneBase.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\SceneManager.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\TitleScene.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\RankingInputScene.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\ResultScene.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Object\Enemy.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Object</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="Object\Player.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Object</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="Scene\RankingDispScene.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\HelpScene.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\GameMainScene.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Utility\InputControl.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Utility</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Vector2D.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Utility</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Object\RankingData.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\StageClearScene.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Utility\LoadStage.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Utility</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Object\Bullet.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Object</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="Object\Block.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Object</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="Object\Enemy2.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Object</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="Object\HitEffect.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Object</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="Object\BoxCollider.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Sounds.h">
-      <Filter>ソース ファイル\Scene\ヘッダー ファイル\Utility</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
