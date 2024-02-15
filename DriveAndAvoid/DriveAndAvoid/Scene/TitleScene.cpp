@@ -19,6 +19,7 @@ void TitleScene::Initialize()
 	background_image = LoadGraph("Resource/images/Title.jpg");
 	menu_image = LoadGraph("Resource/images/menu.png");
 	cursor_image = LoadGraph("Resource/images/bullet.bmp");
+	textimg = LoadGraph("Resource/images/text.png");
 
 	// エラーチェック
 	if (background_image == -1)
@@ -91,6 +92,9 @@ void TitleScene::Draw() const
 
 	// カーソル画像の描画
 	DrawRotaGraph(185, 340 + menu_cursor * 32, 1.6, DX_PI / 200.0, cursor_image, TRUE);
+
+	//タイトル
+	DrawGraph(100, 100, textimg, TRUE);
 
 }
 
