@@ -29,6 +29,8 @@ private:
 	int hit = 0;				//hitカウント
 	int hit2 = 0;			//hit2カウント
 	int enemyflg = 0;
+
+	int Ehp;				//敵1のHP
 public:
 	GameMainScene();
 	virtual ~GameMainScene();

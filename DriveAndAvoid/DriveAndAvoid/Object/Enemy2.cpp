@@ -15,7 +15,7 @@ Enemy2::~Enemy2()
 // ˆ—‰»ˆ—
 void Enemy2::Initialize()
 {
-	location = Vector2D(500.0f, 80.0f);
+	location = Vector2D(600.0f, 80.0f);
 	box_size = Vector2D(32.0f, 32.0f);
 	tag = 'e';
 
@@ -23,17 +23,22 @@ void Enemy2::Initialize()
 	hp = 20;//“GHP
 	hpber = 10;
 
-	Xspeed = 10;
-	Yspeed = 10;
+	Xspeed = 1;
 	count = 0;
 
 	enemy_img = LoadGraph("Resource/images/Enemy2.png");
+
+	Angle = 0;
 }
 
 void Enemy2::Update(GameMainScene* gamemain)
 {
 	//ˆÚ“®
-	location.x--;
+	location.x = location.x - Xspeed;
+	if (location.x <= 0 ) {
+		location.x = 600;
+		location.y = 80;
+	}
 
 	// d—Íˆ—
 	if (!is_ground)
@@ -46,22 +51,7 @@ void Enemy2::Update(GameMainScene* gamemain)
 	{
 		velocity.y = 4;
 	}
-
-	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_LEFT) || InputControl::GetLeftStick().x < -0.8)
-	{
-	if (is_ground)
-	{
-		location.x = location.x - 1;
-	}
-	}
-
-	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_RIGHT) || InputControl::GetLeftStick().x < -0.8)
-	{
-		if (is_ground)
-		{
-			location.x = location.x + 1;
-		}
-	}
+	
 	if (hit <= 10) {
 		hp = hpber - hit;
 	}
@@ -78,12 +68,13 @@ void Enemy2::Update(GameMainScene* gamemain)
 			Ecount = 0;
 		}
 	}
+
 }
 
 void Enemy2::Draw()const
 {
 	//‰¼E“G@	//‰¼E“G UŒ‚‚ğó‚¯‚½‚ç@•’Ê‚ÌŠç->Î‚Á‚Ä‚éŠç‚Æ‚©‚É•Ï‚¦‚½‚¢
-	DrawRotaGraph(location.x, location.y, 0.1,0,enemy_img,TRUE);
+	DrawRotaGraph(location.x, location.y, 0.1,Angle,enemy_img,TRUE);
 	//DrawFormatString(location.x, location.y, 0xff0000, "(^o^)");
 	
 	//“G‚ÌHPƒo[
@@ -145,6 +136,11 @@ Vector2D Enemy2::GetLocation() const
 Vector2D Enemy2::GetVelocity() const
 {
 	return this->velocity;
+}
+
+int Enemy2::GetEnemy()
+{
+	return hp;
 }
 
 void Enemy2::SetVelocity(float x, float y)

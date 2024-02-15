@@ -53,5 +53,5 @@ public:
 	void Finalize();			// I—¹ˆ—
 
 	void SetEnemy(int  x,int y);		
-
+	int GetEnemy();
 };

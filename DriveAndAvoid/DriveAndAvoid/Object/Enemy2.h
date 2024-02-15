@@ -16,7 +16,7 @@ private:
 	int Yposition; //Y座標
 
 	int Xspeed; //X軸・移動速度
-	int Yspeed; //Y軸・移動族度
+	int Angle;
 	int hp; //仮HP
 	int radius; // 半径
 	int enemy_img;
@@ -54,6 +54,7 @@ public:
 	Vector2D GetVelocity() const;			// velocity情報取得
 	void SetVelocity(float x, float y);		// Velocityの指定
 	void SetEnemy(int  x, int y);
+	int GetEnemy();
 
 
 };
