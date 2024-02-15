@@ -84,11 +84,6 @@ void GameMainScene::Initialize()
 eSceneType GameMainScene::Update()
 {
 
-	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
-	{
-		return E_RESULT;
-	}
-
 	// プレイヤー
 	// プレイヤーが地面にいるかチェック
 	player->SetGround(false);
@@ -228,12 +223,6 @@ eSceneType GameMainScene::Update()
 		// 値がnullでないなら
 		if (bullet[i] != nullptr)
 		{
-			bullet[i]->Update();
-			if (IsHitCheck(player, bullet[i]) && player->GetTag() != bullet[i]->GetTag())
-			{
-				SpawnHitEffect(player->GetLocation());
-				bullet[i]->SetActive(false);
-			}
 			for (int j = 0; j < 10; j++)
 			{
 				if (enemy2[j] != nullptr)
@@ -272,11 +261,12 @@ eSceneType GameMainScene::Update()
 		}
 	}
 
-
+	int enemycount = 0;
 	for (int i = 0; i < 10; i++)
 	{
 		if (enemy[i] != nullptr)
 		{
+			enemycount++;
 			if (enemy[i]->GetEnemy() <= 0)
 			{
 				enemy[i] = nullptr;
@@ -286,6 +276,7 @@ eSceneType GameMainScene::Update()
 
 		if (enemy2[i] != nullptr)
 		{
+			enemycount++;
 			if (enemy2[i]->GetEnemy() <= 0)
 			{
 				enemy2[i] = nullptr;
@@ -293,6 +284,13 @@ eSceneType GameMainScene::Update()
 			}
 		}
 	}
+	// スコア加算する
+	score = hit + hit2;
+	if (enemycount <= 0)
+	{
+		return E_STAGECLEAR;
+	}
+
 	return GetNowScene();
 }
 
@@ -357,7 +355,37 @@ void GameMainScene::Draw() const
 
 void GameMainScene::Finalize()
 {
+	printfDx("12");
+	// リザルトデータの書き込み
+	FILE* fp = nullptr;
+	// ファイルオープン
+	errno_t result = fopen_s(&fp, "Resource/dat/result_data.csv", "w");
 
+	// エラーチェック
+	if (result != 0)
+	{
+		throw("Resource/dat/result_data.csvが開けません\n");
+	}
+	// スコアを保存
+	fprintf(fp, "%d,\n", score);
+
+	// ファイルクローズ
+	fclose(fp);
+
+	// 動的確保したオブジェクトを消去する
+	player->Finalize();
+	delete player;
+
+	for (int i = 0; i < 10; i++)
+	{
+		if (enemy[i] != nullptr)
+		{
+			enemy[i]->Finalize();
+			delete enemy[i];
+			enemy[i] = nullptr;
+		}
+	}
+	delete[] enemy;
 }
 
 // 現在のシーン情報取得

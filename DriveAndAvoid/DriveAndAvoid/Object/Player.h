@@ -19,7 +19,7 @@ private:
 	char tag;				// ƒ^ƒO
 	const int rate = 6;
 	int ratecnt = 0;
-
+	int PlayreFlg;
 
 public:
 	Player();

@@ -25,7 +25,7 @@ void Player::Initialize()
 	tag = 'p';
 
 	//画像の読み込み
-	image = LoadGraph("Resource/images/car1pol.bmp");
+	image = LoadGraph("Resource/images/playre.png");
 
 	//エラーチェック
 	if (image == -1)
@@ -105,7 +105,13 @@ void Player::Update(GameMainScene* gamemain)
 void Player::Draw()
 {
 	//プレイヤー画像の描画
-	DrawBox(location.x, location.y, location.x + box_size.x, location.y + box_size.y, 0xffffff, true);
+	//DrawBox(location.x, location.y, location.x + box_size.x, location.y + box_size.y, 0xffffff, true);
+	if (PlayreFlg == 2) {
+		DrawGraph(location.x, location.y - 30, image, TRUE);
+	}
+	else {
+		DrawTurnGraph(location.x, location.y - 30,image,TRUE);
+	}
 	//DrawRotaGraphF(location.x, location.y, 1.0f, angle, image, TRUE);
 
 }
@@ -204,11 +210,13 @@ void Player::Movement()
 	{
 		is_reverse = true;
 		velocity += Vector2D(-0.5f,0.0f);
+		PlayreFlg = 1;
 	}
 	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_RIGHT) || InputControl::GetLeftStick().x > 0.8)
 	{
 		is_reverse = false;
 		velocity += Vector2D(0.5f, 0.0f);
+		PlayreFlg = 2;
 	}
 
 
