@@ -111,7 +111,7 @@ void RankingInputScene::Draw() const
 void RankingInputScene::Finalize()
 {
 	//ランキングにデータを格納
-	ranking->SetRankingData(100, name);
+	ranking->SetRankingData(score, name);
 
 	//動的メモリの解放
 	delete ranking;
@@ -193,8 +193,11 @@ bool RankingInputScene::InputName()
 		{
 			if (cursor_x == 0)
 			{
+				if(strcmp(name, " ") != -1)
+				{
 				name[name_num] = '\0';
 				return true;
+				}
 			}
 			else
 			{
