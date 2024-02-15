@@ -2,7 +2,7 @@
 #include"DxLib.h"
 #include "../Utility/InputControl.h"
 
-Enemy2::Enemy2()
+Enemy2::Enemy2() : tag('\0')
 {
 
 }
@@ -17,7 +17,7 @@ void Enemy2::Initialize()
 {
 	location = Vector2D(600.0f, 80.0f);
 	box_size = Vector2D(32.0f, 32.0f);
-	tag = 'e2';
+	tag = 'e';
 
 	radius = 20;//”¼Œa
 	hp = 20;//“GHP

@@ -40,7 +40,7 @@ void Enemy::Update(GameMainScene* gamemainscene)
 	count++;
 
 	if (count >= 1000) count = 0;
-	if (count % 100 == 0 && count < 500)
+	if (count % 5 == 0 && count < 500)
 	{
 		float ShootAngleX = playerx - location.x;
 		float ShootAngleY = playery - location.y;
