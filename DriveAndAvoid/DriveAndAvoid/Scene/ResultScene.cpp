@@ -57,7 +57,7 @@ void ResultScene::Draw() const
 	DrawBox(150, 150, 490, 330, GetColor(0, 153, 0), TRUE);
 	DrawBox(150, 150, 490, 330, GetColor(0, 0, 0), FALSE);
 
-	DrawFormatString(200, 200, 0xffffff, "%d",Score);
+	DrawFormatString(200, 200, 0xffffff, "%f",Score);
 }
 
 // èIóπéûèàóù

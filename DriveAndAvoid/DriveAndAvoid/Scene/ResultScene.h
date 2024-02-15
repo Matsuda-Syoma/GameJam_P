@@ -25,4 +25,3 @@ private:
 	void ReadResultData();
 	GameMainScene* gamemain;
 };
-

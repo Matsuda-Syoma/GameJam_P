@@ -300,7 +300,7 @@ eSceneType GameMainScene::Update()
 			}
 		}
 	}
-
+	EnemyScore();
 
 	return GetNowScene();
 }
