@@ -101,6 +101,21 @@ void TitleScene::Finalize()
 	DeleteGraph(background_image);
 	DeleteGraph(menu_image);
 	DeleteGraph(cursor_image);
+	// リザルトデータの書き込み
+	FILE* fp = nullptr;
+	// ファイルオープン
+	errno_t result = fopen_s(&fp, "Resource/dat/result_data.csv", "w");
+
+	// エラーチェック
+	if (result != 0)
+	{
+		throw("Resource/dat/result_data.csvが開けません\n");
+	}
+	// スコアを保存
+	fprintf(fp, "%d", 0);
+
+	// ファイルクローズ
+	fclose(fp);
 }
 
 // 現在のシーン情報を取得

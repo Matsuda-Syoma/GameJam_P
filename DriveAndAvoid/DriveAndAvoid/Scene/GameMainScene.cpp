@@ -1,7 +1,6 @@
 #include "GameMainScene.h"
 #include "Dxlib.h"
 #include <math.h>
-
 #include "../Utility/InputControl.h"
 GameMainScene::GameMainScene() :score(0), high_score(0), background_image(NULL), mileage(0), player(nullptr),
 enemy(nullptr),block(nullptr),bullet(nullptr),enemy2(nullptr) {
@@ -201,7 +200,7 @@ eSceneType GameMainScene::Update()
 					{
 						SpawnHitEffect(enemy[j]->GetLocation());
 						bullet[i]->SetActive(false);
-
+						score++;
 						hit = hit + 1; //hitカウント
 						enemyflg = 1;
 						enemy[0]->SetEnemy(hit,enemyflg);
@@ -231,7 +230,7 @@ eSceneType GameMainScene::Update()
 					{
 						SpawnHitEffect(enemy2[j]->GetLocation());
 						bullet[i]->SetActive(false);
-
+						score++;
 						hit2 = hit2 + 1; //hitカウント
 						enemyflg = 1;
 						enemy2[0]->SetEnemy(hit2,enemyflg);
@@ -285,7 +284,6 @@ eSceneType GameMainScene::Update()
 		}
 	}
 	// スコア加算する
-	score = hit + hit2;
 	if (enemycount <= 0)
 	{
 		return E_STAGECLEAR;
@@ -355,7 +353,7 @@ void GameMainScene::Draw() const
 
 void GameMainScene::Finalize()
 {
-	printfDx("12");
+
 	// リザルトデータの書き込み
 	FILE* fp = nullptr;
 	// ファイルオープン
@@ -367,7 +365,7 @@ void GameMainScene::Finalize()
 		throw("Resource/dat/result_data.csvが開けません\n");
 	}
 	// スコアを保存
-	fprintf(fp, "%d,\n", score);
+	fprintf(fp, "%d", score);
 
 	// ファイルクローズ
 	fclose(fp);
@@ -397,6 +395,20 @@ eSceneType GameMainScene::GetNowScene() const
 // ハイスコア読込
 void GameMainScene::ReadHighScore()
 {
+	// リザルトデータの書き込み
+	FILE* fp = nullptr;
+	// ファイルオープン
+	errno_t result = fopen_s(&fp, "Resource/dat/result_data.csv", "r");
+
+	// エラーチェック
+	if (result != 0)
+	{
+		throw("Resource/dat/result_data.csvが開けません\n");
+	}
+	// スコアを保存
+	fscanf_s(fp, "%d", &score);
+	// ファイルクローズ
+	fclose(fp);
 }
 
 // あたり判定処理（プレイヤーと敵）
