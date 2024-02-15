@@ -179,6 +179,8 @@ eSceneType GameMainScene::Update()
 		enemy2[0]->Update(this);
 	}
 
+
+	//敵1
 	for (int i = 0; i < 30; i++)
 	{
 		// 値がnullでないなら
@@ -198,6 +200,9 @@ eSceneType GameMainScene::Update()
 					{
 						SpawnHitEffect(enemy[j]->GetLocation());
 						bullet[i]->SetActive(false);
+
+						hit = hit + 1; //hitカウント
+						enemy[0]->Setcount(hit);
 					}
 				}
 			}
@@ -209,6 +214,39 @@ eSceneType GameMainScene::Update()
 		}
 	}
 
+	//敵2
+	for (int i = 0; i < 30; i++)
+	{
+		// 値がnullでないなら
+		if (bullet[i] != nullptr)
+		{
+			bullet[i]->Update();
+			if (IsHitCheck(player, bullet[i]) && player->GetTag() != bullet[i]->GetTag())
+			{
+				SpawnHitEffect(player->GetLocation());
+				bullet[i]->SetActive(false);
+			}
+			for (int j = 0; j < 10; j++)
+			{
+				if (enemy2[j] != nullptr)
+				{
+					if (IsHitCheck(enemy2[j], bullet[i]) && enemy2[j]->GetTag() != bullet[i]->GetTag())
+					{
+						SpawnHitEffect(enemy2[j]->GetLocation());
+						bullet[i]->SetActive(false);
+
+						hit2 = hit2 + 1; //hitカウント
+						enemy2[0]->Setcount(hit2);
+					}
+				}
+			}
+			if (!bullet[i]->GetActive())
+			{
+				bullet[i] = nullptr;
+				delete bullet[i];
+			}
+		}
+	}
 
 	for (int i = 0; i < 30; i++)
 	{

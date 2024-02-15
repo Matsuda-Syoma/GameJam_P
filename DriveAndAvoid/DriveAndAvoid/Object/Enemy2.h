@@ -26,6 +26,9 @@ private:
 	float PX;
 	float PY;
 	int attackflg = 0;
+	int hit;
+	int hpflg = 0;
+	int hpber;
 
 	Player* player;
 public:
@@ -39,6 +42,7 @@ public:
 	
 	Vector2D GetLocation() const;			// 位置情報取得
 	Vector2D GetBoxSize() const;			// 当たり判定のおおきさ取得
+	char GetTag() const;					// Tag取得
 
 	void Initialize();			// 初期化処理
 	void Update(GameMainScene* gamemain);		// 更新処理
@@ -49,6 +53,7 @@ public:
 	bool GetGround() const;				// 体力減少処理
 	Vector2D GetVelocity() const;			// velocity情報取得
 	void SetVelocity(float x, float y);		// Velocityの指定
+	void Setcount(int  x);		
 
 
 };

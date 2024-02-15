@@ -21,6 +21,7 @@ void Enemy2::Initialize()
 
 	radius = 20;//”¼Œa
 	hp = 20;//“GHP
+	hpber = 10;
 
 	Xspeed = 10;
 	Yspeed = 10;
@@ -62,6 +63,12 @@ void Enemy2::Update(GameMainScene* gamemain)
 		}
 	}
 
+	hp = hpber - hit;
+	//HP‚ª0‚É‚È‚Á‚½‚ç‚Ìˆ—«
+	if (hp < 0) {
+		hpflg = 1;
+		hit = 0;
+	}
 }
 
 void Enemy2::Draw()const
@@ -69,8 +76,14 @@ void Enemy2::Draw()const
 	//‰¼E“G@	//‰¼E“G UŒ‚‚ğó‚¯‚½‚ç@•’Ê‚ÌŠç->Î‚Á‚Ä‚éŠç‚Æ‚©‚É•Ï‚¦‚½‚¢
 	DrawRotaGraph(location.x, location.y, 0.1,0,enemy_img,TRUE);
 	//DrawFormatString(location.x, location.y, 0xff0000, "(^o^)");
+	
 	//“G‚ÌHPƒo[
-	DrawBox(location.x - hp, location.y - 30, location.x  + hp, location.y -25, 0xfff000, TRUE);
+	if (hpflg == 0) {
+		DrawBox(location.x, location.y - 70, location.x + hp * 2, location.y - 65, 0xfff000, TRUE);
+	}
+
+	DrawFormatString(100, 100, 0xffffff, "hit %d", hit);
+	DrawFormatString(100, 130, 0xffffff, "hp %d", hp);
 
 }
 
@@ -95,6 +108,12 @@ void Enemy2::SetGround(bool flg)
 {
 	this->is_ground = flg;
 }
+
+void Enemy2::Setcount(int x)
+{
+	hit = x;
+}
+
 
 bool Enemy2::GetGround() const
 {
@@ -123,4 +142,7 @@ Vector2D Enemy2::GetBoxSize() const
 	return this->box_size;
 }
 
-
+char Enemy2::GetTag() const
+{
+	return this->tag;
+}

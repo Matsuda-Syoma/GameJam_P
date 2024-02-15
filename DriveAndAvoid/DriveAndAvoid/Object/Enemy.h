@@ -26,7 +26,9 @@ private:
 	float PY;
 	int attackflg = 0;
 	float Normalize = 0;
-
+	int hit;
+	int hpflg = 0;
+	int hpber;
 	Player* player;
 
 
@@ -49,5 +51,6 @@ public:
 	void Draw() const;			// •`‰æˆ—
 	void Finalize();			// I—¹ˆ—
 
+	void Setcount(int  x);		
 
 };

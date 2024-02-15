@@ -23,8 +23,8 @@ void Enemy::Initialize()
 
 
 	radius = 20;//”¼Œa
-	hp = 20;//“GHP
-
+	hp = 10;//“GHP
+	hpber = 10;
 
 	Xspeed = 10;
 	Yspeed = 5;
@@ -104,9 +104,12 @@ void Enemy::Update(GameMainScene* gamemainscene)
 		PY = playery;
 	}
 
-
+	hp = hpber - hit;
 	//HP‚ª0‚É‚È‚Á‚½‚ç‚Ìˆ—«
-
+	if (hp < 0) {
+		hpflg = 1;
+		hit = 0;
+	}
 }
 
 void Enemy::Draw()const
@@ -116,13 +119,21 @@ void Enemy::Draw()const
 	DrawRotaGraph(location.x, location.y, 0.1,0,enemy_img,TRUE);
 
 	//“G‚ÌHPƒo[
-	DrawBox(location.x - hp, location.y - 70, location.x  + hp, location.y -65, 0xfff000, TRUE);
-
+	if (hpflg == 0) {
+		DrawBox(location.x, location.y - 70, location.x + hp * 2 , location.y - 65, 0xfff000, TRUE);
+	}
 }
 
 void Enemy::Finalize()
 {
 }
+
+void Enemy::Setcount(int x)
+{
+	hit = x;
+}
+
+
 
 Vector2D Enemy::GetBoxSize() const
 {
