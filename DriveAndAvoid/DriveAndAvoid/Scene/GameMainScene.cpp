@@ -56,10 +56,6 @@ void GameMainScene::Initialize()
 	enemy[0] = new Enemy();
 	enemy[0]->Initialize();
 
-	hiteffect[0] = new HitEffect();
-	hiteffect[0]->Initialize(320,240);
-
-
 	int num = 0;
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 15; j++) {
@@ -148,6 +144,7 @@ eSceneType GameMainScene::Update()
 			bullet[i]->Update();
 			if (IsHitCheck(player,bullet[i]) && player->GetTag() != bullet[i]->GetTag())
 			{
+				SpawnHitEffect(player->GetLocation());
 				bullet[i]->SetActive(false);
 			}
 			for (int j = 0; j < 10; j++)
@@ -156,6 +153,7 @@ eSceneType GameMainScene::Update()
 				{
 					if (IsHitCheck(enemy[j], bullet[i]) && enemy[j]->GetTag() != bullet[i]->GetTag())
 					{
+						SpawnHitEffect(enemy[j]->GetLocation());
 						bullet[i]->SetActive(false);
 					}
 				}
@@ -168,6 +166,20 @@ eSceneType GameMainScene::Update()
 		}
 	}
 
+
+	for (int i = 0; i < 30; i++)
+	{
+		// 値がnullでないなら
+		if (hiteffect[i] != nullptr)
+		{
+			hiteffect[i]->Update();
+			if (!hiteffect[i]->GetActive())
+			{
+				hiteffect[i] = nullptr;
+				delete hiteffect[i];
+			}
+		}
+	}
 
 	return GetNowScene();
 }
@@ -259,9 +271,8 @@ bool GameMainScene::IsHitCheck(BoxCollider* p, BoxCollider* e)
 
 	// 当たり判定サイズの大きさを取得
 	Vector2D box_ex = p->GetBoxSize() + e->GetBoxSize();
-	clsDx();
-	printfDx("%f %f", diff_location.x, box_ex.x);
-	DrawBox(diff_location.x, diff_location.y, box_ex.x, box_ex.y,0xff00ff,true);
+	//clsDx();
+	//printfDx("%f %f", diff_location.x, box_ex.x);
 	// コリジョンデータより位置情報の差分が小さいなら、ヒット判定
 	return ((fabs(diff_location.x) < box_ex.x) && (fabsf(diff_location.y) < box_ex.y));
 }
@@ -374,6 +385,18 @@ void GameMainScene::SpawnBullet(Vector2D loc, float _angle, char _tag)
 		if (bullet[i] == nullptr) {
 			bullet[i] = new Bullet();
 			bullet[i]->Initialize(loc, _angle, _tag);
+			break;
+		}
+	}
+
+}
+
+void GameMainScene::SpawnHitEffect(Vector2D loc)
+{
+	for (int i = 0; i < 30; i++) {
+		if (hiteffect[i] == nullptr) {
+			hiteffect[i] = new HitEffect();
+			hiteffect[i]->Initialize(loc);
 			break;
 		}
 	}

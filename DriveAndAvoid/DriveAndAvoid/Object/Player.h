@@ -12,7 +12,7 @@ private:
 	bool is_reverse;		// 反転してるか
 	bool is_ground;			// 地面にいるか
 	int image;				// 画像データ
-	Vector2D velocity;		// 重力
+	Vector2D velocity;		// ベクトル向き
 	float angle;			// 角度
 	float speed;			// 速さ
 	float hp;				// 体力
