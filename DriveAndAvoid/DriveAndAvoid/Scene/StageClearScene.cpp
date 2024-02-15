@@ -57,7 +57,7 @@ void StageClearScene::Draw() const
 	//ステージクリア画面時のキャラクター描画
 	DrawGraph(290, 250, mob_image, FALSE);
 
-	//次のシーンへ切り替え
+	//次のシーンへ切り替え文字
 	DrawString(200, 430, "次のステージ    Aボタン", 0xffffff);
 }
 
