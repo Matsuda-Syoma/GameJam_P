@@ -280,9 +280,10 @@ void GameMainScene::Draw() const
 
 	//UI‚Ì•`‰æ
 	DrawBox(5,10,130,45, GetColor(0,0,153), TRUE);
+	DrawBox(5,10,130,45, GetColor(255,255,153), TRUE);
 	SetFontSize(16);
-	DrawFormatString(285, 425, GetColor(255,255,255), "SCORE");
-	DrawFormatString(272, 442, GetColor(255, 255, 255), "%08d", score);
+	DrawFormatString(285, 25, GetColor(255,255,255), "SCORE");
+	DrawFormatString(272, 42, GetColor(255, 255, 255), "%08d", score);
 }
 
 void GameMainScene::Finalize()
