@@ -2,7 +2,7 @@
 #include "../Scene/GameMainScene.h"
 #include "../Utility/InputControl.h"
 #include "DxLib.h"
-
+#include <math.h>
 Player::Player() : is_active(false), is_reverse(false), is_ground(false), image(NULL),
 velocity(0.0f), angle(0.0f), speed(0.0f), hp(0.0f),tag('\0')
 {
@@ -17,7 +17,7 @@ Player::~Player()
 void Player::Initialize()
 {
 	is_active = true;
-	location = Vector2D(320.0f, 80.0f);
+	location = Vector2D(32.0f, 480.0f - 64.0f);
 	box_size = Vector2D(32.0f, 32.0f);
 	angle = 0.0f;
 	speed = 3.0f;
@@ -39,15 +39,34 @@ void Player::Update(GameMainScene* gamemain)
 {
 
 	// d—Íˆ—
-	if (!is_ground)
-	{
 		AddVelocity();
-	}
+
 
 	// —Ž‰º‘¬“x‚Ì§ŒÀ
 	if (velocity.y > 4)
 	{
 		velocity.y = 4;
+	}
+	// Šµ«‚Ì§ŒÀ
+	if (velocity.x > speed)
+	{
+		velocity.x = speed;
+	}
+	else if (velocity.x < -speed)
+	{
+		velocity.x = -speed;
+	}
+	if (velocity.x > 0)
+	{
+		velocity.x += -0.1;
+	}
+	else if (velocity.x < 0)
+	{
+		velocity.x += 0.1;
+	}
+	if (fabs(velocity.x) < 0.2)
+	{
+		velocity.x = 0;
 	}
 
 	//ˆÚ“®ˆ—
@@ -56,14 +75,29 @@ void Player::Update(GameMainScene* gamemain)
 	//‰Á‘¬ˆ—
 	Acceleration();
 
-	if (InputControl::GetButtonDown(XINPUT_BUTTON_A))
+	if (ratecnt > 0)
+	{
+		ratecnt--;
+	}
+
+	if (InputControl::GetButton(XINPUT_BUTTON_A) && ratecnt <= 0)
 	{
 		BulletShoot(gamemain,is_reverse * 180, tag);
+		ratecnt = rate;
 	}
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_START))
 	{
 		is_active = false;
+	}
+
+	if (location.x < 0)
+	{
+		location.x = 0;
+	}
+	if (location.x >= 640.0f - box_size.x)
+	{
+		location.x = 640.0f - box_size.x;
 	}
 }
 
@@ -161,23 +195,29 @@ void Player::Movement()
 {
 	Vector2D move = Vector2D(0.0f);
 
+	if (InputControl::GetLeftStick().x > -0.8 || InputControl::GetLeftStick().x < 0.8)
+	{
+
+	}
 	//\ŽšˆÚ“®ˆ—
 	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_LEFT) || InputControl::GetLeftStick().x  < -0.8)
 	{
 		is_reverse = true;
-		move += Vector2D(-1.0f * speed, 0.0f);
+		velocity += Vector2D(-0.5f,0.0f);
 	}
 	if (InputControl::GetButton(XINPUT_BUTTON_DPAD_RIGHT) || InputControl::GetLeftStick().x > 0.8)
 	{
 		is_reverse = false;
-		move += Vector2D(1.0f * speed, 0.0f);
+		velocity += Vector2D(0.5f, 0.0f);
 	}
+
+
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
 		if (is_ground)
 		{
 			location += Vector2D(0.0f, -4.0f);
-			velocity += Vector2D(0.0f, -7.5f);
+			velocity += Vector2D(0.0f, -9.5f);
 		}
 
 	}
