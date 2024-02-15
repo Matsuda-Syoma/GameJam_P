@@ -28,6 +28,7 @@ private:
 	
 	int hit = 0;				//hitカウント
 	int hit2 = 0;			//hit2カウント
+	int enemyflg = 0;
 public:
 	GameMainScene();
 	virtual ~GameMainScene();

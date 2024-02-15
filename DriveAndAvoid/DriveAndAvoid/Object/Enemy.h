@@ -29,6 +29,7 @@ private:
 	int hit;
 	int hpflg = 0;
 	int hpber;
+	int hitflg;
 	Player* player;
 
 
@@ -38,7 +39,7 @@ public:
 	~Enemy();
 
 	int count = 0;
-
+	int Ecount = 0;
 
 	void SetLocation(float x, float y);		// Location‚Ìw’è
 
@@ -51,6 +52,6 @@ public:
 	void Draw() const;			// •`‰æˆ—
 	void Finalize();			// I—¹ˆ—
 
-	void Setcount(int  x);		
+	void SetEnemy(int  x,int y);		
 
 };

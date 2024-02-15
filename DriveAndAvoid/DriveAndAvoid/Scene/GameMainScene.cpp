@@ -202,7 +202,9 @@ eSceneType GameMainScene::Update()
 						bullet[i]->SetActive(false);
 
 						hit = hit + 1; //hitカウント
-						enemy[0]->Setcount(hit);
+						enemyflg = 1;
+						enemy[0]->SetEnemy(hit,enemyflg);
+						enemyflg = 0;
 					}
 				}
 			}
@@ -236,7 +238,9 @@ eSceneType GameMainScene::Update()
 						bullet[i]->SetActive(false);
 
 						hit2 = hit2 + 1; //hitカウント
-						enemy2[0]->Setcount(hit2);
+						enemyflg = 1;
+						enemy2[0]->SetEnemy(hit2,enemyflg);
+						enemyflg = 0;
 					}
 				}
 			}

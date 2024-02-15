@@ -29,14 +29,14 @@ private:
 	int hit;
 	int hpflg = 0;
 	int hpber;
-
+	int hitflg;
 	Player* player;
 public:
 	Enemy2();
 	~Enemy2();
 
 	int count = 0;
-
+	int Ecount = 0;
 
 	void SetLocation(float x, float y);		// Location‚Ìw’è
 	
@@ -53,7 +53,7 @@ public:
 	bool GetGround() const;				// ‘Ì—ÍŒ¸­ˆ—
 	Vector2D GetVelocity() const;			// velocityî•ñæ“¾
 	void SetVelocity(float x, float y);		// Velocity‚Ìw’è
-	void Setcount(int  x);		
+	void SetEnemy(int  x, int y);
 
 
 };

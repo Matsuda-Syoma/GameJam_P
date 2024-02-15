@@ -62,12 +62,21 @@ void Enemy2::Update(GameMainScene* gamemain)
 			location.x = location.x + 1;
 		}
 	}
-
-	hp = hpber - hit;
+	if (hit <= 10) {
+		hp = hpber - hit;
+	}
 	//HP‚ª0‚É‚È‚Á‚½‚ç‚Ìˆ—«
 	if (hp < 0) {
 		hpflg = 1;
 		hit = 0;
+	}
+
+	if (hitflg == 1) {
+		Ecount++;
+		if (Ecount >= 100) {
+			hitflg = 0;
+			Ecount = 0;
+		}
 	}
 }
 
@@ -78,12 +87,17 @@ void Enemy2::Draw()const
 	//DrawFormatString(location.x, location.y, 0xff0000, "(^o^)");
 	
 	//“G‚ÌHPƒo[
-	if (hpflg == 0) {
-		DrawBox(location.x, location.y - 70, location.x + hp * 2, location.y - 65, 0xfff000, TRUE);
-	}
 
-	DrawFormatString(100, 100, 0xffffff, "hit %d", hit);
-	DrawFormatString(100, 130, 0xffffff, "hp %d", hp);
+
+	if (hitflg == 1) {
+		SetFontSize(20);
+		if (hp > 0) {
+			DrawFormatString(580, 30, 0xffffff, "HP %d", hp);
+		}
+		if (hp == 0) {
+			DrawFormatString(520, 30, 0xffffff, "Î‚¢Ž€‚ñ‚¾I");
+		}
+	}
 
 }
 
@@ -109,9 +123,10 @@ void Enemy2::SetGround(bool flg)
 	this->is_ground = flg;
 }
 
-void Enemy2::Setcount(int x)
+void Enemy2::SetEnemy(int x, int y)
 {
 	hit = x;
+	hitflg = y;
 }
 
 
