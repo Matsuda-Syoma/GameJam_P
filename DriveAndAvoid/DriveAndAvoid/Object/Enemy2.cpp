@@ -15,7 +15,7 @@ Enemy2::~Enemy2()
 // ˆ—‰»ˆ—
 void Enemy2::Initialize()
 {
-	location = Vector2D(500.0f, 80.0f);
+	location = Vector2D(600.0f, 80.0f);
 	box_size = Vector2D(32.0f, 32.0f);
 	tag = 'e2';
 
@@ -35,8 +35,9 @@ void Enemy2::Update(GameMainScene* gamemain)
 {
 	//ˆÚ“®
 	location.x = location.x - Xspeed;
-	if (location.x <= 0 || location.x >= 600) {
-		Xspeed = Xspeed * -1;
+	if (location.x <= 0 ) {
+		location.x = 600;
+		location.y = 80;
 	}
 
 	// d—Íˆ—
