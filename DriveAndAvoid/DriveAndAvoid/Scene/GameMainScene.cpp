@@ -276,6 +276,27 @@ eSceneType GameMainScene::Update()
 		}
 	}
 
+
+	for (int i = 0; i < 10; i++)
+	{
+		if (enemy[i] != nullptr)
+		{
+			if (enemy[i]->GetEnemy() <= 0)
+			{
+				enemy[i] = nullptr;
+				delete enemy[i];
+			}
+		}
+
+		if (enemy2[i] != nullptr)
+		{
+			if (enemy2[i]->GetEnemy() <= 0)
+			{
+				enemy2[i] = nullptr;
+				delete enemy2[i];
+			}
+		}
+	}
 	return GetNowScene();
 }
 

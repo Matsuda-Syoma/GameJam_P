@@ -149,6 +149,13 @@ void Enemy::SetEnemy(int x,int y)
 	hitflg = y;
 }
 
+int Enemy::GetEnemy()
+{
+	return hp;
+}
+
+
+
 
 
 Vector2D Enemy::GetBoxSize() const
