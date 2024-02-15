@@ -23,8 +23,8 @@ void Enemy::Initialize()
 
 
 	radius = 20;//îºåa
-	hp = 20;//ìGHP
-
+	hp = 10;//ìGHP
+	hpber = 10;
 
 	Xspeed = 10;
 	Yspeed = 5;
@@ -104,9 +104,22 @@ void Enemy::Update(GameMainScene* gamemainscene)
 		PY = playery;
 	}
 
-
+	if (hit <= 10) {
+		hp = hpber - hit;
+	}
 	//HPÇ™0Ç…Ç»Ç¡ÇΩÇÁÇÃèàóùÅ´
-
+	if (hp < 0) {
+		hpflg = 1;
+		hit = 0;
+	}
+	
+	if (hitflg == 1 ) {
+		Ecount++;
+		if (Ecount >= 100) {
+			hitflg = 0;
+			Ecount = 0;
+		}
+	}
 }
 
 void Enemy::Draw()const
@@ -115,14 +128,28 @@ void Enemy::Draw()const
 	//âºÅEìG çUåÇÇéÛÇØÇΩÇÁÅ@ïÅí ÇÃäÁ->èŒÇ¡ÇƒÇÈäÁÇ∆Ç©Ç…ïœÇ¶ÇΩÇ¢
 	DrawRotaGraph(location.x, location.y, 0.1,0,enemy_img,TRUE);
 
-	//ìGÇÃHPÉoÅ[
-	DrawBox(location.x - hp, location.y - 70, location.x  + hp, location.y -65, 0xfff000, TRUE);
-
+	if (hitflg == 1) {
+		SetFontSize(20);
+		if (hp > 0) {
+			DrawFormatString(580, 0, 0xffffff, "HP %d", hp);
+		}
+		if (hp == 0) {
+			DrawFormatString(520, 0, 0xffffff, "èŒÇ¢éÄÇÒÇæÅI");
+		}
+	}
 }
 
 void Enemy::Finalize()
 {
 }
+
+void Enemy::SetEnemy(int x,int y)
+{
+	hit = x;
+	hitflg = y;
+}
+
+
 
 Vector2D Enemy::GetBoxSize() const
 {
