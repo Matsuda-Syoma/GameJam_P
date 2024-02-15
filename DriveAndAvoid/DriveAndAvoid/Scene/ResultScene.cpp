@@ -35,8 +35,8 @@ void ResultScene::Initialize()
 // 更新処理
 eSceneType ResultScene::Update()
 {
-	// Bボタンでランキングに遷移する
-	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
+	// Aボタンでランキングに遷移する
+	if (InputControl::GetButtonDown(XINPUT_BUTTON_A))
 	{
 		return eSceneType::E_RANKING_INPUT;
 	}
@@ -74,7 +74,8 @@ void ResultScene::ReadResultData()
 	errno_t result = fopen_s(&fp, "Resource/dat/result_data.csv", "r");
 
 	// エラーチェック
-	if (result != 0) {
+	if (result != 0)
+	{
 		throw("Resource/dat/result_data.csvが読み込めません\n");
 	}
 
