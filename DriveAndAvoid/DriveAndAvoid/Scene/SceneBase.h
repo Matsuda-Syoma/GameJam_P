@@ -1,5 +1,5 @@
 #pragma once
-
+#include "../Utility/Sounds.h"
 // ƒV[ƒ“î•ñ
 enum eSceneType 
 {
@@ -17,7 +17,10 @@ enum eSceneType
 class SceneBase 
 {
 public:
-	SceneBase() {}
+	SceneBase()
+	{
+		Sounds::LoadSounds();
+	}
 	virtual ~SceneBase() {}
 
 	// ‰Šú‰»ˆ—

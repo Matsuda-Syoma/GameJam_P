@@ -8,7 +8,6 @@
 #include "RankingDispScene.h"
 #include "RankingInputScene.h"
 #include "StageClearScene.h"
-
 SceneManager::SceneManager() : current_scene(nullptr)
 {
 
