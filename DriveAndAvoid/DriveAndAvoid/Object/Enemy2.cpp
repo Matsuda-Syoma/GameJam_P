@@ -21,7 +21,7 @@ void Enemy2::Initialize()
 	tag = 'e';
 
 	radius = 20;//”¼Œa
-	hp = 20;//“GHP
+	hp = 8;//“GHP
 	hpber = 10;
 
 	count = 0;

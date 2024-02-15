@@ -23,8 +23,8 @@ void Enemy::Initialize()
 
 
 	radius = 20;//”¼Œa
-	hp = 10;//“GHP
-	hpber = 10;
+	hp = 5;//“GHP
+	hpber = 5;
 
 	Xspeed = 10;
 	Yspeed = 5;
@@ -133,7 +133,7 @@ void Enemy::Draw()const
 		if (hp > 0) {
 			DrawFormatString(580, 0, 0xffffff, "HP %d", hp);
 		}
-		if (hp == 0) {
+		if (hp <= 0) {
 			DrawFormatString(520, 0, 0xffffff, "Î‚¢Ž€‚ñ‚¾I");
 		}
 	}
