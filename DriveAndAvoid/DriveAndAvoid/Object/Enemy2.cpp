@@ -17,13 +17,13 @@ void Enemy2::Initialize()
 {
 	location = Vector2D(600.0f, 80.0f);
 	box_size = Vector2D(32.0f, 32.0f);
+	velocity = Vector2D(1.0f, 0.0f);
 	tag = 'e';
 
 	radius = 20;//”¼Œa
 	hp = 20;//“GHP
 	hpber = 10;
 
-	Xspeed = 1;
 	count = 0;
 
 	enemy_img = LoadGraph("Resource/images/Enemy2.png");
@@ -34,7 +34,7 @@ void Enemy2::Initialize()
 void Enemy2::Update(GameMainScene* gamemain)
 {
 	//ˆÚ“®
-	location.x = location.x - Xspeed;
+	location.x = location.x - velocity.x;
 	if (location.x <= 0 ) {
 		location.x = 600;
 		location.y = 80;
@@ -145,6 +145,7 @@ int Enemy2::GetEnemy()
 
 void Enemy2::SetVelocity(float x, float y)
 {
+	this->velocity = Vector2D(x, y);
 }
 
 //“–‚½‚è”»’è‚Ì‘å‚«‚³‚Ìæ“¾ˆ—

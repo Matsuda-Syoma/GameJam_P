@@ -30,8 +30,8 @@ void Bullet::Initialize(Vector2D loc, float _angle, char _tag)
 
 void Bullet::Update()
 {
-	velocity.x = (5 * cosf(angle));
-	velocity.y = (5 * sinf(angle));
+	velocity.x = (4 * cosf(angle));
+	velocity.y = (4 * sinf(angle));
 
 	// ˆÚ“®—Ê•ªÀ•W‚ğ“®‚©‚·
 	location += velocity;

@@ -7,6 +7,8 @@ int WINAPI WinMain(_In_ HINSTANCE ih, _In_opt_ HINSTANCE ioh, _In_ LPSTR il, _In
 	// 例外処理（異常が発生したら、catch文に飛びます）
 	try
 	{
+
+		SetWindowIconID(333);
 		// シーンマネージャー機能の生成
 		SceneManager manager;
 
