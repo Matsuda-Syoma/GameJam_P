@@ -18,7 +18,7 @@ void TitleScene::Initialize()
 	// 画像の読み込み
 	background_image = LoadGraph("Resource/images/Title.jpg");
 	menu_image = LoadGraph("Resource/images/menu.png");
-	cursor_image = LoadGraph("Resource/images/cone.bmp");
+	cursor_image = LoadGraph("Resource/images/bullet.bmp");
 
 	// エラーチェック
 	if (background_image == -1)
@@ -31,7 +31,7 @@ void TitleScene::Initialize()
 	}
 	if (cursor_image == -1)
 	{
-		throw ("Resource/images/cone.bmpがありません\n");
+		throw ("Resource/images/bullet.bmpがありません\n");
 	}
 }
 
@@ -90,7 +90,7 @@ void TitleScene::Draw() const
 	DrawGraph(215, 320, menu_image, FALSE);
 
 	// カーソル画像の描画
-	DrawRotaGraph(185, 340 + menu_cursor * 40, 0.7, DX_PI / 2.0, cursor_image, TRUE);
+	DrawRotaGraph(185, 340 + menu_cursor * 32, 1.3, DX_PI / 4.0, cursor_image, TRUE);
 
 }
 

@@ -7,6 +7,7 @@ class StageClearScene : public SceneBase
 private:
 	int background_image; // 背景画像
 	int text_image; //テキスト画像
+	int mob_image; //キャラクター画像
 
 public:
 	StageClearScene();
