@@ -1,7 +1,7 @@
 #include "Bullet.h"
 #include "DxLib.h"
 #include <math.h>
-Bullet::Bullet() : is_active(false), velocity(0, 0), angle(0), tag('\0')
+Bullet::Bullet() : is_active(false), velocity(0, 0), angle(0), tag('\0'),image(0)
 {
 }
 
@@ -14,9 +14,18 @@ void Bullet::Initialize(Vector2D loc, float _angle, char _tag)
 {
 	is_active = true;
 	location = loc;
-	box_size = Vector2D(12.0f, 12.0f);
+	box_size = Vector2D(16.0f, 16.0f);
 	angle = (_angle * (float)DX_PI * 2) / 360;
 	tag = _tag;
+
+	//画像の読み込み
+	image = LoadGraph("Resource/images/bullet.bmp");
+
+	//エラーチェック
+	if (image == -1)
+	{
+		throw("Resource/images/bullet.bmpがありません。\n");
+	}
 }
 
 void Bullet::Update()
@@ -44,7 +53,8 @@ void Bullet::Update()
 
 void Bullet::Draw() const
 {
-	DrawBox(location.x, location.y, location.x + box_size.x, location.y + box_size.y, 0xff00ff, true);
+	DrawBox(location.x, location.y, location.x + box_size.x, location.y + box_size.y, 0xff00ff, false);
+	DrawGraph(location.x, location.y, image, TRUE);
 }
 
 bool Bullet::GetActive() const

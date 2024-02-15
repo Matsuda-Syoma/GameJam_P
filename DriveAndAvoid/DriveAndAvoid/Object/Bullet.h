@@ -7,6 +7,7 @@ class Bullet : public BoxCollider
 {
 private:
 	bool is_active;			// 有効かどうか
+	int image;
 	Vector2D velocity;		// 速度
 	float angle;			// 弾の角度
 	char tag;				// 親の名前

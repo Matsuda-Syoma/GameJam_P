@@ -6,6 +6,7 @@
 #include "../Object/Enemy2.h"
 #include "../Object/Block.h"
 #include "../Object/Bullet.h"
+#include "../Object/HitEffect.h"
 
 #include "../Utility/LoadStage.h"
 class GameMainScene : public SceneBase
@@ -23,6 +24,7 @@ private:
 	Enemy2** enemy2;			//敵2
 	Block** block;			// ブロック
 	Bullet** bullet;		//弾
+	HitEffect** hiteffect;		//弾
 	
 public:
 	GameMainScene();
@@ -36,6 +38,8 @@ public:
 
 	Player* GetPlayer();
 	void SpawnBullet(Vector2D loc, float _angle, char _name);
+
+	void SpawnHitEffect(Vector2D loc);
 
 private:
 	// ハイスコア読み込み処理
