@@ -276,7 +276,7 @@ eSceneType GameMainScene::Update()
 		if (enemy2[i] != nullptr)
 		{
 			enemycount++;
-			if (enemy2[i]->GetEnemy() <= 0)
+			if (enemy2[i]->GetEnemy() <= 1)
 			{
 				enemy2[i] = nullptr;
 				delete enemy2[i];
